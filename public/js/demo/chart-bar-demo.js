@@ -1,44 +1,50 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+// // Set new default font family and font color to mimic Bootstrap's default styling
+// Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+// Chart.defaults.global.defaultFontColor = '#858796';
 
-function number_format(number, decimals, dec_point, thousands_sep) {
-  // *     example: number_format(1234.56, 2, ',', ' ');
-  // *     return: '1 234,56'
-  number = (number + '').replace(',', '').replace(' ', '');
-  var n = !isFinite(+number) ? 0 : +number,
-    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-    s = '',
-    toFixedFix = function(n, prec) {
-      var k = Math.pow(10, prec);
-      return '' + Math.round(n * k) / k;
-    };
-  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-  if (s[0].length > 3) {
-    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-  }
-  if ((s[1] || '').length < prec) {
-    s[1] = s[1] || '';
-    s[1] += new Array(prec - s[1].length + 1).join('0');
-  }
-  return s.join(dec);
-}
+// function number_format(number, decimals, dec_point, thousands_sep) {
+//   // *     example: number_format(1234.56, 2, ',', ' ');
+//   // *     return: '1 234,56'
+//   number = (number + '').replace(',', '').replace(' ', '');
+//   var n = !isFinite(+number) ? 0 : +number,
+//     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+//     sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+//     dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+//     s = '',
+//     toFixedFix = function(n, prec) {
+//       var k = Math.pow(10, prec);
+//       return '' + Math.round(n * k) / k;
+//     };
+//   // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+//   s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+//   if (s[0].length > 3) {
+//     s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+//   }
+//   if ((s[1] || '').length < prec) {
+//     s[1] = s[1] || '';
+//     s[1] += new Array(prec - s[1].length + 1).join('0');
+//   }
+//   return s.join(dec);
+// }
 
 // Bar Chart Example
+  // Récupéreration des informations des statistiques
+  var totalE = document.getElementById("totalE");
+  var valeurEntiere = parseInt(totalE.textContent);
+  console.log("La valeur entière de totalE est :", valeurEntiere);
+
 var ctx = document.getElementById("myBarChart");
 var myBarChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["Janvier", "February", "March", "April", "May", "June"],
+    labels: ["Emploi", "Handicap", "Formation", "Recherche d'Emploi", "Voyage", "Stage", "Entrepreneur"],
     datasets: [{
-      label: "Revenue",
-      backgroundColor: "#4e73df",
-      hoverBackgroundColor: "#2e59d9",
-      borderColor: "#4e73df",
-      data: [4215, 5312, 6280, 7841, 9821, 14984],
+      label: "Etudiant : ",
+      // Tableau de couleurs personnalisées pour chaque barre
+      backgroundColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#858796", "#4e73df", "#f6c23e"],
+      hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#dda20a", "#6e707e", "#2e59d9", "#dda20a"],
+      borderColor: ["#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#858796", "#4e73df", "#f6c23e"],
+      data: [4215, 5312, 6280, 7841, 9821, 14984, 7841],
     }],
   },
   options: {
@@ -54,7 +60,7 @@ var myBarChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'month'
+          unit: 'Etudiant'
         },
         gridLines: {
           display: false,
@@ -71,9 +77,8 @@ var myBarChart = new Chart(ctx, {
           max: 15000,
           maxTicksLimit: 5,
           padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return '$' + number_format(value);
+          callback: function(value) {
+            return  number_format(value);
           }
         },
         gridLines: {
@@ -103,9 +108,10 @@ var myBarChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + number_format(tooltipItem.yLabel);
         }
       }
     },
   }
 });
+

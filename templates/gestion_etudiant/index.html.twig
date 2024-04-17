@@ -1,0 +1,49 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration!{% endblock %}
+
+{% block content %}
+    <h2 class="text-center">GESTION DES ETUDIANTS</h2>
+  {# <div class="d-flex justify-content-end mb-1">
+    <button type="button" class="btn btn-success pl-4 pr-4">Ajouter</button>
+  </div> #}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">N°</th>
+        <th scope="col">Matricule</th>
+        <th scope="col">Nom et Prénoms</th>
+        <th scope="col">Genre</th>
+        <th scope="col">Handicape</th>
+        <th scope="col">Pays</th>
+        <th scope="col">Adresse</th>
+        <th scope="col">Statut</th>
+        <th scope="col">Niveau</th>
+        <th scope="col">actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for etudiant in etudiants %}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td>{{etudiant.username}}</td>
+        <td>{{etudiant.nom}} {{etudiant.prenom}}</td>
+        <td>{{etudiant.genre}}</td>
+        <td>{{etudiant.handicape ? 'Oui' : 'Non'}}</td>
+        <td>{{etudiant.paysResidence}}</td>
+        <td>{{etudiant.adresse}}</td>
+        <td>{{etudiant.encours ? 'Oui' : 'Non'}}</td>
+        <td>{{etudiant.niveau}}</td>
+        <td>
+        <a href="#">
+            <span class="fa fas fa-pencil"> Edit</span>
+          </a>
+        <a href="#">
+            <span class="text-success ">show</span>
+        </a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

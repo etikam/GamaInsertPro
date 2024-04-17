@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block title %}Faculte index{% endblock %}
+{% block title %}Administration !{% endblock %}
 
-{% block body %}
-    <h1>Faculte index</h1>
+{% block content %}
+    <h1>Faculte</h1>
 
     <table class="table">
         <thead>
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_faculte_new') }}">Create new</a>
+    <a href="{{ path('app_faculte_new') }}">Ajouter</a>
 {% endblock %}

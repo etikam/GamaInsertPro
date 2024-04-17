@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240412094928 extends AbstractMigration
+final class Version20240413054006 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,6 +25,7 @@ final class Version20240412094928 extends AbstractMigration
         $this->addSql('CREATE TABLE departement (id INT AUTO_INCREMENT NOT NULL, fk_faculte_id INT NOT NULL, nom VARCHAR(100) NOT NULL, INDEX IDX_C1765B6382AD89DC (fk_faculte_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE document (id INT AUTO_INCREMENT NOT NULL, fk_postulation_id INT NOT NULL, type VARCHAR(100) NOT NULL, file VARCHAR(255) NOT NULL, INDEX IDX_D8698A76A2471418 (fk_postulation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE etudiant (id INT NOT NULL, postulation_id INT DEFAULT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, genre VARCHAR(255) NOT NULL, handicape TINYINT(1) NOT NULL, date_naissance DATE NOT NULL, pays_residence VARCHAR(255) NOT NULL, adresse VARCHAR(255) DEFAULT NULL, encours TINYINT(1) NOT NULL, niveau VARCHAR(255) NOT NULL, INDEX IDX_717E22E3D749FDF1 (postulation_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE etudiant_not_activate (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, prenom VARCHAR(255) NOT NULL, genre VARCHAR(255) NOT NULL, handicape TINYINT(1) NOT NULL, date_naissance DATE NOT NULL, pays_residence VARCHAR(255) NOT NULL, adresse VARCHAR(255) DEFAULT NULL, encours TINYINT(1) NOT NULL, niveau VARCHAR(255) NOT NULL, matricule VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_USERNAME (matricule), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE faculte (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(100) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE offre (id INT AUTO_INCREMENT NOT NULL, fk_type_offre_id INT NOT NULL, nom_entreprise VARCHAR(255) NOT NULL, nom_offre VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, email VARCHAR(100) DEFAULT NULL, telephone VARCHAR(100) NOT NULL, date_debut DATE NOT NULL, date_limite DATE NOT NULL, image VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_AF86866FE57D0264 (fk_type_offre_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE postulation (id INT AUTO_INCREMENT NOT NULL, date_postulation DATE NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -57,6 +58,7 @@ final class Version20240412094928 extends AbstractMigration
         $this->addSql('DROP TABLE departement');
         $this->addSql('DROP TABLE document');
         $this->addSql('DROP TABLE etudiant');
+        $this->addSql('DROP TABLE etudiant_not_activate');
         $this->addSql('DROP TABLE faculte');
         $this->addSql('DROP TABLE offre');
         $this->addSql('DROP TABLE postulation');

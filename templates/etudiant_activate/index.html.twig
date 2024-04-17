@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EtudiantNotActivate index{% endblock %}
+
+{% block body %}
+    <h1>EtudiantNotActivate index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Genre</th>
+                <th>Handicape</th>
+                <th>DateNaissance</th>
+                <th>PaysResidence</th>
+                <th>Adresse</th>
+                <th>Encours</th>
+                <th>Niveau</th>
+                <th>Matricule</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etudiant_not_activate in etudiant_not_activates %}
+            <tr>
+                <td>{{ etudiant_not_activate.id }}</td>
+                <td>{{ etudiant_not_activate.nom }}</td>
+                <td>{{ etudiant_not_activate.prenom }}</td>
+                <td>{{ etudiant_not_activate.genre }}</td>
+                <td>{{ etudiant_not_activate.handicape ? 'Yes' : 'No' }}</td>
+                <td>{{ etudiant_not_activate.dateNaissance ? etudiant_not_activate.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ etudiant_not_activate.paysResidence }}</td>
+                <td>{{ etudiant_not_activate.adresse }}</td>
+                <td>{{ etudiant_not_activate.encours ? 'Yes' : 'No' }}</td>
+                <td>{{ etudiant_not_activate.niveau }}</td>
+                <td>{{ etudiant_not_activate.matricule }}</td>
+                <td>
+                    <a href="{{ path('app_etudiant_activate_show', {'id': etudiant_not_activate.id}) }}">show</a>
+                    <a href="{{ path('app_etudiant_activate_edit', {'id': etudiant_not_activate.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_activate_new') }}">Create new</a>
+{% endblock %}
