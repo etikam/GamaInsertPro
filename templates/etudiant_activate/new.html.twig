@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New EtudiantNotActivate{% endblock %}
+
+{% block body %}
+    <h1>Create new EtudiantNotActivate</h1>
+
+    {{ include('etudiant_activate/_form.html.twig') }}
+
+    <a href="{{ path('app_etudiant_activate_index') }}">back to list</a>
+{% endblock %}

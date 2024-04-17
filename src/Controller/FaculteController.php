@@ -19,6 +19,7 @@ class FaculteController extends AbstractController
     {
         return $this->render('faculte/index.html.twig', [
             'facultes' => $faculteRepository->findAll(),
+            'controller_name' => ''
         ]);
     }
 

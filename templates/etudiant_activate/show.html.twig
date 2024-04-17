@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EtudiantNotActivate{% endblock %}
+
+{% block body %}
+    <h1>EtudiantNotActivate</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ etudiant_not_activate.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ etudiant_not_activate.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ etudiant_not_activate.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ etudiant_not_activate.genre }}</td>
+            </tr>
+            <tr>
+                <th>Handicape</th>
+                <td>{{ etudiant_not_activate.handicape ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ etudiant_not_activate.dateNaissance ? etudiant_not_activate.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PaysResidence</th>
+                <td>{{ etudiant_not_activate.paysResidence }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ etudiant_not_activate.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Encours</th>
+                <td>{{ etudiant_not_activate.encours ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td>{{ etudiant_not_activate.niveau }}</td>
+            </tr>
+            <tr>
+                <th>Matricule</th>
+                <td>{{ etudiant_not_activate.matricule }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_activate_index') }}">back to list</a>
+
+    <a href="{{ path('app_etudiant_activate_edit', {'id': etudiant_not_activate.id}) }}">edit</a>
+
+    {{ include('etudiant_activate/_delete_form.html.twig') }}
+{% endblock %}

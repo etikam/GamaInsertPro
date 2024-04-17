@@ -19,6 +19,7 @@ class TypeOffreController extends AbstractController
     {
         return $this->render('type_offre/index.html.twig', [
             'type_offres' => $typeOffreRepository->findAll(),
+            'controller_name' => ''
         ]);
     }
 

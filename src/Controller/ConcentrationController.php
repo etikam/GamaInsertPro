@@ -19,6 +19,7 @@ class ConcentrationController extends AbstractController
     {
         return $this->render('concentration/index.html.twig', [
             'concentrations' => $concentrationRepository->findAll(),
+            'controller_name' => 'concentrations'
         ]);
     }
 
