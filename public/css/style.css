@@ -1,3 +1,49 @@
+/*** Offre ***/
+.offre-table {
+    margin-top: 30px;
+}
+
+.offre-table th,
+.offre-table td {
+    vertical-align: middle;
+}
+
+.offre-table th {
+    font-weight: bold;
+}
+
+.offre-table th,
+.offre-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.offre-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.offre-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.offre-actions a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.offre-actions a:hover {
+    color: var(--dark);
+}
+
+.offre-actions a:last-child {
+    margin-right: 0;
+}
+
+
+
 /********** Template CSS **********/
 :root {
     --primary: #06A3DA;
@@ -155,7 +201,7 @@ h6,
     border-color: var(--primary) !important;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 992px) {
     .sticky-top.navbar-dark {
         position: relative;
         background: #FFFFFF;
@@ -276,7 +322,7 @@ h6,
     content: "";
     width: 6px;
     height: 5px;
-    bottom: 0px;
+    bottom: 0;
     background: #FFFFFF;
     -webkit-animation: section-title-run 5s infinite linear;
     animation: section-title-run 5s infinite linear;
@@ -407,8 +453,7 @@ h6,
 
 .team-social a.btn {
     position: relative;
-    margin: 0 3px;
-    margin-top: 100px;
+    margin: 100px 3px 0;
     opacity: 0;
 }
 
@@ -456,7 +501,7 @@ h6,
 
 
 /*** Miscellaneous ***/
-@media (min-width: 991.98px) {
+@media (min-width: 992px) {
     .facts {
         position: relative;
         margin-top: -75px;
@@ -485,7 +530,7 @@ h6,
     padding-left: 10px;
 }
 
-@media (min-width: 767.98px) {
+@media (min-width: 768px) {
     .footer-about {
         margin-bottom: -75px;
     }

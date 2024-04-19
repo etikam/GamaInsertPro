@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\OffreRepository;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: OffreRepository::class)]
+#[Vich\Uploadable]
 class Offre
 {
     #[ORM\Id]
@@ -30,10 +34,10 @@ class Offre
     private ?string $telephone = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateDebut = null;
+    private ?DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $dateLimite = null;
+    private ?DateTimeInterface $dateLimite = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -41,6 +45,11 @@ class Offre
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    /**
+     * @Vich\UploadableField(mapping="offre_images", fileNameProperty="image")
+     */
+    private ?File $imageFile = null;
 
     public function getId(): ?int
     {
@@ -107,24 +116,24 @@ class Offre
         return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getDateDebut(): ?DateTimeInterface
     {
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): static
+    public function setDateDebut(DateTimeInterface $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
 
         return $this;
     }
 
-    public function getDateLimite(): ?\DateTimeInterface
+    public function getDateLimite(): ?DateTimeInterface
     {
         return $this->dateLimite;
     }
 
-    public function setDateLimite(\DateTimeInterface $dateLimite): static
+    public function setDateLimite(DateTimeInterface $dateLimite): static
     {
         $this->dateLimite = $dateLimite;
 
@@ -153,5 +162,15 @@ class Offre
         $this->image = $image;
 
         return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
     }
 }

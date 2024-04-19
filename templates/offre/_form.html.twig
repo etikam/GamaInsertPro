@@ -1,4 +1,14 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'row justify-content-center'}}) }}
+<div class="col-md-6">
+    {{ form_row(form.nomEntreprise, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Nom de l\'entreprise'}}) }}
+    {{ form_row(form.nomOffre, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Nom de l\'offre'}}) }}
+    {{ form_row(form.Description, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Description'}}) }}
+    {{ form_row(form.email, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Email'}}) }}
+    {{ form_row(form.telephone, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Téléphone'}}) }}
+    {{ form_row(form.dateDebut, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Date de début'}}) }}
+    {{ form_row(form.dateLimite, {'attr': {'class': 'form-control mb-3', 'placeholder': 'Date limite'}}) }}
+    {{ form_row(form.fk_typeOffre, {'attr': {'class': 'form-control mb-3'}}) }}
+    {{ form_row(form.imageFile, {'attr': {'class': 'form-control-file mb-3'}}) }}
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+</div>
 {{ form_end(form) }}

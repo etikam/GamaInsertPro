@@ -1,49 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Offre index{% endblock %}
+{% block title %}Tableau d'Offre {% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
 
 {% block body %}
-    <h1>Offre index</h1>
+    <div class="container">
+        <h1>Tableau d'Offre</h1>
 
-    <table class="table">
-        <thead>
+        <table class="table">
+            <thead class="thead-dark">
             <tr>
-                <th>Id</th>
-                <th>NomEntreprise</th>
-                <th>NomOffre</th>
-                <th>Description</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>DateDebut</th>
-                <th>DateLimite</th>
-                <th>Image</th>
-                <th>actions</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nom Entreprise</th>
+                <th scope="col">Nom Offre</th>
+                <th scope="col">Description</th>
+                <th scope="col">Mail</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Début Offre</th>
+                <th scope="col">Fin Offre</th>
+                <th scope="col">Image</th>
+                <th scope="col">Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for offre in offres %}
-            <tr>
-                <td>{{ offre.id }}</td>
-                <td>{{ offre.nomEntreprise }}</td>
-                <td>{{ offre.nomOffre }}</td>
-                <td>{{ offre.Description }}</td>
-                <td>{{ offre.email }}</td>
-                <td>{{ offre.telephone }}</td>
-                <td>{{ offre.dateDebut ? offre.dateDebut|date('Y-m-d') : '' }}</td>
-                <td>{{ offre.dateLimite ? offre.dateLimite|date('Y-m-d') : '' }}</td>
-                <td>{{ offre.image }}</td>
-                <td>
-                    <a href="{{ path('app_offre_show', {'id': offre.id}) }}">show</a>
-                    <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for offre in offres %}
+                <tr>
+                    <td>{{ offre.id }}</td>
+                    <td>{{ offre.nomEntreprise }}</td>
+                    <td>{{ offre.nomOffre }}</td>
+                    <td>{{ offre.Description }}</td>
+                    <td>{{ offre.email }}</td>
+                    <td>{{ offre.telephone }}</td>
+                    <td>{{ offre.dateDebut ? offre.dateDebut|date('Y-m-d') : '' }}</td>
+                    <td>{{ offre.dateLimite ? offre.dateLimite|date('Y-m-d') : '' }}</td>
+                    <td>{{ offre.image }}</td>
+                    <td>
+                        <a href="{{ path('app_offre_show', {'id': offre.id}) }}" class="btn btn-primary">Afficher</a>
+                        <a href="{{ path('app_offre_edit', {'id': offre.id}) }}" class="btn btn-secondary">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">Aucun enregistrement trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_offre_new') }}">Create new</a>
+        <a href="{{ path('app_offre_new') }}" class="btn btn-success">Nouvelle offre</a>
+    </div>
 {% endblock %}
