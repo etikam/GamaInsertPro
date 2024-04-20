@@ -23,13 +23,19 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     
     <!-- Pie Chart statistique circulaire-->
     <div class="col-xl-4 col-lg-5">
+=======
+    <!-- Area Chart statistique en barre -->
+    <div class="col-xl-12 col-lg-10">
+>>>>>>> toure
         <div class="card shadow mb-4">
             <!-- Card Header  -->
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+<<<<<<< HEAD
                 <h6 class="m-0 font-weight-bold text-primary">Statistique Circulaire</h6>
             </div>
             <!-- Card Body -->
@@ -47,9 +53,72 @@
                     <span class="mr-2">
                         <i class="fas fa-circle text-info"></i> Referral
                     </span>
+=======
+                <h6 class="m-0 font-weight-bold text-primary">Statistiques</h6>
+
+           </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-bar">
+                    <canvas id="myChart"></canvas>
+>>>>>>> toure
                 </div>
             </div>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
                     
+=======
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Récupérez l'élément canvas
+            var ctx = document.getElementById('myChart').getContext('2d');
+            //Mettre les valeurs du graphique dans un tableau à partir de la base de données
+            let femme = {{ nombreDeFemmes }};
+            let voyageur = {{ etudiantsEnVoyage }};
+            let entrepreneurs = {{ statusDesEtudiants['Entrepreneur'] }};
+            let chomeur = {{ statusDesEtudiants['Chômeur'] }};
+            let stagiaire = {{ statusDesEtudiants['Stage'] }};
+            let employe = {{ statusDesEtudiants['Employé'] }};
+
+            // Créez un nouveau graphique
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Employé', 'Chômeur', 'Entrepreneur', 'Stage', 'Voyage', 'Femmes'],
+                    datasets: [{
+                        label: 'Etudiants',
+                        data: [employe, chomeur, entrepreneurs, stagiaire, voyageur, femme],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
+>>>>>>> toure

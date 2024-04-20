@@ -39,6 +39,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Temoignage $temoignage = null;
+
+    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -125,4 +130,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getTemoignage(): ?Temoignage
+    {
+        return $this->temoignage;
+    }
+
+    public function setTemoignage(Temoignage $temoignage): static
+    {
+        // set the owning side of the relation if necessary
+        if ($temoignage->getUser() !== $this) {
+            $temoignage->setUser($this);
+        }
+
+        $this->temoignage = $temoignage;
+
+        return $this;
+    }
+
+
 }

@@ -1,0 +1,51 @@
+{% extends 'app_base.html.twig' %}
+
+    {% block title %}
+        GamalInsertPro
+    {% endblock %}
+
+
+    {% block containt %}
+
+       {# Carousel #}
+       {% include 'accueil/_partials/carousel.html.twig' %}
+
+    <!-- Section Statistiques en chiffres-->
+       {% include 'accueil/_partials/statistiques.html.twig' %}
+    <!-- Facts Start -->
+
+
+    <!--Section Apropos -->
+       {% include 'accueil/_partials/apropos.html.twig' %}
+
+    <!-- Section Caractéristiques -->
+       {% include 'accueil/_partials/caracteristiques.html.twig' %}
+    
+
+
+
+
+
+
+    <!-- Section Contact -->
+   {% include 'accueil/_partials/contact.html.twig' %}
+   
+
+
+    <!-- section temoignages -->
+   {% include 'accueil/_partials/temoignages.html.twig' %}
+
+
+
+    <!-- section de L'Equipe de la cellule d'insertion professionnelle -->
+   {% include 'accueil/_partials/membres_cellule.html.twig' %}
+   
+
+
+
+
+    <!-- Section des partenaires -->
+   {% include 'accueil/_partials/partenaires.html.twig' %}
+
+    
+{% endblock %}
