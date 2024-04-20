@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr" >
+<head>
+    <meta charset="UTF-8">
+    <title>Authentification</title>
+    <link rel="stylesheet" href="{{asset('auth/css/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="slide navbar style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+    </head>
+<body>
+	<div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form  action="{{ path('app_register_etudiant') }}" method="post">
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input type="text" name="matricule" placeholder="Matricule" required="">
+					<input type="text" name="nom" placeholder="Nom" required="">
+					<input type="text" name="prenom" placeholder="Prenom" required="">
+					<button>Activer</button>
+				</form>
+			</div>
+
+			<div class="login">
+				<form action="{{ path('app_login_etudiant') }}" method="post">
+					<label for="chk" aria-hidden="true">Login</label>
+					<input type="txt" name="matricule" placeholder="Matricule" required="">
+					<input type="password" name="pswd" placeholder="Password" required="">
+					<button>Connexion</button>
+				</form>
+			</div>
+	</div>
+</body>
+</html>
+  
+</body>
+</html>
