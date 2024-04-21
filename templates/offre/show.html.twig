@@ -57,7 +57,8 @@
     <div class="mt-4">
         <a href="{{ path('app_offre_index') }}" class="btn btn-primary mr-2">Retour</a>
         <a href="{{ path('app_offre_edit', {'id': offre.id}) }}" class="btn btn-secondary mr-2">Modifier</a>
-        <a href="{{ path('app_offre_delete', {'id': offre.id}) }}" class="btn btn-danger delete-link" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+        <a href="{{ path('app_offre_delete', {'id': offre.id}) }}" class="btn btn-danger delete-link"
+           onclick="return confirm('Voulez-vous vraiment supprimer cet élément ?')">Supprimer</a>
 
     </div>
 {% endblock %}

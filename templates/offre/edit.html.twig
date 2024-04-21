@@ -6,8 +6,11 @@
     <h1>Modifier l'offre</h1>
 
     {{ include('offre/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <div class="mt-4">
+        <a href="{{ path('app_offre_index') }}" class="btn btn-primary mr-2">Retour</a>
+        <a href="{{ path('app_offre_edit', {'id': offre.id}) }}" class="btn btn-secondary mr-2">Modifier</a>
+        <a href="{{ path('app_offre_delete', {'id': offre.id}) }}" class="btn btn-danger delete-link"
+           onclick="return confirm('Voulez-vous vraiment supprimer cet élément ?')">Supprimer</a>
 
-    <a href="{{ path('app_offre_index') }}" class="btn btn-secondary">Retour à la liste</a>
-
-    {{ include('offre/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
