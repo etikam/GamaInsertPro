@@ -9,25 +9,14 @@
     </head>
 <body>
 	<div class="main">  	
-		<input type="checkbox" id="chk" aria-hidden="true">
-
 			<div class="signup">
-				<form  action="{{ path('app_register_etudiant') }}" method="post">
-					<label for="chk" aria-hidden="true">Sign up</label>
-					<input type="text" name="matricule" placeholder="Matricule" required="">
-					<input type="text" name="nom" placeholder="Nom" required="">
-					<input type="text" name="prenom" placeholder="Prenom" required="">
-					<button>Activer</button>
-				</form>
-			</div>
-
-			<div class="login">
 				<form action="{{ path('app_login_etudiant') }}" method="post">
 					<label for="chk" aria-hidden="true">Login</label>
 					<input type="txt" name="matricule" placeholder="Matricule" required="">
 					<input type="password" name="pswd" placeholder="Password" required="">
 					<button>Connexion</button>
 				</form>
+				<a href="{{path('app_register_etudiant')}}" style="color: white;font-weight:700 ; text-decoration:none;margin:40px">Activer mon compte</a>
 			</div>
 	</div>
 </body>

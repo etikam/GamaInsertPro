@@ -41,7 +41,7 @@ class Etudiant extends User
 
     #[ORM\ManyToOne(inversedBy: 'fk_etudiant')]
     private ?Postulation $postulation = null;
-    
+
 
     public function getNom(): ?string
     {
@@ -175,3 +175,4 @@ class Etudiant extends User
         return $this;
     }
 }
+

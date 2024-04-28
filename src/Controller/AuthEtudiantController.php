@@ -6,14 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Etudiant;
+use App\Entity\EtudiantNotActivate;
+use App\Form\CheckExistenceType;
+use App\Form\RegistrationFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 
 class AuthEtudiantController extends AbstractController
 {
-    #[Route('/auth', name: 'app_auth_etudiant')]
+    #[Route('/login', name: 'app_auth_etudiant')]
     public function index(): Response
     {
         return $this->render('auth_etudiant/index.html.twig', [
@@ -21,34 +26,47 @@ class AuthEtudiantController extends AbstractController
         ]);
     }
 
-    #[Route('/inscrire', name: 'app_register_etudiant', methods: ['POST'])]
-    public function register(Request $request, ManagerRegistry $doctrine): Response
+    #[Route('/inscrire', name: 'app_register_etudiant')]
+    public function register(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Récupérer les données du formulaire
-        $matricule = $request->request->get('matricule');
-        $nom = $request->request->get('nom');
-        $prenom = $request->request->get('prenom');
-
-        // Vérifier si l'étudiant existe
-        $repository = $doctrine->getRepository(Etudiant::class);
-        $etudiant = $repository->findOneBy([
-            'matricule' => $matricule,
-            'nom' => $nom,
-            'prenom' => $prenom,
-        ]);
-
-        // Si l'étudiant existe, afficher la vue "activate_account.html.twig" avec les détails de l'étudiant
-        if ($etudiant) {
-            return $this->render('auth_etudiant/activate_account.html.twig', [
-                'etudiant' => $etudiant,
+        $form = $this->createForm(CheckExistenceType::class);
+        $form->handleRequest($request);
+                  
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            // Vérification des données dans la base de données
+         
+            $etudiant = $entityManager->getRepository(EtudiantNotActivate::class)->findOneBy([
+                'matricule' => $data['matricule'],
+                'prenom' => $data['prenom'],
+                'nom' => $data['nom'],
             ]);
-        } else {
-            $this->addFlash('not_etudiant','Aucun match valide dans notre base de données');
-            return $this->redirectToRoute('app_auth_etudiant');
+
+            if ($etudiant) {
+                        // Redirection si toutes les vérifications sont passées
+
+                        $this->addFlash("edit_info_msg","Vos informations sont à retenir");
+                        return $this->redirectToRoute('app_register', [
+                            'matricule' => $data['matricule']
+                        ]);
+                 }
+                         
+            
+            // Si une vérification échoue, affichez un message d'erreur
+            $this->addFlash("etudiant_not_existe", "Aucun étudiant correspondant trouvé");
         }
+    
+        
+
+        return $this->render('check_existence/index.html.twig', [
+            'controller_name' => 'CheckExistenceController',
+            'checkform'=>$form->createView()
+        ]);
     }
 
-    #[Route('/login', name: 'app_login_etudiant', methods: ['POST'])]
+
+
+    #[Route('/connexion', name: 'app_login_etudiant', methods: ['POST'])]
     public function login(Request $request, ManagerRegistry $doctrine): Response
     {
         // Récupérer les données du formulaire
@@ -65,8 +83,7 @@ class AuthEtudiantController extends AbstractController
 
         // Si l'étudiant existe, connecter l'utilisateur (exemple simplifié)
         if ($etudiant) {
-            // Ici, vous mettriez en œuvre la logique de connexion réelle
-            // Pour l'exemple, nous redirigeons simplement vers la page d'accueil
+            
             return $this->redirectToRoute('app_homepage');
         } else {
             // Gérer le cas où l'authentification échoue

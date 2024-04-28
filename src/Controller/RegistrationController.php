@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\EtudiantNotActivate;
 use App\Entity\Etudiant;
+use App\Form\CheckExistenceType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,16 +18,16 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register', name: 'app_register', methods: ['GET', 'POST'])]
-    public function register(LoggerInterface $logger, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    #[Route('/register/{matricule}', name: 'app_register', methods: ['GET', 'POST'])]
+    public function register(LoggerInterface $logger, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ?string $matricule = null): Response
+
     {
         // try{
 
         
             $user = new User();
             $form = $this->createForm(RegistrationFormType::class, $user);
-            $test = $form->handleRequest($request);
-            
+            $form->handleRequest($request); 
             if ($form->isSubmitted() && $form->isValid()) {
                 // dd($user);
                 //Récuperation des donnée du formulaire
@@ -51,7 +52,7 @@ class RegistrationController extends AbstractController
                         $etudiant->setEmail($email);
                         
                         $etudiant->setPassword(
-                            $userPasswordHasher->hashPassword(
+                            $userPasswordHasher-login>hashPassword(
                                 $etudiant, // Utiliser $etudiant ici au lieu de $user
                                 $form->get('plainPassword')->getData()
                             )
@@ -71,11 +72,8 @@ class RegistrationController extends AbstractController
                         //Enregistrement des données de l'etudiant dans la base de données
                         $entityManager->persist($etudiant);
                         $entityManager->flush();
-                        $this->addFlash(
-                            'success',
-                            'password et confirm password sont inconrrect ! '
-                         );
-                        return $this->redirectToRoute('app_login');
+                        
+                        return $this->redirectToRoute('app_login_etudiant');
                     } else
                     {
                         return $this->redirectToRoute('app_register');
@@ -104,7 +102,9 @@ class RegistrationController extends AbstractController
         //     }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'registrationForm' => $form->createView(),
+            'matricule' => $matricule
+           
         ]);
     }
 }
