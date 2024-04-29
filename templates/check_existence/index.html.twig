@@ -40,6 +40,18 @@
                 transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
             }
             
+            .alert-info {
+                color: #055160;
+                background-color: #cff4fc;
+                border-color: #b6effb
+            }
+            .alert-success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc
+        }
+
+            
             @media (prefers-reduced-motion: reduce) {
                 .btn {
                     transition: none
@@ -55,9 +67,12 @@
                 border-color: #dc3545;
                 
             }
+
+        
         </style>
     </head>
     <body>
+    {% block containt %}
         <div class="main">
             <input type="checkbox" id="chk" aria-hidden="true">
              {% if app.session.flashbag.has('etudiant_not_existe') %}
@@ -65,9 +80,9 @@
                 {{ app.session.flashbag.get('etudiant_not_existe')[0] }}
             </div>
             {% endif %}
-            <a href="{{path('app_auth_etudiant')}}" style="color: white;font-weight:700 ; margin:40px"><i class="fas fa-arrow-left"></i>Retour</a>
+            <a href="{{path('app_login')}}" style="color: white;font-weight:700 ; margin:40px"><i class="fas fa-arrow-left"></i>Retour</a>
             <div class="signup">
-              <form action="" method="post">
+              <form action="" method="POST">
                         {{ form_start(checkform) }}
                         <label for="" >Verification</label>
                         {{ form_widget(checkform.matricule, {'attr': {'placeholder': 'Matricule', 'required': 'required'}}) }}
@@ -77,12 +92,10 @@
 
                     {{ form_end(checkform) }}
                 </form>
-                <div style="display:flex">
-                     <!-- <a href="{{path('app_auth_etudiant')}}" class="btn btn-danger">Retour</a> -->
-                     
-                </div>
+               
             </div>
             
         </div>
+        {% endblock %}
     </body>
     </html>

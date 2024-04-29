@@ -18,13 +18,11 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/register/{matricule}', name: 'app_register', methods: ['GET', 'POST'])]
+    #[Route('/register/{matricule}', name: 'app_register', methods:['POST','GET'])]
     public function register(LoggerInterface $logger, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ?string $matricule = null): Response
 
     {
         // try{
-
-        
             $user = new User();
             $form = $this->createForm(RegistrationFormType::class, $user);
             $form->handleRequest($request); 
@@ -52,7 +50,7 @@ class RegistrationController extends AbstractController
                         $etudiant->setEmail($email);
                         
                         $etudiant->setPassword(
-                            $userPasswordHasher-login>hashPassword(
+                            $userPasswordHasher->hashPassword(
                                 $etudiant, // Utiliser $etudiant ici au lieu de $user
                                 $form->get('plainPassword')->getData()
                             )
@@ -67,13 +65,14 @@ class RegistrationController extends AbstractController
                         $etudiant->setEncours($etudiantExiste->isEncours());
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
                         $etudiant->setStatus("Etudiant");
+                        $etudiant->setRoles(["ROLES_ADMIN"]);
                         //Mise à jour de la base de données
                         $entityManager->remove($etudiantExiste);
                         //Enregistrement des données de l'etudiant dans la base de données
                         $entityManager->persist($etudiant);
                         $entityManager->flush();
                         
-                        return $this->redirectToRoute('app_login_etudiant');
+                        return $this->redirectToRoute('app_login');
                     } else
                     {
                         return $this->redirectToRoute('app_register');
