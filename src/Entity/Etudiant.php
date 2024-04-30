@@ -39,6 +39,8 @@ class Etudiant extends User
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\column]
+    private ?int $annee = null;
     #[ORM\ManyToOne(inversedBy: 'fk_etudiant')]
     private ?Postulation $postulation = null;
 
@@ -170,6 +172,17 @@ class Etudiant extends User
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+    public function getAnnee(): ?int
+    {
+        return $this -> annee;
+    }
+
+    public function setAnne(int $annee): static
+    {
+        $this -> anne = $annee;
 
         return $this;
     }
