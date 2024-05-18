@@ -70,6 +70,7 @@
             </div>
             {% endif %}
             <div class="signup">
+            
                 {{ form_start(registrationForm) }}
                     <label for="" style="margin:40px">Inscription</label>
                     {{ form_widget(registrationForm.username,{'attr': {'placeholder': 'Matricule', 'required': 'required','value':matricule,'readonly':'readonly'}}) }}
@@ -80,7 +81,7 @@
                     <button type="submit">Activer</button>
 
                     {{ form_end(registrationForm) }}
-                </form>
+               
             </div>
            
         </div>

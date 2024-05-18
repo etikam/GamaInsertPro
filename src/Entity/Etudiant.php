@@ -44,6 +44,10 @@ class Etudiant extends User
     #[ORM\ManyToOne(inversedBy: 'fk_etudiant')]
     private ?Postulation $postulation = null;
 
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Faculte $faculte = null;
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -182,7 +186,19 @@ class Etudiant extends User
 
     public function setAnne(int $annee): static
     {
-        $this -> anne = $annee;
+        $this -> annee = $annee;
+
+        return $this;
+    }
+
+    public function getFaculte(): ?Faculte
+    {
+        return $this->faculte;
+    }
+
+    public function setFaculte(?Faculte $faculte): static
+    {
+        $this->faculte = $faculte;
 
         return $this;
     }

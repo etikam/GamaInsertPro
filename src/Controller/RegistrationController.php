@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
+#[Route(path: '/auth')]
 class RegistrationController extends AbstractController
 {
     #[Route('/register/{matricule}', name: 'app_register', methods:['POST','GET'])]
@@ -65,7 +66,8 @@ class RegistrationController extends AbstractController
                         $etudiant->setEncours($etudiantExiste->isEncours());
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
                         $etudiant->setStatus("Etudiant");
-                        $etudiant->setRoles(["ROLES_ADMIN"]);
+                        $roles[] = 'ROLE_ADMIN';
+                        $etudiant->setRoles($roles);
                         //Mise à jour de la base de données
                         $entityManager->remove($etudiantExiste);
                         //Enregistrement des données de l'etudiant dans la base de données
@@ -106,4 +108,6 @@ class RegistrationController extends AbstractController
            
         ]);
     }
+
+    
 }
