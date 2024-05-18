@@ -1,9 +1,3 @@
-<!-- Les informations recu dans la base de données -->
-<div>
-    <p id="totalE" style="display:none;">12</p>
-</div>
-
-
 <div class="row">
 
     <!-- Area Chart statistique en barre -->
@@ -13,55 +7,12 @@
             <div
                 class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Statistiques</h6>
-           </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-bar">
-                    <canvas id="myBarChart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Pie Chart statistique circulaire-->
-    <div class="col-xl-4 col-lg-5">
-
-    <!-- Area Chart statistique en barre -->
-    <div class="col-xl-12 col-lg-10">
-
-        <div class="card shadow mb-4">
-            <!-- Card Header  -->
-            <div
-                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-
-                <h6 class="m-0 font-weight-bold text-primary">Statistique Circulaire</h6>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-                <div class="chart-pie pt-4 pb-2">
-                    <canvas id="myPieChart"></canvas>
-                </div>
-                <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                        <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-
-                <h6 class="m-0 font-weight-bold text-primary">Statistiques</h6>
 
            </div>
             <!-- Card Body -->
             <div class="card-body">
                 <div class="chart-bar">
                     <canvas id="myChart"></canvas>
-
-                    <canvas id="myChart"></canvas>
-
                 </div>
             </div>
         </div>
@@ -86,10 +37,7 @@
                 data: {
                     labels: ['Employé', 'Chômeur', 'Entrepreneur', 'Stage', 'Voyage', 'Femmes'],
                     datasets: [{
-
-                        label: 'Etudiants',
                         label: 'Statistiques des étudiants',
-
                         data: [employe, chomeur, entrepreneurs, stagiaire, voyageur, femme],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -119,10 +67,6 @@
                 }
             });
         });
-
-    </script>
-{% endblock %}
-
 
         document.getElementById('yearForm').addEventListener('submit', function(e) {
             e.preventDefault();

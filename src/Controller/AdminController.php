@@ -12,10 +12,29 @@ use App\Entity\Etudiant;
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
+    public function index(Request $request, EntityManagerInterface $em): Response
     {
+        $year  = $request->query->get('year');
+        if ($year) {
+            $nombreDeFemmes = $this->countFemaleStudent($em, $year);
+            $handicapedPersons = $this->countPersonHandicap($em, $year);
+            $etudiantsEnVoyage = $this->countTravelerStudent($em, $year);
+            $compteurDeStatus = $this->countStatus($em, $year);
+        }
+        else {
+            $nombreDeFemmes = $this->countFemaleStudent($em);
+            $handicapedPersons = $this->countPersonHandicap($em);
+            $etudiantsEnVoyage = $this->countTravelerStudent($em);
+            $compteurDeStatus = $this->countStatus($em);
+        }
+
+
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
+            'nombreDeFemmes' => $nombreDeFemmes,
+            'handicapedPersons' => $handicapedPersons,
+            'etudiantsEnVoyage' => $etudiantsEnVoyage,
+            'statusDesEtudiants' => $compteurDeStatus,
         ]);
     }
 
@@ -89,5 +108,4 @@ class AdminController extends AbstractController
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
-
 }
