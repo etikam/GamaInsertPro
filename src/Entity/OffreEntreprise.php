@@ -28,6 +28,9 @@ class OffreEntreprise
     #[ORM\ManyToMany(targetEntity: Entreprise::class, mappedBy: 'idOffreEntreprise')]
     private Collection $entreprises;
 
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
+
     public function __construct()
     {
         $this->entreprises = new ArrayCollection();
@@ -92,6 +95,18 @@ class OffreEntreprise
         if ($this->entreprises->removeElement($entreprise)) {
             $entreprise->removeIdOffreEntreprise($this);
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

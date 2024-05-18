@@ -33,6 +33,9 @@ class ResponsableEntreprise
     #[ORM\ManyToMany(targetEntity: Entreprise::class, mappedBy: 'idResponsable')]
     private Collection $entreprises;
 
+    #[ORM\Column(length: 100)]
+    private ?string $telephone = null;
+
     public function __construct()
     {
         $this->entreprises = new ArrayCollection();
@@ -121,6 +124,18 @@ class ResponsableEntreprise
         if ($this->entreprises->removeElement($entreprise)) {
             $entreprise->removeIdResponsable($this);
         }
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): static
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande d'Offres</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 240vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        form {
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .section {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        label {
+            margin-bottom: 8px;
+            display: block;
+            color: #000;
+            text-align: left;
+        }
+
+        input, select, textarea {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+
+<form id="demandeOffreForm" method="post">
+    <div class="section">
+        <h2>Vos Informations</h2>
+        <label for="nom">Nom :</label>
+        <input type="text" id="nom" name="nom" required>
+
+        <label for="prenom">Prénom :</label>
+        <input type="text" id="prenom" name="prenom" required>
+
+        <label for="email">Adresse e-mail :</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="nomEntreprise">Entreprise :</label>
+        <input type="text" id="nomEntreprise" name="nomEntreprise" required>
+
+        <label for="telephone">Numéro de téléphone :</label>
+        <input type="tel" id="telephone" name="telephone" required>
+    </div>
+
+    <div class="section">
+        <h2>Détails de l'offre</h2>
+        <label for="typeOffre">Type d'offre :</label>
+        <select id="typeOffre" name="typeOffre" required>
+            <option value="Emploi">Emploi</option>
+            <option value="Stage">Stage</option>
+            <option value="Formation">Formation</option>
+        </select>
+
+        <label for="description">Description de l'offre :</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="dateCloture">Date Limite de Candidature :</label>
+        <input type="datetime-local" id="dateCloture" name="dateCloture" required>
+    </div>
+
+    <div class="section">
+        <h2>Profil recherché</h2>
+        <label for="tailleEntreprise">Envergure de l’Entreprise :</label>
+        <select id="tailleEntreprise" name="tailleEntreprise">
+            <option value="Petite">Petite entreprise</option>
+            <option value="Moyenne">Moyenne entreprise</option>
+            <option value="Grande">Grande entreprise</option>
+        </select>
+
+        <label for="secteur">Domaine d’Activité :</label>
+        <input type="text" id="secteurActivite" name="secteur">
+
+        <label for="lieu">Lieu :</label>
+        <input type="text" id="localisation" name="lieu">
+
+        <label for="experience">Expérience Demandée :</label>
+        <input type="text" id="experienceRequise" name="experience">
+
+        <label for="competence">Compétences Clés :</label>
+        <input type="text" id="competencesRequises" name="competence">
+
+        <label for="dateDepot">Date De Creation :</label>
+        <input type="datetime-local" id="dateDepot" name="dateDepot" required>
+    </div>
+
+    <button type="submit">Soumettre la demande</button>
+</form>
+
+</body>
+</html>
