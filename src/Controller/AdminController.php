@@ -20,12 +20,15 @@ class AdminController extends AbstractController
             $handicapedPersons = $this->countPersonHandicap($em, $year);
             $etudiantsEnVoyage = $this->countTravelerStudent($em, $year);
             $compteurDeStatus = $this->countStatus($em, $year);
+            $compteurTotalStudent = $this->countStudent($em, $year);
+
         }
         else {
             $nombreDeFemmes = $this->countFemaleStudent($em);
             $handicapedPersons = $this->countPersonHandicap($em);
             $etudiantsEnVoyage = $this->countTravelerStudent($em);
             $compteurDeStatus = $this->countStatus($em);
+            $compteurTotalStudent = $this->countStudent($em);
         }
 
 
@@ -35,6 +38,7 @@ class AdminController extends AbstractController
             'handicapedPersons' => $handicapedPersons,
             'etudiantsEnVoyage' => $etudiantsEnVoyage,
             'statusDesEtudiants' => $compteurDeStatus,
+            'nombreTotalStudent' => $compteurTotalStudent
         ]);
     }
 
@@ -45,6 +49,20 @@ class AdminController extends AbstractController
             ->select('COUNT(e.id)')
             ->where('e.genre = :genre')
             ->setParameter('genre', 'Feminin');
+
+        if ($year !== null) {
+            $query->andWhere('e.annee = :year')
+                ->setParameter('year', $year);
+        }
+
+        return (int) $query->getQuery()->getSingleScalarResult();
+    }
+
+    private function countStudent(EntityManagerInterface $em, $year = null): int
+    {
+        $repo = $em->getRepository(Etudiant::class);
+        $query = $repo->createQueryBuilder('e')
+            ->select('COUNT(e.id)');
 
         if ($year !== null) {
             $query->andWhere('e.annee = :year')
@@ -74,7 +92,7 @@ class AdminController extends AbstractController
     private function countStatus(EntityManagerInterface $em, $year = null): array
     {
         $repo = $em->getRepository(Etudiant::class);
-        $status = ['Employé' => 0, 'Stage' => 0, 'Chômeur' => 0, 'Entrepreneur' => 0];
+        $status = ['Employé' => 0, 'Stage' => 0, 'Chômeur' => 0, 'Entrepreneur' => 0, 'En formation'=> 0];
 
         foreach ($status as $key => &$value) {
             $query = $repo->createQueryBuilder('e')
@@ -107,5 +125,11 @@ class AdminController extends AbstractController
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    #[Route('/statistique', name: 'Statistique')]
+    private function Statistique()
+    {
+
     }
 }
