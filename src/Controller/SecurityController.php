@@ -26,9 +26,9 @@ class SecurityController extends AbstractController
             $user = $this->getUser();
             $roles = $user->getRoles();
             if (in_array('ROLE_ADMIN', $roles)) {
-                return $this->redirectToRoute('app_admin');
+                return $this->redirectToRoute('app_admin'); //redirection à l'interface d'administration si l'utilisateur possède un role ROLES_ADMIN
             } else {
-                return $this->redirectToRoute('app_accueil');
+                return $this->redirectToRoute('app_accueil');// Redirection à l'interface Etudiant pour tous utilisateur avec le role ROLES_USER uniquement
             }
         }
         // return $this->render('authentification/index.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
