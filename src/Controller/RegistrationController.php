@@ -83,7 +83,7 @@ class RegistrationController extends AbstractController
                    'danger',
                    'password et confirm password sont inconrrect ! '
                 );
-                return $this->redirectToRoute('app_register');
+                return $this->redirectToRoute('app_register',['matricule'=>$matricule]);
                }
                 
             } 
