@@ -104,13 +104,13 @@
         <textarea id="description" name="description" rows="4" required></textarea>
 
         <label for="dateCloture">Date Limite de Candidature :</label>
-        <input type="datetime-local" id="dateCloture" name="dateCloture" required>
+        <input type="date" id="dateCloture" name="dateCloture" required>
     </div>
 
     <div class="section">
         <h2>Profil recherché</h2>
-        <label for="tailleEntreprise">Envergure de l’Entreprise :</label>
-        <select id="tailleEntreprise" name="tailleEntreprise">
+        <label for="taille">Envergure de l’Entreprise :</label>
+        <select id="tailleEntreprise" name="taille">
             <option value="Petite">Petite entreprise</option>
             <option value="Moyenne">Moyenne entreprise</option>
             <option value="Grande">Grande entreprise</option>
@@ -128,8 +128,8 @@
         <label for="competence">Compétences Clés :</label>
         <input type="text" id="competencesRequises" name="competence">
 
-        <label for="dateDepot">Date De Creation :</label>
-        <input type="datetime-local" id="dateDepot" name="dateDepot" required>
+        <label for="dateDepot">Date De Dépôt :</label>
+        <input type="date" id="dateDepot" name="dateDepot" >
     </div>
 
     <button type="submit">Soumettre la demande</button>

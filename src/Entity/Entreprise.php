@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EntrepriseRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EntrepriseRepository::class)]
@@ -15,30 +14,47 @@ class Entreprise
     #[ORM\Column]
     private ?int $id = null;
 
-    /**
-     * @var Collection<int, ResponsableEntreprise>
-     */
-    #[ORM\ManyToMany(targetEntity: ResponsableEntreprise::class, inversedBy: 'entreprises')]
-    private Collection $idResponsable;
+    #[ORM\Column(length: 100)]
+    private ?string $nom = null;
 
-    /**
-     * @var Collection<int, OffreEntreprise>
-     */
-    #[ORM\ManyToMany(targetEntity: OffreEntreprise::class, inversedBy: 'entreprises')]
-    private Collection $idOffreEntreprise;
+    #[ORM\Column(length: 100)]
+    private ?string $prenom = null;
 
-    /**
-     * @var Collection<int, ProfilRecherche>
-     */
-    #[ORM\ManyToMany(targetEntity: ProfilRecherche::class, inversedBy: 'entreprises')]
-    private Collection $idProfilRecherche;
+    #[ORM\Column(length: 100)]
+    private ?string $email = null;
 
-    public function __construct()
-    {
-        $this->idResponsable = new ArrayCollection();
-        $this->idOffreEntreprise = new ArrayCollection();
-        $this->idProfilRecherche = new ArrayCollection();
-    }
+    #[ORM\Column(length: 100)]
+    private ?string $telephone = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateLimite = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $taille = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $domaine = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $lieu = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $experience = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $competence = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateCreation = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $nomEntreprise = null;
 
     public function getId(): ?int
     {
@@ -52,74 +68,170 @@ class Entreprise
         return $this;
     }
 
-    /**
-     * @return Collection<int, ResponsableEntreprise>
-     */
-    public function getIdResponsable(): Collection
+    public function getNom(): ?string
     {
-        return $this->idResponsable;
+        return $this->nom;
     }
 
-    public function addIdResponsable(ResponsableEntreprise $idResponsable): static
+    public function setNom(string $nom): static
     {
-        if (!$this->idResponsable->contains($idResponsable)) {
-            $this->idResponsable->add($idResponsable);
-        }
+        $this->nom = $nom;
 
         return $this;
     }
 
-    public function removeIdResponsable(ResponsableEntreprise $idResponsable): static
+    public function getPrenom(): ?string
     {
-        $this->idResponsable->removeElement($idResponsable);
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, OffreEntreprise>
-     */
-    public function getIdOffreEntreprise(): Collection
+    public function getEmail(): ?string
     {
-        return $this->idOffreEntreprise;
+        return $this->email;
     }
 
-    public function addIdOffreEntreprise(OffreEntreprise $idOffreEntreprise): static
+    public function setEmail(string $email): static
     {
-        if (!$this->idOffreEntreprise->contains($idOffreEntreprise)) {
-            $this->idOffreEntreprise->add($idOffreEntreprise);
-        }
+        $this->email = $email;
 
         return $this;
     }
 
-    public function removeIdOffreEntreprise(OffreEntreprise $idOffreEntreprise): static
+    public function getTelephone(): ?string
     {
-        $this->idOffreEntreprise->removeElement($idOffreEntreprise);
+        return $this->telephone;
+    }
+
+    public function setTelephone(string $telephone): static
+    {
+        $this->telephone = $telephone;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, ProfilRecherche>
-     */
-    public function getIdProfilRecherche(): Collection
+    public function getType(): ?string
     {
-        return $this->idProfilRecherche;
+        return $this->type;
     }
 
-    public function addIdProfilRecherche(ProfilRecherche $idProfilRecherche): static
+    public function setType(string $type): static
     {
-        if (!$this->idProfilRecherche->contains($idProfilRecherche)) {
-            $this->idProfilRecherche->add($idProfilRecherche);
-        }
+        $this->type = $type;
 
         return $this;
     }
 
-    public function removeIdProfilRecherche(ProfilRecherche $idProfilRecherche): static
+    public function getDescription(): ?string
     {
-        $this->idProfilRecherche->removeElement($idProfilRecherche);
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDateLimite(): ?\DateTimeInterface
+    {
+        return $this->dateLimite;
+    }
+
+    public function setDateLimite(\DateTimeInterface $dateLimite): static
+    {
+        $this->dateLimite = $dateLimite;
+
+        return $this;
+    }
+
+    public function getTaille(): ?string
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(string $taille): static
+    {
+        $this->taille = $taille;
+
+        return $this;
+    }
+
+    public function getDomaine(): ?string
+    {
+        return $this->domaine;
+    }
+
+    public function setDomaine(string $domaine): static
+    {
+        $this->domaine = $domaine;
+
+        return $this;
+    }
+
+    public function getLieu(): ?string
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(string $lieu): static
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getExperience(): ?string
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(string $experience): static
+    {
+        $this->experience = $experience;
+
+        return $this;
+    }
+
+    public function getCompetence(): ?string
+    {
+        return $this->competence;
+    }
+
+    public function setCompetence(string $competence): static
+    {
+        $this->competence = $competence;
+
+        return $this;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): static
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    public function getNomEntreprise(): ?string
+    {
+        return $this->nomEntreprise;
+    }
+
+    public function setNomEntreprise(string $nomEntreprise): static
+    {
+        $this->nomEntreprise = $nomEntreprise;
 
         return $this;
     }
