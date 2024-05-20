@@ -127,9 +127,34 @@ class AdminController extends AbstractController
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    #[Route('/statistique', name: 'Statistique')]
-    private function Statistique()
+    /*Pour la partie statistique de la page administrateur*/
+    #[Route('/statistiques', name: 'app_statistiques')]
+    public function stat(Request $request, EntityManagerInterface $em): Response
     {
+        $year  = $request->query->get('year');
+        if ($year) {
+            $nombreDeFemmes = $this->countFemaleStudent($em, $year);
+            $handicapedPersons = $this->countPersonHandicap($em, $year);
+            $etudiantsEnVoyage = $this->countTravelerStudent($em, $year);
+            $compteurDeStatus = $this->countStatus($em, $year);
+            $compteurTotalStudent = $this->countStudent($em, $year);
 
+        }
+        else {
+            $nombreDeFemmes = $this->countFemaleStudent($em);
+            $handicapedPersons = $this->countPersonHandicap($em);
+            $etudiantsEnVoyage = $this->countTravelerStudent($em);
+            $compteurDeStatus = $this->countStatus($em);
+            $compteurTotalStudent = $this->countStudent($em);
+        }
+        return $this->render('admin/statistiques.html.twig',
+            [
+                'controller_name' => 'AdminController',
+                'nombreDeFemmes' => $nombreDeFemmes,
+                'handicapedPersons' => $handicapedPersons,
+                'etudiantsEnVoyage' => $etudiantsEnVoyage,
+                'statusDesEtudiants' => $compteurDeStatus,
+                'nombreTotalStudent' => $compteurTotalStudent
+            ]);
     }
 }
