@@ -157,4 +157,18 @@ class AdminController extends AbstractController
                 'nombreTotalStudent' => $compteurTotalStudent
             ]);
     }
+
+    #[Route('/tableau_de_conclusion/{status}', name: 'app_tableau')]
+    public function tab(Request $request, EntityManagerInterface $em): Response
+    {
+        $status = $request->attributes->get('status');
+        $stat = strtolower($status);
+        $repo = $em->getRepository(Etudiant::class);
+        $etudiants = $repo->findBy(['status' => $status]);
+        return $this->render('admin/tableaux.html.twig', [
+            'controller_name' => 'AdminController',
+            'etudiants' => $etudiants,
+            'status' => $stat,
+        ]);
+    }
 }

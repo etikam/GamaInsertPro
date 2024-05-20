@@ -5,37 +5,31 @@
 {% block content %}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="col-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ path('app_tableau', {'status': 'Employé'}) }}">
                 <i class="fas fa-fw fa-briefcase"></i>
                 <span>Employé</span>
             </a>
         </div>
         <div class="col-2">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="{{ path('app_tableau', {'status': 'Formation'}) }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Formation</span>
             </a>
         </div>
         <div class="col-2">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Voyage</span>
-            </a>
-        </div>
-        <div class="col-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ path('app_tableau', {'status': 'Stage'}) }}">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Stage</span>
             </a>
         </div>
         <div class="col-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ path('app_tableau', {'status': 'Entrepreneur'}) }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>Entrepreneur</span>
             </a>
         </div>
         <div class="col-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ path('app_tableau', {'status': 'Chômeur'}) }}">
                 <i class="fas fa-fw fa-search"></i>
                 <span>Recherche d'Emploi</span>
             </a>
