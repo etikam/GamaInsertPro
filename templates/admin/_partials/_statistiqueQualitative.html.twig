@@ -1,5 +1,4 @@
 <div class="row">
-
     <!-- Area Chart statistique en barre -->
     <div class="col-xl-12">
         <div class="card shadow mb-4">
@@ -12,74 +11,80 @@
             <!-- Card Body -->
             <div class="card-body">
                 <div class="chart-bar">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="myChart" width="100" height="200">
+                        {% block javascripts %}
+                            <script>
+                                document.addEventListener('DOMContentLoaded', (event) => {
+                                    // Récupérez l'élément canvas
+                                    var ctx = document.getElementById('myChart').getContext('2d');
+                                    //Mettre les valeurs du graphique dans un tableau à partir de la base de données
+                                    let femme = {{ nombreDeFemmes }};
+                                    let voyageur = {{ etudiantsEnVoyage }};
+                                    let entrepreneurs = {{ statusDesEtudiants['Entrepreneur'] }};
+                                    let chomeur = {{ statusDesEtudiants['Chômeur'] }};
+                                    let stagiaire = {{ statusDesEtudiants['Stage'] }};
+                                    let employe = {{ statusDesEtudiants['Employé'] }};
+
+                                    // Créez un nouveau graphique
+                                    var myChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: ['Employé', 'Chômeur', 'Entrepreneur', 'Stage', 'Formation'],
+                                            datasets: [{
+                                                label: 'Statistiques des étudiants',
+                                                data: [employe, chomeur, entrepreneurs, stagiaire, voyageur, femme],
+                                                backgroundColor: [
+                                                    'rgba(255, 99, 132, 0.2)',
+                                                    'rgba(54, 162, 235, 0.2)',
+                                                    'rgba(255, 206, 86, 0.2)',
+                                                    'rgba(75, 192, 192, 0.2)',
+                                                    'rgba(153, 102, 255, 0.2)',
+                                                    'rgba(255, 159, 64, 0.2)'
+                                                ],
+                                                borderColor: [
+                                                    'rgba(255, 99, 132, 1)',
+                                                    'rgba(54, 162, 235, 1)',
+                                                    'rgba(255, 206, 86, 1)',
+                                                    'rgba(75, 192, 192, 1)',
+                                                    'rgba(153, 102, 255, 1)',
+                                                    'rgba(255, 159, 64, 1)'
+                                                ],
+                                                borderWidth: 1
+                                            }]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            legend:{
+                                                display: false,
+                                            },
+                                            scales: {
+                                                y: {
+                                                    beginAtZero: true,
+                                                    min: 0
+                                                }
+                                            }
+                                        }
+                                    });
+                                });
+
+                                document.getElementById('yearForm').addEventListener('submit', function(e) {
+                                    e.preventDefault();
+                                    var year = document.getElementById('yearInput').value;
+                                    fetch(`/admin?year=${year}`) // Assurez-vous que cette URL est correcte
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            // Mettez à jour le graphique avec les nouvelles données
+                                            myChart.data.datasets[0].data = [data.statusDesEtudiants.Employe, data.statusDesEtudiants.Chômeur, data.statusDesEtudiants.Entrepreneur, data.statusDesEtudiants.Stage, data.etudiantsEnVoyage, data.nombreDeFemmes];
+                                            myChart.update();
+                                        })
+                                        .catch(error => console.error('Error:', error));
+                                });
+                            </script>
+                        {% endblock %}
+                    </canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% block javascripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        // Récupérez l'élément canvas
-        var ctx = document.getElementById('myChart').getContext('2d');
-        //Mettre les valeurs du graphique dans un tableau à partir de la base de données
-        let femme = {{ nombreDeFemmes }};
-        let voyageur = {{ etudiantsEnVoyage }};
-        let entrepreneurs = {{ statusDesEtudiants['Entrepreneur'] }};
-        let chomeur = {{ statusDesEtudiants['Chômeur'] }};
-        let stagiaire = {{ statusDesEtudiants['Stage'] }};
-        let employe = {{ statusDesEtudiants['Employé'] }};
-
-        // Créez un nouveau graphique
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Employé', 'Chômeur', 'Entrepreneur', 'Stage', 'Formation'],
-                datasets: [{
-                    label: 'Statistiques des étudiants',
-                    data: [employe, chomeur, entrepreneurs, stagiaire, voyageur, femme],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        min: 0
-                    }
-                }
-            }
-        });
-    });
-
-    document.getElementById('yearForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        var year = document.getElementById('yearInput').value;
-        fetch(`/admin?year=${year}`) // Assurez-vous que cette URL est correcte
-            .then(response => response.json())
-            .then(data => {
-                // Mettez à jour le graphique avec les nouvelles données
-                myChart.data.datasets[0].data = [data.statusDesEtudiants.Employe, data.statusDesEtudiants.Chômeur, data.statusDesEtudiants.Entrepreneur, data.statusDesEtudiants.Stage, data.etudiantsEnVoyage, data.nombreDeFemmes];
-                myChart.update();
-            })
-            .catch(error => console.error('Error:', error));
-    });
-</script>
-{% endblock %}

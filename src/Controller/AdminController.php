@@ -138,7 +138,6 @@ class AdminController extends AbstractController
             $etudiantsEnVoyage = $this->countTravelerStudent($em, $year);
             $compteurDeStatus = $this->countStatus($em, $year);
             $compteurTotalStudent = $this->countStudent($em, $year);
-
         }
         else {
             $nombreDeFemmes = $this->countFemaleStudent($em);
