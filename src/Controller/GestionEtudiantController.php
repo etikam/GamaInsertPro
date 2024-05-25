@@ -22,6 +22,6 @@ class GestionEtudiantController extends AbstractController
     #[Route("/profil", name: "app_add_etudiant")]
     public function show():Response
     {
-
+        return $this->render('null');
     }
 }

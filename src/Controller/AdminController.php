@@ -8,12 +8,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Etudiant;
+use App\Repository\EntrepriseRepository;
 
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(Request $request, EntityManagerInterface $em): Response
+    public function index(Request $request, EntityManagerInterface $em, EntrepriseRepository $entrepriseRepository): Response
     {
+
         $year  = $request->query->get('year');
         if ($year) {
             $nombreDeFemmes = $this->countFemaleStudent($em, $year);
@@ -28,13 +30,14 @@ class AdminController extends AbstractController
             $compteurDeStatus = $this->countStatus($em);
         }
 
-
+        $message_entreprise = $entrepriseRepository->findAll();
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
             'nombreDeFemmes' => $nombreDeFemmes,
             'handicapedPersons' => $handicapedPersons,
             'etudiantsEnVoyage' => $etudiantsEnVoyage,
             'statusDesEtudiants' => $compteurDeStatus,
+            'message_entreprise' => $message_entreprise,
         ]);
     }
 
@@ -108,4 +111,5 @@ class AdminController extends AbstractController
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EntrepriseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,16 +26,22 @@ class Entreprise
     private ?string $email = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $telephone = null;
+    private ?string $nomEntreprise = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $type = null;
+    private ?string $telephone = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $description = null;
+    /**
+     * @var Collection<int, TypeOffre>
+     */
+    #[ORM\ManyToMany(targetEntity: TypeOffre::class, inversedBy: 'entreprises')]
+    private Collection $fk_type_offre;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateLimite = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $description = null;
 
     #[ORM\Column(length: 100)]
     private ?string $taille = null;
@@ -53,8 +61,10 @@ class Entreprise
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateCreation = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $nomEntreprise = null;
+    public function __construct()
+    {
+        $this->fk_type_offre = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +114,18 @@ class Entreprise
         return $this;
     }
 
+    public function getNomEntreprise(): ?string
+    {
+        return $this->nomEntreprise;
+    }
+
+    public function setNomEntreprise(string $nomEntreprise): static
+    {
+        $this->nomEntreprise = $nomEntreprise;
+
+        return $this;
+    }
+
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -116,26 +138,26 @@ class Entreprise
         return $this;
     }
 
-    public function getType(): ?string
+    /**
+     * @return Collection<int, TypeOffre>
+     */
+    public function getFkTypeOffre(): Collection
     {
-        return $this->type;
+        return $this->fk_type_offre;
     }
 
-    public function setType(string $type): static
+    public function addFkTypeOffre(TypeOffre $fkTypeOffre): static
     {
-        $this->type = $type;
+        if (!$this->fk_type_offre->contains($fkTypeOffre)) {
+            $this->fk_type_offre->add($fkTypeOffre);
+        }
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function removeFkTypeOffre(TypeOffre $fkTypeOffre): static
     {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
+        $this->fk_type_offre->removeElement($fkTypeOffre);
 
         return $this;
     }
@@ -148,6 +170,18 @@ class Entreprise
     public function setDateLimite(\DateTimeInterface $dateLimite): static
     {
         $this->dateLimite = $dateLimite;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -220,18 +254,6 @@ class Entreprise
     public function setDateCreation(\DateTimeInterface $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
-
-        return $this;
-    }
-
-    public function getNomEntreprise(): ?string
-    {
-        return $this->nomEntreprise;
-    }
-
-    public function setNomEntreprise(string $nomEntreprise): static
-    {
-        $this->nomEntreprise = $nomEntreprise;
 
         return $this;
     }

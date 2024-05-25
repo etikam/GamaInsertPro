@@ -37,8 +37,8 @@
                 <td>{{ etudiant_not_activate.niveau }}</td>
                 <td>{{ etudiant_not_activate.matricule }}</td>
                 <td>
-                    <a href="{{ path('app_etudiant_activate_show', {'id': etudiant_not_activate.id}) }}">show</a>
-                    <a href="{{ path('app_etudiant_activate_edit', {'id': etudiant_not_activate.id}) }}">edit</a>
+                    <a href="{{ path('app_etudiant_activate_show', {'id': etudiant_not_activate.id}) }}"><i class="fa fa-trash"><i></a>
+                    <a href="{{ path('app_etudiant_activate_edit', {'id': etudiant_not_activate.id}) }}"><i class="fa fa-eye"><i></a>
                 </td>
             </tr>
         {% else %}
