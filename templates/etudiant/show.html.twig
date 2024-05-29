@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etudiant{% endblock %}
+
+{% block body %}
+    <h1>Etudiant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ etudiant.id }}</td>
+            </tr>
+            <tr>
+                <th>Username</th>
+                <td>{{ etudiant.username }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ etudiant.roles ? etudiant.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ etudiant.password }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ etudiant.email }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ etudiant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ etudiant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ etudiant.genre }}</td>
+            </tr>
+            <tr>
+                <th>Handicape</th>
+                <td>{{ etudiant.handicape ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ etudiant.dateNaissance ? etudiant.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PaysResidence</th>
+                <td>{{ etudiant.paysResidence }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ etudiant.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Encours</th>
+                <td>{{ etudiant.encours ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Niveau</th>
+                <td>{{ etudiant.niveau }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ etudiant.status }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ etudiant.active ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_index') }}">back to list</a>
+
+    <a href="{{ path('app_etudiant_edit', {'id': etudiant.id}) }}">edit</a>
+
+    {{ include('etudiant/_delete_form.html.twig') }}
+{% endblock %}

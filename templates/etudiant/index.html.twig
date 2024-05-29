@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etudiant index{% endblock %}
+
+{% block body %}
+    <h1>Etudiant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Genre</th>
+                <th>Handicape</th>
+                <th>DateNaissance</th>
+                <th>PaysResidence</th>
+                <th>Adresse</th>
+                <th>Encours</th>
+                <th>Niveau</th>
+                <th>Status</th>
+                <th>Active</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etudiant in etudiants %}
+            <tr>
+                <td>{{ etudiant.id }}</td>
+                <td>{{ etudiant.username }}</td>
+                <td>{{ etudiant.roles ? etudiant.roles|json_encode : '' }}</td>
+                <td>{{ etudiant.password }}</td>
+                <td>{{ etudiant.email }}</td>
+                <td>{{ etudiant.nom }}</td>
+                <td>{{ etudiant.prenom }}</td>
+                <td>{{ etudiant.genre }}</td>
+                <td>{{ etudiant.handicape ? 'Yes' : 'No' }}</td>
+                <td>{{ etudiant.dateNaissance ? etudiant.dateNaissance|date('Y-m-d') : '' }}</td>
+                <td>{{ etudiant.paysResidence }}</td>
+                <td>{{ etudiant.adresse }}</td>
+                <td>{{ etudiant.encours ? 'Yes' : 'No' }}</td>
+                <td>{{ etudiant.niveau }}</td>
+                <td>{{ etudiant.status }}</td>
+                <td>{{ etudiant.active ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_etudiant_show', {'id': etudiant.id}) }}">show</a>
+                    <a href="{{ path('app_etudiant_edit', {'id': etudiant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etudiant_new') }}">Create new</a>
+{% endblock %}

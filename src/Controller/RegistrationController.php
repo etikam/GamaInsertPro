@@ -66,8 +66,8 @@ class RegistrationController extends AbstractController
                         $etudiant->setEncours($etudiantExiste->isEncours());
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
                         $etudiant->setStatus("Etudiant");
-                        $roles[] = 'ROLE_ADMIN';
-                        $etudiant->setRoles($roles);
+                        $etudiant->setFaculte("");
+                        // $roles[] = 'ROLE_ADMIN';
                         //Mise à jour de la base de données
                         $entityManager->remove($etudiantExiste);
                         //Enregistrement des données de l'etudiant dans la base de données

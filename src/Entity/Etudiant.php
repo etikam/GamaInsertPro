@@ -46,7 +46,14 @@ class Etudiant extends User
 
     #[ORM\ManyToOne(inversedBy: 'etudiants')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Faculte $faculte = null;
+
+
+    #[ORM\Column]
+    private ?bool $active = null;
+
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Concentration $concentration = null;
 
     public function getNom(): ?string
     {
@@ -191,14 +198,26 @@ class Etudiant extends User
         return $this;
     }
 
-    public function getFaculte(): ?Faculte
+    public function isActive(): ?bool
     {
-        return $this->faculte;
+        return $this->active;
     }
 
-    public function setFaculte(?Faculte $faculte): static
+    public function setActive(bool $active): static
     {
-        $this->faculte = $faculte;
+        $this->active = $active;
+
+        return $this;
+    }
+
+    public function getConcentration(): ?Concentration
+    {
+        return $this->concentration;
+    }
+
+    public function setConcentration(?Concentration $concentration): static
+    {
+        $this->concentration = $concentration;
 
         return $this;
     }
