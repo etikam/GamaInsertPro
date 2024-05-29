@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration!
+{% endblock %}
+
+{% block content %}
+	<h2 class="text-center">GESTION DES POSTULANTS</h2>
+	{# <div class="d-flex justify-content-end mb-1">
+	    <button type="button" class="btn btn-success pl-4 pr-4">Ajouter</button>
+	  </div> #}
+	{% if postulations %}
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">N°</th>
+					<th scope="col">Matricule</th>
+					<th scope="col">Nom et Prenom</th>
+					<th scope="col">Faculte</th>
+					<th scope="col">Département</th>
+					<th scope="col">Type de l'Offre
+					</th>
+					<th scope="col">Nom de l'Entreprise</th>
+					<th scope="col">actions</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	{% endif %}
+
+{% endblock %}

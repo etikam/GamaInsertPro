@@ -1,186 +1,98 @@
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-    <!-- Sidebar Toggle (Topbar) -->
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
-    </button>
+<nav
+	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+	<!-- Sidebar Toggle (Topbar) -->
+	<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+		<i class="fa fa-bars"></i>
+	</button>
 
-    <!-- Topbar Search -->
-    <form method="GET" action="{{path('app_admin')}}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
+	<!-- Topbar Search -->
+	<form method="GET" action="{{path('app_admin')}}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+		<div class="input-group">
 
-            <select name="year" class="form-control bg-light border-0 small" aria-describedby="basic-addon2">
-                <option selected disabled="">Selectionner une Anneé pour rechercher</option>
-                <option value="1">2021</option>
-                <option value="2">2023</option>
-                <option value="3">2024</option>
-            </select>
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+			<select name="year" class="form-control bg-light border-0 small" aria-describedby="basic-addon2">
+				<option selected disabled="">Selectionner une Anneé pour rechercher</option>
+				<option value="1">2021</option>
+				<option value="2">2023</option>
+				<option value="3">2024</option>
+			</select>
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="submit">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
+	</form>
 
-    <!-- Topbar Navbar -->
-    <ul class="navbar-nav ml-auto">
-        {#JE NE CONNAIS PAS D'ABORD L'UTILITÉ DE CETTE PARTIE DANS LA TOPBAR#}
+	<!-- Topbar Navbar -->
+	<ul class="navbar-nav ml-auto">
+		<!-- Nav Item - Alerts -->
+		<!--C'est cette partie qui s'occupe des notifications dans la partie top-->
+			{% if message_entreprise is defined %}
+				<li class="nav-item dropdown no-arrow mx-1"> <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-bell fa-fw"></i>
+					<!-- Counter - Alerts -->
+					<span class="badge badge-danger badge-counter">3+</span>
+				</a>
+				<!-- Dropdown - Alerts -->
+				<div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+					<h6 class="dropdown-header">Notifications</h6>
+					{% for message in message_entreprise %}
+						<a class="dropdown-item d-flex align-items-center" href="{{path('app_showEntreprise', {'id': message.id})}}">
+							<div class="mr-3">
+								<div class="icon-circle bg-primary">
+									<i class="fas fa-file-alt text-white"></i>
+								</div>
+							</div>
+							<div>
+								<div class="small text-gray-500">{{ message.dateEnvoi|date('d F Y') }}</div>
+								<span class="font-weight-bold">{{ message.nomEntreprise }}</span><br>
+								{% for offre in message.fkTypeOffre %}
+									{{ offre.nom }}<br>
+								{% endfor %}
+								{{ message.description }}
+							</div>
+						</a>
+					{% endfor %}
+					<a class="dropdown-item text-center small text-gray-500" href="{{path('app_offreEntreprise')}}">Afficher Tous</a>
+				</div>
+			</li>
+		{% endif %}
 
-        {#<!-- Nav Item - Search Dropdown (Visible Only XS) -->
-        <li class="nav-item dropdown no-arrow d-sm-none">
-            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-            </a>
-            <!-- Dropdown - Messages -->
-            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                aria-labelledby="searchDropdown">
-                <form class="form-inline mr-auto w-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small"
-                            placeholder="Rechercher..." aria-label="Search"
-                            aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li>#}
+		<!-- Nav Item - Messages -->
+		<!--C'est cette partie qui s'occupe des messages dans la partie top-->
+		<li class="nav-item dropdown no-arrow mx-1">
+			<a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-envelope fa-fw"></i>
+				<!-- Counter - Messages -->
+				<span class="badge badge-danger badge-counter">7</span>
+			</a>
+			<!-- Dropdown - Messages -->
+		</li>
 
-        <!-- Nav Item - Alerts --> <!--C'est cette partie qui s'occupe des notifications dans la partie top-->
-        {% if message_entreprise is defined %}
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw"></i>
-                    <!-- Counter - Alerts -->
-                    <span class="badge badge-danger badge-counter">3+</span>
-                </a>
-                <!-- Dropdown - Alerts -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="alertsDropdown">
-                    <h6 class="dropdown-header">
-                        Notifications
-                    </h6>
-                    {% for message in message_entreprise %}
-                        <a class="dropdown-item d-flex align-items-center" href="#">
-                            <div class="mr-3">
-                                <div class="icon-circle bg-primary">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="small text-gray-500">{{ message.dateCreation|date('d F Y') }}</div>
-                                {% for offre in message.fkTypeOffre %}
-                                    <span class="font-weight-bold">{{ offre.nom }}</span><br>
-                                {% endfor %}
-                                {{ message.description }}
-                            </div>
-                        </a>
-                    {% endfor %}
+		<div class="topbar-divider d-none d-sm-block"></div>
 
-
-                    <a class="dropdown-item text-center small text-gray-500" href="#">Afficher Tous </a>
-                </div>
-            </li>
-        {% endif %}
-
-        <!-- Nav Item - Messages --><!--C'est cette partie qui s'occupe des messages dans la partie top-->
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-            </a>
-            <!-- Dropdown - Messages -->
-            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                    Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_1.svg"
-                            alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div class="font-weight-bold">
-                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                            problem I've been having.</div>
-                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_2.svg"
-                            alt="...">
-                        <div class="status-indicator"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">I have the photos that you ordered last month, how
-                            would you like them sent to you?</div>
-                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="img/undraw_profile_3.svg"
-                            alt="...">
-                        <div class="status-indicator bg-warning"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                            the progress so far, keep up the good work!</div>
-                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                    </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                    <div class="dropdown-list-image mr-3">
-                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                            alt="...">
-                        <div class="status-indicator bg-success"></div>
-                    </div>
-                    <div>
-                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                            told me that people say this to all dogs, even if they aren't good...</div>
-                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                    </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">plus</a>
-            </div>
-        </li>
-
-        <div class="topbar-divider d-none d-sm-block"></div>
-
-        <!-- Nav Item - User Information -->
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nabiya CAMARA</span>
-                <img class="img-profile rounded-circle"
-                    src="{{asset('img/profile.jpg')}}">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Paramètre
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Se déconnecter
-                </a>
-            </div>
-        </li>
-    </ul>
+		<!-- Nav Item - User Information -->
+		<li class="nav-item dropdown no-arrow">
+			<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="mr-2 d-none d-lg-inline text-gray-600 small">Nabiya CAMARA</span>
+				<img class="img-profile rounded-circle" src="{{asset('img/profile.jpg')}}">
+			</a>
+			<!-- Dropdown - User Information -->
+			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+				<a class="dropdown-item" href="#">
+					<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+					Profile
+				</a>
+				<a class="dropdown-item" href="#">
+					<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+					Paramètre
+				</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+					<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+					Se déconnecter
+				</a>
+			</div>
+		</li>
+	</ul>
 </nav>

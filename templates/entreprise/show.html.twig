@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration!
+{% endblock %}
+
+{% block content %}
+	<h2 class="text-center">Details d'une Offre Entreprise</h2>
+	<h3>Nom Entreprise :
+		<strong>{{offre_entreprise.nomEntreprise}}</strong>
+	</h3>
+	<h3>Type Offre :
+		<strong>
+			{% for offre in offre_entreprise.fkTypeOffre %}
+				{{ offre.nom }}<br>
+			{% endfor %}
+		</strong>
+	</h3>
+	<h3>Description :
+		{{offre_entreprise.description}}</h3>
+
+{% endblock %}

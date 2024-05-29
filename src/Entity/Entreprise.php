@@ -61,6 +61,21 @@ class Entreprise
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateCreation = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $emailResponsable = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $telResponsable = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $domaineRecherche = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateEnvoi = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $niveauRecherche = null;
+
     public function __construct()
     {
         $this->fk_type_offre = new ArrayCollection();
@@ -254,6 +269,66 @@ class Entreprise
     public function setDateCreation(\DateTimeInterface $dateCreation): static
     {
         $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    public function getEmailResponsable(): ?string
+    {
+        return $this->emailResponsable;
+    }
+
+    public function setEmailResponsable(?string $emailResponsable): static
+    {
+        $this->emailResponsable = $emailResponsable;
+
+        return $this;
+    }
+
+    public function getTelResponsable(): ?string
+    {
+        return $this->telResponsable;
+    }
+
+    public function setTelResponsable(string $telResponsable): static
+    {
+        $this->telResponsable = $telResponsable;
+
+        return $this;
+    }
+
+    public function getDomaineRecherche(): ?string
+    {
+        return $this->domaineRecherche;
+    }
+
+    public function setDomaineRecherche(?string $domaineRecherche): static
+    {
+        $this->domaineRecherche = $domaineRecherche;
+
+        return $this;
+    }
+
+    public function getDateEnvoi(): ?\DateTimeInterface
+    {
+        return $this->dateEnvoi;
+    }
+
+    public function setDateEnvoi(\DateTimeInterface $dateEnvoi): static
+    {
+        $this->dateEnvoi = $dateEnvoi;
+
+        return $this;
+    }
+
+    public function getNiveauRecherche(): ?string
+    {
+        return $this->niveauRecherche;
+    }
+
+    public function setNiveauRecherche(string $niveauRecherche): static
+    {
+        $this->niveauRecherche = $niveauRecherche;
 
         return $this;
     }

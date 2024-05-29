@@ -1,0 +1,106 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration!
+{% endblock %}
+
+{% block content %}
+	<div class="my-2"></div>
+	<a href="#" class="btn btn-success btn-icon-split">
+		<span class="text">PUBLIER OFFRE</span>
+	</a>
+	<h2 class="text-center">GESTION DES OFFRES</h2>
+	<h3 class="text-center">OFFRE ENTREPRISE</h3>
+	{#
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th scope="col">N°</th>
+							<th scope="col">Nom Entreprise</th>
+							<th scope="col">Type de l'Offre</th>
+							<th scope="col">Domaine d'Activité</th>
+							<th scope="col">Date d'Ouverture</th>
+							<th scope="col">Date de Fermeture
+							</th>
+							<th scope="col">actions</th>
+						</tr>
+					</thead>
+					<tbody>
+			
+						{% for offre in offre_entreprises %}
+							<tr>
+								<td>{{loop.index}}</td>
+								<td>{{offre.nomEntreprise}}</td>
+								<td>
+									{% for offres in offre.fkTypeOffre %}
+										{{ offres.nom }}<br>
+									{% endfor %}
+								</td>
+								<td>{{offre.domaine}}</td>
+								<td>{{offre.dateCreation|date('d F Y') }}</td>
+								<td>{{offre.dateLimite|date('d F Y') }}</td>
+								<td>
+									<a href="{{path('app_showEntreprise', {'id': offre.id})}}">
+										<span class="text-success font-weight-bold">
+											Voir</span>
+									</a>
+									<a href="#">
+										<span class="text-danger font-weight-bold">Delete</span>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+						
+			
+			
+					</tbody>
+				</table>#}
+
+	<div class="row">
+		{% for offre in offre_entreprises %}
+			<div
+				class="col-lg-6">
+				<!-- Dropdown Card Example -->
+				<div
+					class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">{{offre.nomEntreprise}}</h6>
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Actions:</div>
+								<a class="dropdown-item bg-success text-white" href="{{path('app_showEntreprise', {'id': offre.id})}}">VOIR</a>
+								<a class="dropdown-item bg-info text-white" href="#">PUBLIER</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item bg-warning text-white" href="#">Autre</a>
+							</div>
+						</div>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div>
+							<strong class="text-center">
+								{% for offres in offre.fkTypeOffre %}
+									{{ offres.nom }}<br>
+								{% endfor %}
+							</strong>
+							<p>
+								{{ offre.description }}<br>
+								Domaine d'activité :
+								<strong>{{offre.domaine}}</strong>
+							</p>
+							<p>
+								Date début :
+								<strong>{{offre.dateCreation|date('d F Y') }}</strong><br>
+								Date Limite :
+								<strong>{{offre.dateLimite|date('d F Y') }}</strong>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

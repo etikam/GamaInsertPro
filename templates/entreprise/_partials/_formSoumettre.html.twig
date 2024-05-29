@@ -1,72 +1,205 @@
- <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" id="contact">
-        <div class="container py-5">
-            <div class="row g-5">
-                <div class="col-lg-7">
-                    <div class="bg-primary rounded h-100 d-flex align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
-                        <form action="{{ path('app_soumettre') }}" method="POST" >
-                            <div class="row g-3">
-                            <h2 style="text-align:center;">Vos Informations</h2>
-                                <div class="col-xl-12">
-                                    <input type="text" name="nom" class="form-control bg-light border-0" placeholder="Votre nom " style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" name="prenom" class="form-control bg-light border-0" placeholder="Votre prenom" required style="height: 55px;">
-                                </div>
-                                <div class="col-xl-12">
-                                    <input type="email" name="email" class="form-control bg-light border-0" placeholder="Votre email" style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" name="nomEntreprise" class="form-control bg-light border-0" placeholder="Votre nom d'Entreprise" style="height: 55px;">
-                                </div>
-                                <div class="col-xl-12">
-                                    <input type="text" name="telephone" class="form-control bg-light border-0" placeholder="Votre numéro de telephone" style="height: 55px;">
-                                </div>
-                                <hr>
-                                <h2 style="text-align:center;">Détails de l'offre</h2>
-                                <div class="col-12">
-                                    <select name="typeOffre" class="form-select bg-light border-0" style="height: 55px;">
-                                        {% for offre in typeOffres %}
-                                            <option value="{{ offre.id }}">{{ offre.nom }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <textarea name="description" class="form-control bg-light border-0" rows="6" placeholder="Votre Description"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <input type="date" name="dateCloture" class="form-control bg-light border-0" placeholder="Date limite" style="height: 55px;">
-                                </div>
-                                <hr>
-                                <h2 style="text-align:center;">Profil Recherché</h2>
-                                <div class="col-12">
-                                    <select name="taille" class="form-select bg-light border-0" style="height: 55px;">
-                                        <option value="Petite Entreprise">Petite entreprise</option>
-                                        <option value="Moyenne Entreprise">Moyenne entreprise</option>
-                                        <option value="Grande Entreprise">Grande entreprise</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" name="secteur" class="form-control bg-light border-0" placeholder="Domaine d'Activité" style="height: 55px;">
-                                </div>
-                                <div class="col-xl-12">
-                                    <input type="text" name="lieu" class="form-control bg-light border-0" placeholder="Lieu : 'Quartier/Préfecture/Ville'" style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" name="experience" class="form-control bg-light border-0" placeholder="Expérience Demandée" style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" name="competence" class="form-control bg-light border-0" placeholder="Compétence Demandée" style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <input type="date" name="dateDepot" class="form-control bg-light border-0" placeholder="Date limite" style="height: 55px;">
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-dark w-100 py-3" type="submit">Soumettre l'Offre</button>
-                                </div>
-                            </div>
-                        </form>
+<div class="container-fluid  wow fadeInUp" data-wow-delay="0.1s" id="contact">
+    <div class="container" style="width:50%; margin-top:5%">
+        <div class="bg-primary rounded h-100 d-flex justify-content-center align-items-center p-5 wow zoomIn" data-wow-delay="0.9s">
+            <form action="{{ path('app_soumettre') }}" method="POST" id="multiStepForm">
+                <div class="row g-3" id="step1">
+                    <h2 style="text-align:center;">Vos Informations</h2>
+                    <div class="col-xl-12">
+                        <label for="nom" class="form-label text-light">Votre nom</label>
+                        <input type="text" name="nom" id="nom" class="form-control bg-light border-0"
+                            placeholder="Ex: DIALLO" style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="prenom" class="form-label text-light">Votre prénom</label>
+                        <input type="text" name="prenom" id="prenom" class="form-control bg-light border-0"
+                            placeholder="Ex: Mika" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="poste" class="form-label text-light">Poste Occupé</label>
+                        <input type="text" name="poste" id="poste" class="form-control bg-light border-0"
+                            placeholder="Ex: Mika" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="mail" class="form-label text-light">Adresse E-mail</label>
+                        <input type="email" name="mail" id="mail" class="form-control bg-light border-0"
+                            placeholder="Ex: Mika" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="tel" class="form-label text-light">Numéro de Téléphone</label>
+                        <input type="text" name="tel" id="tel" class="form-control bg-light border-0"
+                            placeholder="Ex: Mika" required style="height: 55px;">
+                    </div>
+                    <div class="col-12 d-flex justify-content-end align-items-end">
+                        <button type="button" class="btn btn-dark" onclick="nextStep()">Suivant</button>
                     </div>
                 </div>
-            </div>
+                <div class="row g-3 d-none" id="step2">
+                    <h2 style="text-align:center;">Renseignement sur l'Entreprise</h2>
+                    <div class="col-12">
+                        <label for="nomEntreprise" class="form-label text-light">Votre nom d'Entreprise</label>
+                        <input type="text" name="nomEntreprise" id="nomEntreprise"
+                            class="form-control bg-light border-0" placeholder="Ex: CANAL +" required style="height: 55px;">
+                    </div>
+                    <div class="col-xl-12">
+                        <label for="email" class="form-label text-light">Adresse E-mail</label>
+                        <input type="email" name="email" id="email" class="form-control bg-light border-0"
+                            placeholder="Ex:diallo.mikat@example.com" style="height: 55px;">
+                    </div>
+                    <div class="col-xl-12">
+                        <label for="telephone" class="form-label text-light">Numéro de Téléphone</label>
+                        <input type="text" name="telephone" id="telephone" class="form-control bg-light border-0"
+                            placeholder="Ex: +224 625 235 760" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="taille" class="form-label text-light">Taille de l'Entreprise</label>
+                        <select name="taille" id="taille" class="form-select bg-light border-0" style="height: 55px;">
+                            <option value="Petite Entreprise">Petite entreprise</option>
+                            <option value="Moyenne Entreprise">Moyenne entreprise</option>
+                            <option value="Grande Entreprise">Grande entreprise</option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="secteur" class="form-label text-light">Domaine d'Activité</label>
+                        <input type="text" name="secteur" id="secteur" class="form-control bg-light border-0"
+                            placeholder="Ex: Technologie"  required style="height: 55px;">
+                    </div>
+                    <div class="col-xl-12">
+                        <label for="lieu" class="form-label text-light">Lieu</label>
+                        <input type="text" name="lieu" id="lieu" class="form-control bg-light border-0"
+                            placeholder="Ex: Route Niger, Matam, Conakry" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-dark w-100 py-3"
+                                    onclick="prevStep()">Précédent</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-dark w-100 py-3"
+                                    onclick="nextStep()">Suivant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 d-none" id="step3">
+                    <h2 style="text-align:center;">Détails de l'offre</h2>
+                    <div class="col-12">
+                        <label for="typeOffre" class="form-label text-light">Type d'Offre</label>
+                        <select name="typeOffre" id="typeOffre" class="form-select bg-light border-0"
+                            style="height: 55px;">
+                            {% for offre in typeOffres %}
+                            <option value="{{ offre.id }}">{{ offre.nom }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="description" class="form-label text-light">Description de l'Offre</label>
+                        <textarea name="description" id="description" class="form-control bg-light border-0" rows="6"
+                            placeholder="Ex: Nous recherchons un développeur expérimenté..." required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="dateDepot" class="form-label text-light">Date Dépôt</label>
+                        <input type="date" name="dateDepot" id="dateDepot" class="form-control bg-light border-0"
+                            required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="dateCloture" class="form-label text-light">Date limite</label>
+                        <input type="date" name="dateCloture" id="dateCloture" class="form-control bg-light border-0"
+                            required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-dark w-100 py-3"
+                                    onclick="prevStep()">Précédent</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-dark w-100 py-3"
+                                    onclick="nextStep()">Suivant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 d-none" id="step4">
+                    <h2 style="text-align:center;">Profil Recherché</h2>
+                    <div class="col-12">
+                        <label for="experience" class="form-label text-light">Expérience Demandée</label>
+                        <input type="text" name="experience" id="experience" class="form-control bg-light border-0"
+                            placeholder="Ex: 5 ans dans un poste similaire" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="competence" class="form-label text-light">Compétence Demandée</label>
+                        <input type="text" name="competence" id="competence" class="form-control bg-light border-0"
+                            placeholder="Ex: Maîtrise de JavaScript, Python" required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <label for="niveau" class="form-label text-light">Niveau</label>
+                        <input type="text" name="niveau" id="niveau" class="form-control bg-light border-0"
+                            placeholder="Ex: Licence 2" style="height: 55px;" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="domaine" class="form-label text-light">Domaine</label>
+                        <input type="text" name="domaine" id="domaine" class="form-control bg-light border-0"
+                            placeholder="Ex: Informatique, Biomedicale,..." required style="height: 55px;">
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-dark py-3">Soumettre l'Offre</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-dark py-3" onclick="prevStep()">Précédent</button>
+                            </div>
+                        </div>
+                        <div class="col-12"></div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
+<script>
+    let currentStep = 1;
+
+    function showStep(step) {
+        document.querySelectorAll('.row.g-3').forEach((el, index) => {
+            if (index + 1 === step) {
+                el.classList.remove('d-none');
+            } else {
+                el.classList.add('d-none');
+            }
+        });
+    }
+
+    function nextStep() {
+        let isValid = validateForm(currentStep);
+        if (isValid && currentStep < 4) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    }
+
+    function validateForm(step) {
+        let inputs = document.querySelectorAll(`#step${step} input[required], #step${step} select[required], #step${step} textarea[required]`);
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                isValid = false;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+        return isValid;
+    }
+
+    // Initialize the first step
+    showStep(currentStep);
+</script>
