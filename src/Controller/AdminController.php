@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Departement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,28 +10,17 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Etudiant;
 
+
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
-        $year  = $request->query->get('year');
-        if ($year) {
-            $nombreDeFemmes = $this->countFemaleStudent($em, $year);
-            $handicapedPersons = $this->countPersonHandicap($em, $year);
-            $etudiantsEnVoyage = $this->countTravelerStudent($em, $year);
-            $compteurDeStatus = $this->countStatus($em, $year);
-            $compteurTotalStudent = $this->countStudent($em, $year);
-
-        }
-        else {
-            $nombreDeFemmes = $this->countFemaleStudent($em);
-            $handicapedPersons = $this->countPersonHandicap($em);
-            $etudiantsEnVoyage = $this->countTravelerStudent($em);
-            $compteurDeStatus = $this->countStatus($em);
-            $compteurTotalStudent = $this->countStudent($em);
-        }
-
+        $nombreDeFemmes = $this->countFemaleStudent($em);
+        $handicapedPersons = $this->countPersonHandicap($em);
+        $etudiantsEnVoyage = $this->countTravelerStudent($em);
+        $compteurDeStatus = $this->countStatus($em);
+        $compteurTotalStudent = $this->countStudent($em);
 
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
@@ -78,7 +68,7 @@ class AdminController extends AbstractController
         $query = $repo->createQueryBuilder('e')
             ->select('COUNT(e.id)')
             ->where('e.handicape = :handicape')
-            ->setParameter('handicape', true);
+            ->setParameter('handicape', "Oui");
 
         if ($year !== null) {
             $query->andWhere('e.annee = :year')
@@ -153,21 +143,51 @@ class AdminController extends AbstractController
                 'handicapedPersons' => $handicapedPersons,
                 'etudiantsEnVoyage' => $etudiantsEnVoyage,
                 'statusDesEtudiants' => $compteurDeStatus,
-                'nombreTotalStudent' => $compteurTotalStudent
+                'nombreTotalStudent' => $compteurTotalStudent,
+                'year'=> $year,
             ]);
     }
 
-    #[Route('/tableau_de_conclusion/{status}', name: 'app_tableau')]
-    public function tab(Request $request, EntityManagerInterface $em): Response
+    public function tab(Request $request, EntityManagerInterface $em, $year, $status): Response
     {
-        $status = $request->attributes->get('status');
-        $stat = strtolower($status);
         $repo = $em->getRepository(Etudiant::class);
-        $etudiants = $repo->findBy(['status' => $status]);
+
+        $search = $request->query->get('search', '');
+        $departementId = $request->query->getInt('departement', 0); // Utilisation de 0 comme valeur par défaut
+        $handicape =  $request->query->get('handicape');
+        if ($handicape === '1') {
+            $handicap = true;
+        } elseif ($handicape === '0') {
+            $handicap = false;
+        } else {
+            $handicap = null;
+        }
+
+        $genre = $request->query->getString('genre');
+        $plageAge = $request->query->getString('age_range');
+        $lieu = $request->query->getString('en_voyage');
+
+
+        // Si le departementId est 0, le transformer en null pour la recherche
+        $departementId = $departementId === 0 ? null : $departementId;
+
+        $etudiants = $repo->searchEtudiants($search, $status, $year, $departementId, $handicap, $genre, $plageAge, $lieu);
+
+        $departements = $em->getRepository(Departement::class)->findAll();
+
         return $this->render('admin/tableaux.html.twig', [
             'controller_name' => 'AdminController',
             'etudiants' => $etudiants,
-            'status' => $stat,
+            'status' => $status,
+            'stat' => strtolower($status),
+            'year' => $year,
+            'search' => $search,
+            'depart' => $departements,
+            'departementId' => $departementId,
+            'handicape' => $handicape,
+            'genre' => $genre,
+            'plageAge' => $plageAge,
+            'etatVoyage' => $lieu
         ]);
     }
 }

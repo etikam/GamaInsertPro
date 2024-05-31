@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="height: 100%;">
     <!-- Area Chart statistique en barre -->
     <div class="col-xl-12">
         <div class="card shadow mb-4">
@@ -9,7 +9,7 @@
 
            </div>
             <!-- Card Body -->
-            <div class="card-body">
+            <div class="card-body" style="flex-grow: 1;">
                 <div class="chart-bar">
                     <canvas id="myChart" width="100" height="200">
                         {% block javascripts %}
@@ -18,21 +18,22 @@
                                     // Récupérez l'élément canvas
                                     var ctx = document.getElementById('myChart').getContext('2d');
                                     //Mettre les valeurs du graphique dans un tableau à partir de la base de données
-                                    let femme = {{ nombreDeFemmes }};
-                                    let voyageur = {{ etudiantsEnVoyage }};
+                                    /*let femme = {{ nombreDeFemmes }};*/
+                                    /*let voyageur = {{ etudiantsEnVoyage }};*/
                                     let entrepreneurs = {{ statusDesEtudiants['Entrepreneur'] }};
                                     let chomeur = {{ statusDesEtudiants['Chômeur'] }};
                                     let stagiaire = {{ statusDesEtudiants['Stage'] }};
                                     let employe = {{ statusDesEtudiants['Employé'] }};
+                                    let formation = {{ statusDesEtudiants['En formation'] }};
 
                                     // Créez un nouveau graphique
                                     var myChart = new Chart(ctx, {
                                         type: 'bar',
                                         data: {
-                                            labels: ['Employé', 'Chômeur', 'Entrepreneur', 'Stage', 'Formation'],
+                                            labels: ['Entrepreneurs', 'Employés', 'Stagiaires', 'Chômeurs', 'En formation'],
                                             datasets: [{
                                                 label: 'Statistiques des étudiants',
-                                                data: [employe, chomeur, entrepreneurs, stagiaire, voyageur, femme],
+                                                data: [entrepreneurs, employe, stagiaire, chomeur, formation],
                                                 backgroundColor: [
                                                     'rgba(255, 99, 132, 0.2)',
                                                     'rgba(54, 162, 235, 0.2)',

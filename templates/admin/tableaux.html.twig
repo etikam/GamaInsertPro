@@ -3,21 +3,87 @@
 {% block title %}Tableau{% endblock %}
 
 {% block content %}
-    <h2 class="text-center">Liste des étudiants {{ status }}s</h2>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Générer le Rapport</a>
+    </div>
+    <div class="row">
+        <form method="get" action="{{ path('app_tableau', { 'status': status, 'year': year }) }}">
+            <div class="d-flex flex-wrap align-items-end">
+            <div class="form-group col-md-2">
+                <label for="search">Rechercher</label>
+                <input type="text" name="search" class="form-control" id="search" placeholder="Rechercher..." value="{{ search }}">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="departement">Filtrer par département</label>
+                <select name="departement" class="form-control" id="departement">
+                    <option value="">Tous les départements</option>
+                    {% for departement in depart %}
+                        <option value="{{ departement.id }}" {% if departement.id == departementId %}selected{% endif %}>{{ departement.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="handicape">Filtrer par handicape</label>
+                <select name="handicape" class="form-control" id="handicape">
+                    <option value="" {% if handicape is null %}selected{% endif %}>Tous</option>
+                    <option value="1" {% if handicape == '1' %}selected{% endif %}>Handicapé</option>
+                    <option value="0" {% if handicape == '0' %}selected{% endif %}>Non Handicapé</option>
+                </select>
 
+            </div>
+            <div class="form-group col-md-2">
+                <label for="genre">Filtrer par genre</label>
+                <select name="genre" class="form-control" id="genre">
+                    <option value="">Tous</option>
+                    <option value="Masculin" {% if genre == 'Masculin' %}selected{% endif %}>Masculin</option>
+                    <option value="Feminin" {% if genre == 'Feminin' %}selected{% endif %}>Feminin</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="age_range">Filtrer par âge</label>
+                <select name="age_range" class="form-control" id="age_range">
+                    <option value="">Toutes les tranches</option>
+                    <option value="18-23" {% if plageAge == '18-23' %}selected{% endif %}>18-23</option>
+                    <option value="20-24" {% if plageAge == '20-24' %}selected{% endif %}>20-24</option>
+                    <option value="24-26" {% if plageAge == '24-26' %}selected{% endif %}>24-26</option>
+                    <!-- Ajoutez d'autres options ici -->
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="en_voyage">Filtrer par pays</label>
+                <select name="en_voyage" class="form-control" id="en_voyage">
+                    <option value="">Tous</option>
+                    <option value="non" {% if etatVoyage == 'non' %}selected{% endif %}>En Guinée</option>
+                    <option value="oui" {% if etatVoyage == 'oui' %}selected{% endif %}>En voyage</option>
+                </select>
+            </div>
+            <input type="hidden" name="status" value="{{ status }}">
+            <input type="hidden" name="year" value="{{ year }}">
+            <div class="form-group col-md-1">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+            </div>
+        </form>
+    </div>
+    {% if etudiants is empty %}
+        <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun résultat trouvé!</p>
+    {% else %}
+    <h2 class="text-center">Liste des étudiants {{ stat }}s</h2>
     <table class="table table-bordered">
         <thead>
         <tr>
             {#<th scope="col">Matricule</th>#}
-            <th scope="col">Nom</th>
             <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
             <th scope="col">Genre</th>
-            {#<th scope="col">Faculté</th>#}
-            {#<th scope="col">Département</th>#}
+            <th scope="col">Département</th>
             <th scope="col">Date de naissance</th>
             {#<th scope="col">Téléphone</th>#}
             <th scope="col">Adresse</th>
-            {#<th scope="col">Email</th>#}
+            <th scope="col">Email</th>
             <th scope="col">Pays de résidence</th>
             <th scope="col">Handicape</th>
             {% if status == 'employé' %}
@@ -27,7 +93,7 @@
             {% elseif status == 'formation' %}
                 <th scope="col">Intitulé de la formation</th>
             {% elseif status == 'stage' %}
-                <th scope="col">Nom du stage</th>
+                <th scope="col">Domaine du stage</th>
             {% elseif status == 'chômeur' %}
             {% endif %}
         </tr>
@@ -36,19 +102,19 @@
         {% for etudiant in etudiants %}
             <tr>
                 {#<td>{{ etudiant.matricule }}</td>#}
-                <td>{{ etudiant.nom }}</td>
                 <td>{{ etudiant.prenom }}</td>
+                <td>{{ etudiant.nom }}</td>
                 <td>{{ etudiant.genre }}</td>
-                {#<td>{{ etudiant.faculte }}</td>#}
-                {#<td>{{ etudiant.departement }}</td>#}
+                <td>{{ etudiant.departement.nom }}</td>
                 <td>{{ etudiant.dateNaissance|date('d/m/Y') }}</td>
                 {#<td>{{ etudiant.telephone }}</td>#}
                 <td>{{ etudiant.adresse }}</td>
-                {#<td>{{ etudiant.email }}</td>#}
+                <td>{{ etudiant.email }}</td>
                 <td>{{ etudiant.paysResidence }}</td>
-                <td>{{ etudiant.handicape }}</td>
+                <td>{{ etudiant.handicape ? 'Oui' : 'Non' }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 {% endblock %}

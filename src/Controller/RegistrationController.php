@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Departement;
 use App\Entity\User;
 use App\Entity\EtudiantNotActivate;
 use App\Entity\Etudiant;
+use App\Entity\Faculte;
 use App\Form\CheckExistenceType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,6 +43,7 @@ class RegistrationController extends AbstractController
                     //verification si l'etudiant existe 
                     $etudiantExiste = $entityManager->getRepository(EtudiantNotActivate::class)
                     ->findOneBy(['matricule' => $username]);
+                   $departement = $entityManager->getRepository(Departement::class)->find(2);
 
                     if($etudiantExiste !== null){
                         //creer le deuxieme tables
@@ -66,6 +69,7 @@ class RegistrationController extends AbstractController
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
                         $etudiant->setStatus("Etudiant");
                         $etudiant->setRoles(["ROLES_ADMIN"]);
+                        $etudiant->setDepartement($departement);
                         //Mise à jour de la base de données
                         $entityManager->remove($etudiantExiste);
                         //Enregistrement des données de l'etudiant dans la base de données

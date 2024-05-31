@@ -39,10 +39,13 @@ class Etudiant extends User
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\column]
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $annee = null;
     #[ORM\ManyToOne(inversedBy: 'fk_etudiant')]
     private ?Postulation $postulation = null;
+
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    private ?Departement $departement= null;
 
     public function getNom(): ?string
     {
@@ -180,11 +183,22 @@ class Etudiant extends User
         return $this -> annee;
     }
 
-    public function setAnne(int $annee): static
+    public function setAnnee(int $annee): static
     {
-        $this -> anne = $annee;
+        $this -> annee = $annee;
 
         return $this;
     }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): void
+    {
+        $this->departement = $departement;
+    }
+
 }
 
