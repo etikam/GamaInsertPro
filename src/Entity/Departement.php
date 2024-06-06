@@ -28,9 +28,16 @@ class Departement
     #[ORM\OneToMany(targetEntity: Concentration::class, mappedBy: 'fk_departement')]
     private Collection $concentrations;
 
+    /**
+     * @var Collection<int, Etudiant>
+     */
+    #[ORM\OneToMany(targetEntity: Etudiant::class, mappedBy: 'departement')]
+    private Collection $etudiants;
+
     public function __construct()
     {
         $this->concentrations = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,4 +98,36 @@ class Departement
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Etudiant>
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiant $etudiant): static
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants->add($etudiant);
+            $etudiant->setDepartement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiant $etudiant): static
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getDepartement() === $this) {
+                $etudiant->setDepartement(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

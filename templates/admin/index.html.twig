@@ -1,21 +1,19 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Administration!{% endblock %}
+{% block title %}Administration{% endblock %}
 
 {% block content %}
 <!-- Begin Page Content-fluid -->
-                <div class="container-fluid">
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        {#{{ include("admin/_partials/_pageHeading.html.twig") }}#}
 
-                    <!-- Page Heading -->
-                    {{ include("admin/_partials/_pageHeading.html.twig") }}
+        <!-- Content Row statistique quantitative-->
+        {{ include("admin/_partials/_statistiqueQuantitative.html.twig") }}
 
-                    <!-- Content Row statistique quantitative-->
-                    {{ include("admin/_partials/_statistiqueQuantitative.html.twig") }}
+        <!-- Content Row statistique qualitative-->
 
-                    <!-- Content Row statistique qualitative-->
-
-                    {{ include("admin/_partials/_statistiqueQualitative.html.twig") }}
-
-                </div>
-                <!-- End container-fluid -->
+        {{ include("admin/_partials/_statistiqueQualitative.html.twig") }}
+    </div>
+    <!-- End container-fluid -->
 {% endblock %}

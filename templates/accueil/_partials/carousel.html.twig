@@ -6,7 +6,10 @@
                         <div class="p-3" style="max-width: 900px;">
                             <h5 class="text-white text-uppercase mb-3 animated slideInDown">GamalInsertPro</h5>
                             <h1 class="display-1 text-white mb-md-4 animated zoomIn">De l'Université au monde du travail</h1>
-                            <a href="quote.html" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Offres</a>
+                            {% if app.user %}
+                                
+                            <a href="{{path('app_notification')}}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Offres</a>
+                            {% endif %}
                             <a href="" class="btn btn-outline-light py-md-3 px-md-5 animated slideInRight">Apropos</a>
                         </div>
                     </div>

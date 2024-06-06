@@ -1,0 +1,163 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="col-6">
+            <form method="GET" action="{{path('app_statistiques')}}" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div class="input-group">
+                    <select name="year" class="form-control bg-light border-0 small" aria-describedby="basic-addon2">
+                        <option selected disabled="">Selectionner une Anneé pour rechercher</option>
+                        <option value="2021">2021</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="col-2">
+            <a class="nav-link" href="{{ year is defined and year is not empty  ? path('app_tableau', {'status': 'Entrepreneur', 'year': year}) : path('app_tableau', {'status': 'Entrepreneur'}) }}">
+                <i class="fas fa-fw fa-user-tie"></i>
+                <span>Entrepreneurs</span>
+            </a>
+        </div>
+
+        <div class="col-2">
+            <a class="nav-link" href="{{ year is defined and year is not empty  ? path('app_tableau', {'status': 'Employé', 'year': year}) : path('app_tableau', {'status': 'Employé'}) }}">
+
+                <i class="fas fa-fw fa-briefcase"></i>
+                <span>Employés</span>
+            </a>
+        </div>
+
+        <div class="col-2">
+            <a class="nav-link" href="{{ year is defined and year is not empty  ? path('app_tableau', {'status': 'Stage', 'year': year}) : path('app_tableau', {'status': 'Stage'}) }}">
+
+            <i class="fas fa-fw fa-folder-open"></i>
+                <span>Stagiaires</span>
+            </a>
+        </div>
+
+        <div class="col-2">
+            <a class="nav-link" href="{{ year is defined and year is not empty  ? path('app_tableau', {'status': 'Formation', 'year': year}) : path('app_tableau', {'status': 'Formation'}) }}">
+
+            <i class="fas fa-fw fa-edit"></i>
+                <span>En formation</span>
+            </a>
+        </div>
+
+
+        <div class="col-2">
+            <a class="nav-link" href="{{ year is defined and year is not empty  ? path('app_tableau', {'status': 'Chômeur', 'year': year}) : path('app_tableau', {'status': 'Chômeur'}) }}">
+
+            <i class="fas fa-fw fa-search"></i>
+                <span>À la recherche d'un emploi</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-lg-auto">
+        <!-- Area Chart statistique en barre -->
+        <div class="col-xl-12 col-lg-10">
+            <div class="card shadow mb-5">
+                <!-- Card Header  -->
+                <div
+                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Statistiques</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="chart-bar">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Récupérez l'élément canvas
+        var ctx = document.getElementById('myChart').getContext('2d');
+        //Mettre les valeurs du graphique dans un tableau à partir de la base de données
+        /*let femme = {{ nombreDeFemmes }};
+        let voyageur = {{ etudiantsEnVoyage }};*/
+        let employe = {{ statusDesEtudiants['Employé'] }};
+        let chomeur = {{ statusDesEtudiants['Chômeur'] }};
+        let entrepreneurs = {{ statusDesEtudiants['Entrepreneur'] }};
+        let stagiaire = {{ statusDesEtudiants['Stage'] }};
+        let formation = {{ statusDesEtudiants['En formation'] }};
+
+        // Créez un nouveau graphique
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Entrepreneurs','Employés', 'Stagiaires', 'Chômeurs', 'En formation'],
+                datasets: [{
+                    /*label: 'Statistiques des étudiants',*/
+                    data: [entrepreneurs, employe, stagiaire, chomeur, formation],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend:{
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Graphique représentatif'
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0
+                    }
+                }
+            }
+        });
+    });
+
+    document.getElementById('yearForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var year = document.getElementById('yearInput').value;
+        fetch(`/admin?year=${year}`) // Assurez-vous que cette URL est correcte
+            .then(response => response.json())
+            .then(data => {
+                // Mettez à jour le graphique avec les nouvelles données
+                myChart.data.datasets[0].data = [data.statusDesEtudiants.Employe, data.statusDesEtudiants.Chômeur, data.statusDesEtudiants.Entrepreneur, data.statusDesEtudiants.Stage, data.etudiantsEnVoyage, data.nombreDeFemmes];
+                myChart.update();
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endblock %}
+

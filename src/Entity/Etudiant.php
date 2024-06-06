@@ -46,9 +46,6 @@ class Etudiant
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\column]
-    private ?int $annee = null;
-
     #[ORM\OneToOne(inversedBy: 'etudiant', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
@@ -59,8 +56,11 @@ class Etudiant
     #[ORM\OneToMany(targetEntity: Postulation::class, mappedBy: 'etudiant')]
     private Collection $postulations;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[ORM\Column(type: 'blob', nullable: true)]
     private ?string $image = null;
+
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    private ?Departement $departement = null;
 
     public function __construct()
     {
@@ -85,6 +85,7 @@ class Etudiant
 
         return $this;
     }
+
 
     public function getNom(): ?string
     {
@@ -205,17 +206,6 @@ class Etudiant
 
         return $this;
     }
-    public function getAnnee(): ?int
-    {
-        return $this -> annee;
-    }
-
-    public function setAnne(int $annee): static
-    {
-        $this -> annee = $annee;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Postulation>
@@ -266,6 +256,18 @@ class Etudiant
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getDepartement(): ?Departement
+    {
+        return $this->departement;
+    }
+
+    public function setDepartement(?Departement $departement): static
+    {
+        $this->departement = $departement;
 
         return $this;
     }

@@ -1,0 +1,135 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau{% endblock %}
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ path('app_tableau', {search: search, status: status, year: year, departement: departementId, handicape: handicape,
+            genre: genre, age_range: plageAge, en_voyage: etatVoyage, word: true}) }}" class="btn btn-sm btn-primary shadow-sm ml-auto" {#style="background-color: tomato"#}>
+            <i class="fas fa-download fa-sm text-white-50"></i> Générer le Rapport
+        </a>
+    </div>
+    <div class="row">
+        <form method="get" action="{{ path('app_tableau', { 'status': status, 'year': year }) }}">
+            <div class="d-flex flex-wrap align-items-end">
+            <div class="form-group col-md-2">
+                <label for="search">Rechercher</label>
+                <input type="text" name="search" class="form-control" id="search" placeholder="Rechercher..." value="{{ search }}">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="departement">Filtrer par département</label>
+                <select name="departement" class="form-control" id="departement">
+                    <option value="">Tous les départements</option>
+                    {% for departement in depart %}
+                        <option value="{{ departement.id }}" {% if departement.id == departementId %}selected{% endif %}>{{ departement.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="handicape">Filtrer par handicape</label>
+                <select name="handicape" class="form-control" id="handicape">
+                    <option value="" {% if handicape is null %}selected{% endif %}>Tous</option>
+                    <option value="1" {% if handicape == '1' %}selected{% endif %}>Handicapé</option>
+                    <option value="0" {% if handicape == '0' %}selected{% endif %}>Non Handicapé</option>
+                </select>
+
+            </div>
+            <div class="form-group col-md-2">
+                <label for="genre">Filtrer par genre</label>
+                <select name="genre" class="form-control" id="genre">
+                    <option value="">Tous</option>
+                    <option value="Masculin" {% if genre == 'Masculin' %}selected{% endif %}>Masculin</option>
+                    <option value="Feminin" {% if genre == 'Feminin' %}selected{% endif %}>Feminin</option>
+                </select>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="age_range">Filtrer par âge</label>
+                <select name="age_range" class="form-control" id="age_range">
+                    <option value="">Toutes les tranches</option>
+                    <option value="18-23" {% if plageAge == '18-23' %}selected{% endif %}>18-23</option>
+                    <option value="20-24" {% if plageAge == '20-24' %}selected{% endif %}>20-24</option>
+                    <option value="24-26" {% if plageAge == '24-26' %}selected{% endif %}>24-26</option>
+                    <!-- Ajoutez d'autres options ici -->
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="en_voyage">Filtrer par pays</label>
+                <select name="en_voyage" class="form-control" id="en_voyage">
+                    <option value="">Tous</option>
+                    <option value="non" {% if etatVoyage == 'non' %}selected{% endif %}>En Guinée</option>
+                    <option value="oui" {% if etatVoyage == 'oui' %}selected{% endif %}>En voyage</option>
+                </select>
+            </div>
+            <input type="hidden" name="status" value="{{ status }}">
+            <input type="hidden" name="year" value="{{ year }}">
+            <div class="form-group col-md-1">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+            </div>
+        </form>
+    </div>
+{#<div class="card">#}
+    {% if etudiants is empty %}
+        <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun résultat trouvé!</p>
+    {% else %}
+        {% if etudiants is empty %}
+            <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun résultat trouvé!</p>
+        {% else %}
+        {% if stat == "employé" or stat == "entrepreneur" %}
+            <h2 class="text-center">Liste des étudiants {{ stat }}s {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% elseif stat == "stage" or  stat == "formation" %}
+            <h2 class="text-center">Liste des étudiants en {{ stat }} {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% else %}
+            <h2 class="text-center">Liste des étudiants à la recherche d'un emploi {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% endif %}
+<div class="table-responsive table-striped">
+    <table class="table" id="tableToExport">
+        <thead class="table-dark">
+        <tr style="text-align: center">
+            {#<th scope="col">Matricule</th>#}
+            <th scope="col">Prénom et nom</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Département</th>
+            <th scope="col">Date de naissance</th>
+            {#<th scope="col">Téléphone</th>#}
+            <th scope="col">Adresse</th>
+            <th scope="col">Email</th>
+            <th scope="col">Pays de résidence</th>
+            <th scope="col">Handicape</th>
+            {% if status == 'employé' %}
+                <th scope="col">Poste</th>
+            {% elseif status == 'entrepreneur' %}
+                <th scope="col">Secteur d'activité</th>
+            {% elseif status == 'formation' %}
+                <th scope="col">Intitulé de la formation</th>
+            {% elseif status == 'stage' %}
+                <th scope="col">Domaine du stage</th>
+            {% elseif status == 'chômeur' %}
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for etudiant in etudiants %}
+            <tr style="text-align: center; color: black;">
+                {#<td>{{ etudiant.matricule }}</td>#}
+                <td>{{ etudiant.prenom }} {{ etudiant.nom }}</td>
+                <td>{{ etudiant.genre }}</td>
+                <td>{{ etudiant.departement.nom }}</td>
+                <td>{{ etudiant.dateNaissance|date('d/m/Y') }}</td>
+                {#<td>{{ etudiant.telephone }}</td>#}
+                <td>{{ etudiant.adresse }}</td>
+                <td>{{ etudiant.user.email }}</td>
+                <td>{{ etudiant.paysResidence }}</td>
+                <td>{{ etudiant.handicape ? 'Oui' : 'Non' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% endif %}
+    {% endif %}
+{#</div>#}
+{% endblock %}
+
