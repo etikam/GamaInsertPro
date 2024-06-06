@@ -5,11 +5,19 @@
 
 {% block content %}
 	<div class="my-2"></div>
-	<a href="#" class="btn btn-success btn-icon-split">
+	{% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+	<div class="btn btn-success btn-icon-split" data-toggle="modal" data-target="#publieOffreModal">
 		<span class="text">PUBLIER OFFRE</span>
-	</a>
+	</div>
+	{# Modal de publication d'un Offre #}
+	{%  include('entreprise/_partials/_publie.html.twig') %}
 	<h2 class="text-center">GESTION DES OFFRES</h2>
-	<h3 class="text-center">OFFRE ENTREPRISE</h3>
 	{#
 				<table class="table table-bordered">
 					<thead>
@@ -54,53 +62,20 @@
 			
 					</tbody>
 				</table>#}
-
-	<div class="row">
-		{% for offre in offre_entreprises %}
-			<div
-				class="col-lg-6">
-				<!-- Dropdown Card Example -->
-				<div
-					class="card shadow mb-4">
-					<!-- Card Header - Dropdown -->
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">{{offre.nomEntreprise}}</h6>
-						<div class="dropdown no-arrow">
-							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-								<div class="dropdown-header">Actions:</div>
-								<a class="dropdown-item bg-success text-white" href="{{path('app_showEntreprise', {'id': offre.id})}}">VOIR</a>
-								<a class="dropdown-item bg-info text-white" href="#">PUBLIER</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item bg-warning text-white" href="#">Autre</a>
-							</div>
-						</div>
-					</div>
-					<!-- Card Body -->
-					<div class="card-body">
-						<div>
-							<strong class="text-center">
-								{% for offres in offre.fkTypeOffre %}
-									{{ offres.nom }}<br>
-								{% endfor %}
-							</strong>
-							<p>
-								{{ offre.description }}<br>
-								Domaine d'activité :
-								<strong>{{offre.domaine}}</strong>
-							</p>
-							<p>
-								Date début :
-								<strong>{{offre.dateCreation|date('d F Y') }}</strong><br>
-								Date Limite :
-								<strong>{{offre.dateLimite|date('d F Y') }}</strong>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		{% endfor %}
+	
+	{% if offre_entreprises %}
+	<h3 class="text-center">OFFRE ENTREPRISE</h3>
+		<div class="row">
+		{%  include('entreprise/_partials/_offreEntreprise.html.twig') %}
 	</div>
+	{% endif %}
+	{% if offre_publies %}
+	<h3 class="text-center">OFFRE PUBLIER</h3>
+		<div class="row">
+		{%  include('entreprise/_partials/_offre.html.twig') %}
+	</div>
+	{% endif %}
+
+	
+
 {% endblock %}

@@ -1,21 +1,51 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Administration!
-{% endblock %}
+{% block title %}Détails de l'offre d'entreprise{% endblock %}
 
 {% block content %}
-	<h2 class="text-center">Details d'une Offre Entreprise</h2>
-	<h3>Nom Entreprise :
-		<strong>{{offre_entreprise.nomEntreprise}}</strong>
-	</h3>
-	<h3>Type Offre :
-		<strong>
-			{% for offre in offre_entreprise.fkTypeOffre %}
-				{{ offre.nom }}<br>
-			{% endfor %}
-		</strong>
-	</h3>
-	<h3>Description :
-		{{offre_entreprise.description}}</h3>
-
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Détails de l'offre d'entreprise</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3><strong>Nom de l'entreprise : </strong>{{ offre_entreprise.nomEntreprise }}</h3>
+                        <h3><strong>Email : </strong>{{ offre_entreprise.email }}</h3>
+                        <h3><strong>Téléphone : </strong>{{ offre_entreprise.telephone }}</h3>
+                        <h3><strong>Date de création : </strong>{{ offre_entreprise.dateCreation|date('d/m/Y') }}</h3>
+                        
+                        <h3><strong>Type d'offre :</strong> 
+                        <ul>
+                            {% for type_offre in offre_entreprise.getFkTypeOffre() %}
+                                <li>{{ type_offre.nom }}</li>
+                            {% endfor %}
+                        </ul></h3>
+                        
+                        <h3><strong>Description :</strong>{{ offre_entreprise.description }}</h3>
+                        <h3><strong>Taille : </strong>{{ offre_entreprise.taille }}</h3>
+                        <h3><strong>Domaine : </strong>{{ offre_entreprise.domaine }}</h3>
+                        <h3><strong>Lieu : </strong>{{ offre_entreprise.lieu }}</h3>
+                        <h3><strong>Expérience : </strong>{{ offre_entreprise.experience }}</h3>
+                        <h3><strong>Compétences : </strong>{{ offre_entreprise.competence }}</h3>
+                        <h3><strong>Domaine de recherche : </strong>{{ offre_entreprise.domaineRecherche }}</h3>
+                        <h3><strong>Date d'envoi : </strong>{{ offre_entreprise.dateEnvoi|date('d/m/Y') }}</h3>
+                        <h3><strong>Niveau de recherche : </strong>{{ offre_entreprise.niveauRecherche }}</h3>
+                        <h3><strong>Statut : </strong>{{ offre_entreprise.statut ? 'Publié' : 'Non Publié' }}</h3>
+                        
+        
+                            <h3>Envoyé par :</h3>
+                            <ul>
+                                <li>Nom : <strong>{{ offre_entreprise.nom }}</strong></li>
+                                <li>Prénom : <strong>{{ offre_entreprise.prenom }}</strong></li>
+                                <li>Email : <strong>{{ offre_entreprise.emailResponsable }}</strong></li>
+                                <li>Telephone : <strong>{{ offre_entreprise.telResponsable }}</strong></li>
+                                <!-- Ajoutez d'autres informations sur l'utilisateur si nécessaire -->
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

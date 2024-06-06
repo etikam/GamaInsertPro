@@ -45,16 +45,21 @@ class RegistrationController extends AbstractController
                     if($etudiantExiste !== null){
                         //creer le deuxieme tables
                         $etudiant = new Etudiant();
+                        $user = new User();
                         //copier les donnes dans la base de données 
-                        $etudiant->setUsername($username);
-                        $etudiant->setEmail($email);
-                        
-                        $etudiant->setPassword(
+                        // Enregistrement des données dans la table user
+                        $user->setUsername($username);
+                        $user->setEmail($email);
+                        // hash le mot de pass de user
+                        $user->setPassword(
                             $userPasswordHasher->hashPassword(
-                                $etudiant, // Utiliser $etudiant ici au lieu de $user
+                                $user, // Utiliser $etudiant ici au lieu de $user
                                 $form->get('plainPassword')->getData()
                             )
                         );
+                        $user->setRoles(["ROLE_ADMIN"]);
+
+                        // Enregistrement des données de Etudiants
                         $etudiant->setNom($etudiantExiste->getNom());
                         $etudiant->setPrenom($etudiantExiste->getPrenom());
                         $etudiant->setGenre($etudiantExiste->getGenre());
@@ -65,7 +70,7 @@ class RegistrationController extends AbstractController
                         $etudiant->setEncours($etudiantExiste->isEncours());
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
                         $etudiant->setStatus("Etudiant");
-                        $etudiant->setRoles(["ROLES_ADMIN"]);
+                        $etudiant->setUser($user);
                         //Mise à jour de la base de données
                         $entityManager->remove($etudiantExiste);
                         //Enregistrement des données de l'etudiant dans la base de données

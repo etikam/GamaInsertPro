@@ -1,40 +1,106 @@
 <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0" style="background-color: black;">
-            <a href="{{path('app_accueil')}}" class="navbar-brand p-0">
-                <h1 class="m-0"><i class="fa fa-user-tie me-2"></i>GamalInserPro</h1>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="{{path('app_accueil')}}" class="nav-item nav-link active">Accueil</a>
-                    <a href="" class="nav-item nav-link">Offres</a>
-                    <a href="{{path('app_entreprise')}}" class="nav-item nav-link">Entreprise</a>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                </div>
-                <button type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>
-                {% if app.user %}
-                     <a href="{{path('app_logout')}}" class="btn btn-primary py-2 px-4 ms-3">Déconnexion</a>
-                {% else %}
-                    <a href="{{path('app_login')}}" class="btn btn-primary py-2 px-4 ms-3">Connexion</a>
-                {% endif %}
-            </div>
-        </nav>
+	{% if app.user %}
+		<div class="navbar-brand p-0" data-toggle="modal" data-target="#profilModal">
+			<img class="img-profile rounded-circle" src="{{asset('img/profile.jpg')}}" style="width: 40px; height: 40px;">
+		</div>
+	{% endif %}
+
+	<a href="{{path('app_accueil')}}" class="navbar-brand p-0 ml-2">
+		<h1 class="m-0">
+			{% if app.user %}
+				GamalInserPro
+			{% else %}
+				<i class="fa fa-user-tie me-2"></i>GamalInserPro
+			{% endif %}
+		</h1>
+	</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+		<span class="fa fa-bars"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+		<div class="navbar-nav ms-auto py-0">
+			<a href="{{path('app_accueil')}}" class="nav-item nav-link active">Accueil</a>
+			{% if app.user %}
+				<a href="{{path('app_notification')}}" class="nav-item nav-link">Offres</a>
+			{% endif %}
+			<a href="{{path('app_entreprise')}}" class="nav-item nav-link">Entreprise</a>
+			<a href="contact.html" class="nav-item nav-link">Contact</a>
+		</div>
+		<button type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
+			<i class="fa fa-search"></i>
+		</button>
+		{% if app.user %}
+			<a href="{{path('app_logout')}}" class="btn btn-primary py-2 px-4 ms-3">Déconnexion</a>
+			{% if offreRecents is defined %}
+				<div class="nav-item mx-1">
+					<a class="nav-link" href="#" id="alertsDropdown" data-toggle="modal" data-target="#notificationModal">
+						<i class="fas fa-bell fa-fw"></i>
+						{% if nbOffres <= 3 %}
+							<span class="badge badge-danger badge-counter">{{ nbOffres }}</span>
+						{% else %}
+							<span class="badge badge-danger badge-counter">3+</span>
+						{% endif %}
+					</a>
+
+				</div>
+			{% endif %}
+
+		{% else %}
+			<a href="{{path('app_login')}}" class="btn btn-primary py-2 px-4 ms-3">Connexion</a>
+		{% endif %}
+	</div>
+</nav>
+
+{% include 'etudiant/_partials/_profil.html.twig' %}
+
+<!-- Notification Modal -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel">
+	<div class="modal-dialog" role="document">
+		{% if offreRecents is defined %}
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{% for offre in offreRecents %}
+						<div class="d-flex align-items-center">
+							<div>
+								<div class="small text-gray-500">{{offre.dateDebut | date('d m y')}}</div>
+								<h4 class="font-weight-bold">{{offre.nomEntreprise}}</h4>
+								<span class="font-weight-bold">{{offre.description}}</span><br>
+							</div>
+						</div>
+					{% endfor %}
+					<hr>
+					<a class="text-center small text-gray-500" href="{{path('app_notification')}}">Afficher tous</a>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>
 
 
-         <!-- Full Screen Search Start -->
-    <div class="modal fade" id="searchModal" tabindex="-1">
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
-                <div class="modal-header border-0">
-                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body d-flex align-items-center justify-content-center">
-                    <div class="input-group" style="max-width: 600px;">
-                        <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
-                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Full Screen Search Start -->
+<div class="modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+			<div class="modal-header border-0">
+				<button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body d-flex align-items-center justify-content-center">
+				<div class="input-group" style="max-width: 600px;">
+					<input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+					<button class="btn btn-primary px-4">
+						<i class="bi bi-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

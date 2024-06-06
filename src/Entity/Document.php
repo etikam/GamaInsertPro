@@ -19,10 +19,6 @@ class Document
     #[ORM\Column(length: 255)]
     private ?string $file = null;
 
-    #[ORM\ManyToOne(inversedBy: 'documents')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Postulation $fk_postulation = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -52,15 +48,4 @@ class Document
         return $this;
     }
 
-    public function getFkPostulation(): ?Postulation
-    {
-        return $this->fk_postulation;
-    }
-
-    public function setFkPostulation(?Postulation $fk_postulation): static
-    {
-        $this->fk_postulation = $fk_postulation;
-
-        return $this;
-    }
 }

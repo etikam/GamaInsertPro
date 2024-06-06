@@ -1,0 +1,37 @@
+{% extends 'app_base.html.twig' %}
+
+{% block title %}
+	GamalInsertPro
+{% endblock %}
+
+
+{% block containt %}
+<style>
+@media (max-width: 989px) {
+    .m-4 {
+        margin: 1.5rem !important; /* Bootstrap's m-4 equivalent */
+    }
+}
+
+@media (min-width: 990px) {
+    .m-4 {
+        margin: 1.5rem !important; /* Bootstrap's m-4 equivalent */
+        margin-top: 10% !important;
+    }
+}
+</style>
+	<div class="m-4">
+    {% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+		<h2 class="text-center">Les Offres</h2>
+		<div class="row">
+			{%  include('etudiant/notification.html.twig') %}
+		</div>
+	</div>
+
+{% endblock %}

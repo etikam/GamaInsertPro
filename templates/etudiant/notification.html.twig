@@ -1,0 +1,47 @@
+{% for offre in offres%}
+	<div
+		class="col-lg-6">
+		<!-- Dropdown Card Example -->
+		<div
+			class="card shadow mb-4">
+			<!-- Card Header - Dropdown -->
+			<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+				<h6 class="m-0 font-weight-bold text-primary">{{offre.nomEntreprise}}</h6>
+				<div class="dropdown no-arrow">
+					<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+						<div class="dropdown-header">Actions:</div>
+						<a class="dropdown-item bg-success text-white" href="#">VOIR</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item bg-warning text-white" href="{{path('app_postule', {'id': offre.id})}}">POSTULER</a>
+					</div>
+				</div>
+			</div>
+			<!-- Card Body -->
+			<div class="card-body">
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="col-md-7">
+						<strong class="text-center">
+						</strong>
+						<p>
+							{{offre.description}}<br>
+							Domaine d'activité :
+							<strong>Telecommunication</strong>
+						</p>
+						<p>
+							Date début :
+							<strong>{{offre.dateDebut | date('D Y M')}}</strong><br>
+							Date Limite :
+							<strong>{{offre.dateLimite | date('D Y M')}}</strong>
+						</p>
+					</div class="m-2">
+					<img class=" mt-5" width="100px" src="{{asset('img/vendor-1.jpg')}}">
+					<div></div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endfor %}

@@ -9,11 +9,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[ORM\Table(name: 'User')]
-#[ORM\InheritanceType(value: 'JOINED')]
-#[ORM\DiscriminatorMap(['etudiant' => Etudiant::class])]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -38,6 +33,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    public ?Etudiant $etudiant = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Temoignage $temoignage = null;
@@ -147,6 +145,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getEtudiant(): ?Etudiant
+    {
+        return $this->etudiant;
+    }
+
+    public function setEtudiant(Etudiant $etudiant): self
+    {
+        if ($etudiant->getUser() !== $this) {
+            $etudiant->setUser($this);
+        }
+
+        $this->etudiant = $etudiant;
+
+        return $this;
+    }
+
+    
 
 
 }

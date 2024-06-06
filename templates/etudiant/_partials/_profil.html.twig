@@ -1,0 +1,229 @@
+<style>
+	.conteneur {
+		width: 60vw;
+	}
+	@media(max-width: 768px) {
+		.conteneur {
+			width: 100vw;
+			display: block;
+		}
+	}
+</style>
+{% if app.user %}
+	<div class="modal" id="profilModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel">
+		<div class="container rounded bg-white mt-2 mb-5 conteneur">
+			<div class="row">
+				<div class="col-md-3 border-right left">
+					<div class="d-flex flex-column align-items-center text-center p-3 py-5">
+						<div class="position-relative">
+							<a href="#">
+								{% if app.user.etudiant.image %}
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('uploads/images/' ~ app.user.etudiant.image)}}">
+								{% else %}
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('img/profile.jpg')}}">
+								{% endif %}
+							</a>
+						</div>
+						<span class="font-weight-bold">{{app.user.etudiant.prenom}}
+							{{app.user.etudiant.nom}}</span>
+						<span class="font-weight-bold">Matricule :
+							{{app.user.username}}</span>
+						<span class="text-black-50">{{app.user.email}}</span>
+						<span class="text-black-50">{{app.user.etudiant.adresse}}</span>
+						<span class="text-black-50"></span>
+					</div>
+					<hr>
+					<div class="mt-3 text-center"></div>
+					<a href="#" class="m-2">
+						<button class="btn btn-primary m-2 profile-button" style="width:90%" type="button">Profil</button>
+					</a>
+					<a href="#" class="m-2">
+						<button class="btn btn-primary m-2 edit-button" style="width:90%" type="button">Modifier</button>
+					</a>
+					{# <a href="#" class="m-2"> 
+																<button class="btn btn-primary m-2 experience-button" style="width:90%" type="button">Experience</button>
+															</a>
+															<a href="#" class="m-2">
+																<button class="btn btn-primary m-2 experience-edit-button" style="width:90%" type="button">Modifier Experience</button>
+															</a>
+															<hr>#}
+					<a href="#" class="mt-5">
+						<button class="btn btn-danger m-2" style="width:80%" type="button">Fermer</button>
+					</a>
+				</div>
+				<div class="col-md">
+					<div class="p-3 py-5" id="profile-section">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<h4 class="text-center">Profil</h4>
+						</div>
+						<div class="row mt-2">
+							<div class="col-md-6">
+								<label class="labels">Nom</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.nom }}" readonly>
+							</div>
+							<div class="col-md-6">
+								<label class="labels">Prénom</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.prenom }}" readonly>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-md-12">
+								<label class="labels">Situation Actuelle</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.encours ? 'Encours' : 'Sortant' }}" readonly>
+							</div>
+							<div class="col-md-12">
+								<label class="labels">Département</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.adresse }}" readonly>
+							</div>
+							<div class="col-md-12">
+								<label class="labels">Adresse</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.adresse }}" readonly>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-md-6">
+								<label class="labels">Pays de Résidence</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.paysResidence }}" readonly>
+							</div>
+							<div class="col-md-6">
+								<label class="labels">Statut</label>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.status }}" readonly>
+							</div>
+						</div>
+					</div>
+
+					<div class="p-3 py-5" id="edit-section">
+						<form method="post" action="{{ path('app_modifyProfil', {id: app.user.etudiant.id}) }}">
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<h4 class="text-center">Modifier</h4>
+							</div>
+							<div class="row mt-2">
+								<div class="col-md-6">
+									<label class="labels">Nom</label>
+									<input type="text" class="form-control" name="nom" value="{{ app.user.etudiant.nom }}" disabled>
+								</div>
+								<div class="col-md-6">
+									<label class="labels">Prénom</label>
+									<input type="text" class="form-control" name="prenom" value="{{ app.user.etudiant.prenom }}" disabled>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-md-12">
+									<label class="labels">Situation Actuelle</label>
+									<select class="form-control" name="encours">
+										<option value="1" {{ app.user.etudiant.encours ? 'selected' : '' }}>Encours</option>
+										<option value="0" {{ not app.user.etudiant.encours ? 'selected' : '' }}>Sortant</option>
+									</select>
+								</div>
+								<div class="col-md-12">
+									<label class="labels">Département</label>
+									<input type="text" class="form-control" name="adresse" value="{{ app.user.etudiant.adresse }}" disabled>
+								</div>
+								<div class="col-md-12">
+									<label class="labels">Adresse</label>
+									<input type="text" class="form-control" name="adresse" value="{{ app.user.etudiant.adresse }}">
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-md-6">
+									<label class="labels">Pays de Résidence</label>
+									<input type="text" class="form-control" name="paysResidence" value="{{ app.user.etudiant.paysResidence }}">
+								</div>
+								<div class="col-md-6">
+									<label class="labels">Statut</label>
+									<input type="text" class="form-control" name="status" value="{{ app.user.etudiant.status }}">
+								</div>
+								<div class="col-md-6">
+									<label class="labels" for="image">Image:</label>
+									<input type="file" class="form-control" id="image" name="image">
+								</div>
+
+							</div>
+							<div class="mt-5 text-center">
+								<button class="btn btn-primary profile-button" type="submit">MODIFIER</button>
+							</div>
+						</form>
+					</div>
+					<div class="p-3 py-5 d-none" id="experience-show">
+						<div class="d-flex justify-content-between align-items-center experience">
+							<span>Edit Experience</span>
+							<span class="border px-3 p-1 add-experience">
+								<i class="fa fa-plus"></i>&nbsp;Experience
+							</span>
+						</div><br>
+						<div class="col-md-12">
+							<label class="labels">Nom de l'expérience</label>
+							<input type="text" class="form-control" placeholder="experience" value="" readonly>
+						</div>
+						<br>
+						<div class="col-md-12">
+							<label class="labels">Détails de l'éxpérience</label>
+							<input type="text" class="form-control" placeholder="additional details" value="" readonly>
+						</div>
+					</div>
+					<div class="p-3 py-5 d-none" id="experience-Edit">
+						<div class="d-flex justify-content-between align-items-center experience">
+							<span>Edit Experience</span>
+							<span class="border px-3 p-1 add-experience">
+								<i class="fa fa-plus"></i>&nbsp;Experience
+							</span>
+						</div><br>
+						<div class="col-md-12">
+							<label class="labels">Nom de l'expérience</label>
+							<input type="text" class="form-control" placeholder="experience" value="">
+						</div>
+						<br>
+						<div class="col-md-12">
+							<label class="labels">Détails de l'éxpérience</label>
+							<input type="text" class="form-control" placeholder="additional details" value="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const profileButton = document.querySelector('.profile-button');
+    const editButton = document.querySelector('.edit-button');
+    const experienceButton = document.querySelector('.experience-button');
+    const experienceEditButton = document.querySelector('.experience-edit-button');
+
+    const profileSection = document.getElementById('profile-section');
+    const editSection = document.getElementById('edit-section');
+    const experienceEditSection = document.getElementById('experience-edit');
+    const experienceSection = document.getElementById('experience-show');
+
+    profileButton.addEventListener('click', function () {
+        profileSection.classList.remove('d-none');
+        editSection.classList.add('d-none');
+        experienceSection.classList.add('d-none');
+        experienceEditSection.classList.add('d-none');
+    });
+
+    editButton.addEventListener('click', function () {
+        profileSection.classList.add('d-none');
+        editSection.classList.remove('d-none');
+        experienceSection.classList.add('d-none');
+        experienceEditSection.classList.add('d-none');
+    });
+
+    experienceButton.addEventListener('click', function () {
+        profileSection.classList.add('d-none');
+        editSection.classList.add('d-none');
+        experienceSection.classList.remove('d-none');
+        experienceEditSection.classList.add('d-none');
+    });
+
+    experienceEditButton.addEventListener('click', function () {
+        profileSection.classList.add('d-none');
+        editSection.classList.add('d-none');
+        experienceSection.classList.add('d-none');
+        experienceEditSection.classList.remove('d-none');
+    });
+});
+
+</script>

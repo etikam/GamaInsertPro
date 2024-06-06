@@ -45,4 +45,21 @@ class OffreRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    //Recuperation des trois elements elements recents des l'offre
+    public function findThreeMostRecent(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.dateCreate', 'DESC') // Assuming 'createdAt' is your timestamp field
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+    //Trier de plus recent à l'acient
+    public function findMostRecent(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->orderBy('o.dateCreate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

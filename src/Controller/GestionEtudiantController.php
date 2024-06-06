@@ -10,13 +10,13 @@ use App\Repository\EtudiantRepository;
 #[Route("/etudiant")]
 class GestionEtudiantController extends AbstractController
 {
-    #[Route('/', name: 'app_gestion_etudiant')]
+    #[Route('/index', name: 'app_gestion_etudiant')]
     public function index(EtudiantRepository $etudiantRepository): Response
     {
-        return $this->render('gestion_etudiant/index.html.twig', [
-            'controller_name' => 'GestionEtudiantController',
+        $context = [
             'etudiants' => $etudiantRepository->findAll(),
-        ]);
+        ];
+        return $this->render('gestion_etudiant/index.html.twig', $context);
     }
 
     #[Route("/profil", name: "app_add_etudiant")]

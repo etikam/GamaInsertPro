@@ -76,6 +76,9 @@ class Entreprise
     #[ORM\Column(length: 50)]
     private ?string $niveauRecherche = null;
 
+    #[ORM\Column]
+    private ?bool $statut = null;
+
     public function __construct()
     {
         $this->fk_type_offre = new ArrayCollection();
@@ -329,6 +332,18 @@ class Entreprise
     public function setNiveauRecherche(string $niveauRecherche): static
     {
         $this->niveauRecherche = $niveauRecherche;
+
+        return $this;
+    }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(bool $statut): static
+    {
+        $this->statut = $statut;
 
         return $this;
     }

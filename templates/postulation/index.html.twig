@@ -1,30 +1,49 @@
+{# templates/postulation/index.html.twig #}
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Administration!
+{% block title %}Administration
 {% endblock %}
 
 {% block content %}
+	{% for label, messages in app.flashes %}
+		<div class="alert alert-{{ label }}">
+			{% for message in messages %}
+				<p>{{ message }}</p>
+			{% endfor %}
+		</div>
+	{% endfor %}
 	<h2 class="text-center">GESTION DES POSTULANTS</h2>
-	{# <div class="d-flex justify-content-end mb-1">
-	    <button type="button" class="btn btn-success pl-4 pr-4">Ajouter</button>
-	  </div> #}
-	{% if postulations %}
+
+	{% if postulants is not empty %}
 		<table class="table table-bordered">
 			<thead>
 				<tr>
 					<th scope="col">N°</th>
 					<th scope="col">Matricule</th>
-					<th scope="col">Nom et Prenom</th>
-					<th scope="col">Faculte</th>
-					<th scope="col">Département</th>
-					<th scope="col">Type de l'Offre
-					</th>
+					<th scope="col">Nom et Prénom</th>
+					<th scope="col">Type de l'Offre</th>
 					<th scope="col">Nom de l'Entreprise</th>
-					<th scope="col">actions</th>
+					<th scope="col">Actions</th>
 				</tr>
 			</thead>
-			<tbody></tbody>
+			<tbody>
+				{% for postulant in postulants %}
+							<tr>
+								<td>{{ postulant.id }}</td>
+								<td>{{ postulant.etudiant.user.username }}</td>
+								<td>{{ postulant.etudiant.nom }}
+									{{ postulant.etudiant.prenom }}</td>
+								<td>{{ postulant.offre.nomOffre }}</td>
+								<td>{{ postulant.offre.nomEntreprise }}</td>
+								<td>
+									<a href="#" class="btn btn-primary">Voir</a>
+									<a href="#" class="btn btn-danger">Supprimer</a>
+								</td>
+							</tr>
+				{% endfor %}
+			</tbody>
 		</table>
+	{% else %}
+		<p>Aucune postulation trouvée.</p>
 	{% endif %}
-
 {% endblock %}

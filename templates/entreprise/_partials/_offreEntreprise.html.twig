@@ -1,0 +1,53 @@
+{% for offre in offre_entreprises %}
+			<div
+				class="col-lg-6">
+				<!-- Dropdown Card Example -->
+				<div
+					class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+
+						{% if offre.statut %}
+							<h6 class="m-0 font-weight-bold text-success">Publié</h6>
+							{% else %}
+							<h6 class="m-0 font-weight-bold text-danger">Non Publié</h6>
+						{% endif %}
+					<h6 class="m-0 font-weight-bold text-primary">{{offre.nomEntreprise}}</h6>
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Actions:</div>
+								<a class="dropdown-item bg-success text-white" href="{{path('app_showEntreprise', {'id': offre.id})}}">Voir</a>
+								<a class="dropdown-item bg-info text-white" href="{{path('app_publier', {'id': offre.id})}}">Publier</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item bg-warning text-white" href="#">Autre</a>
+								<a class="dropdown-item bg-danger text-white" href="#">Supprimer</a>
+							</div>
+						</div>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div>
+							<strong class="text-center">
+								{% for offres in offre.fkTypeOffre %}
+									{{ offres.nom }}<br>
+								{% endfor %}
+							</strong>
+							<p>
+								{{ offre.description }}<br>
+								Domaine d'activité :
+								<strong>{{offre.domaine}}</strong>
+							</p>
+							<p>
+								Date début :
+								<strong>{{offre.dateCreation|date('d F Y') }}</strong><br>
+								Date Limite :
+								<strong>{{offre.dateLimite|date('d F Y') }}</strong>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}

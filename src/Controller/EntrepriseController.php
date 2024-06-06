@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Entreprise;
+use App\Entity\Offre;
 use App\Repository\EntrepriseRepository;
+use App\Repository\OffreRepository;
 use App\Repository\TypeOffreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,8 +27,8 @@ class EntrepriseController extends AbstractController
     public function put(Request $request, EntityManagerInterface $entityManager, TypeOffreRepository $typeOffreRepository): Response
     {
         $typeOffres = $typeOffreRepository->findAll();
-
-        if ($request->isMethod('POST')) {
+        try {
+            if ($request->isMethod('POST')) {
             // Récupérez les données du formulaire
             $entreprise = new Entreprise();
             $nom = $request->request->get('nom');
@@ -89,14 +91,26 @@ class EntrepriseController extends AbstractController
             $entreprise->setNiveauRecherche($niveau);
             $entreprise->setDomaineRecherche($domainRecherche);
             $entreprise->setDateEnvoi($dateEnvoi);
+            $entreprise->setStatut(false);
 
 
             // Persist the entity to the database
             $entityManager->persist($entreprise);
             $entityManager->flush();
-
-            return $this->redirectToRoute('app_accueil');
+            $this->addFlash(
+               'success',
+               'Votre offre à été soumis avec succès ! '
+            );
+            return $this->redirectToRoute('app_entreprise');
         }
+        } catch (\Exception $e) {
+            $this->addFlash(
+               'danger',
+               'Votre formulaire n\'a pas été soumise !'
+            );
+            return $this->redirectToRoute('app_entreprise');
+        }
+
 
         return $this->render('entreprise/soumettre.html.twig', [
             'typeOffres' => $typeOffres,
@@ -104,10 +118,14 @@ class EntrepriseController extends AbstractController
     }
 
     #[Route('/offre', name: 'app_offreEntreprise')]
-    public function index2( EntrepriseRepository $entrepriseRepository): Response
+    public function index2( EntrepriseRepository $entrepriseRepository, TypeOffreRepository $typeOffreRepository, OffreRepository $offreRepository): Response
     {
         $offreEntreprise = $entrepriseRepository->findAll();
-        $context = ['offre_entreprises'=> $offreEntreprise];
+        $offrePublie = $offreRepository->findAll();
+        $context = ['offre_entreprises'=> $offreEntreprise,
+        'offre_publies'=> $offrePublie,
+        'typeOffres' => $typeOffreRepository->findAll(),
+    ];
 
         return $this->render('entreprise/gestion_offre.html.twig', $context);
     }
@@ -119,4 +137,48 @@ class EntrepriseController extends AbstractController
 
         return $this->render('entreprise/show.html.twig', $context);
     }
+    #[Route('/publier/{id}', name: 'app_publier')]
+    public function postule(Entreprise $offreEntreprise, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        try {
+            // Vérifiez si le statut de l'offre est déjà publié
+        if ($offreEntreprise->isStatut() === true) {
+            $this->addFlash('warning', 'Cette offre a déjà été publiée.');
+            return $this->redirectToRoute('app_offreEntreprise');
+        }
+            $toffre = $offreEntreprise->getFkTypeOffre();
+
+            $offre = new Offre();
+            $offre->setNomEntreprise($offreEntreprise->getNomEntreprise());
+            $offre->setDescription($offreEntreprise->getDescription());
+            $offre->setEmail($offreEntreprise->getEmail());
+            $offre->setTelephone($offreEntreprise->getTelephone());
+            $offre->setDateDebut($offreEntreprise->getDateCreation());
+            $offre->setDateLimite($offreEntreprise->getDateLimite());
+
+            // Si vous avez une seule relation avec un type d'offre, vous pouvez l'ajouter directement
+            if ($toffre !== null && !$toffre->isEmpty()) {
+                $offre->setFkTypeOffre($toffre->first());
+            }
+    $offre->setNomOffre($toffre->first()->getNom());
+            $offre->setImage(""); 
+            $offre->setDateCreate(new \DateTime('now')); 
+            $offreEntreprise->setStatut(true);
+
+
+            // Enregistrement de l'offre dans la base de données
+            $entityManager->persist($offre);
+            $entityManager->flush();
+
+            // Message flash pour indiquer que l'opération s'est bien déroulée
+            $this->addFlash('success', 'Offre ajoutée avec succès.');
+        } catch (\Exception $e) {
+            // En cas d'erreur, ajoutez un message flash d'erreur
+            $this->addFlash('error', 'Une erreur est survenue lors de l\'ajout de l\'offre.');
+        }
+
+        // Redirection vers une page appropriée
+        return $this->redirectToRoute('app_offreEntreprise');
+    }
+
 }

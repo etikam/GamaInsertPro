@@ -1,0 +1,60 @@
+<div class="modal fade" id="publieOffreModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="notificationModalLabel">Formulaire d'Offre</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ path('app_offre_new') }}" method="post">
+                    <div class="form-group">
+                        <label for="nomEntreprise">Nom de l'entreprise</label>
+                        <input type="text" class="form-control" id="nomEntreprise" name="nomEntreprise" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nomOffre">Nom de l'offre</label>
+                        <input type="text" class="form-control" id="nomOffre" name="nomOffre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="typeOffre">Type d'offre</label>
+                        <select class="form-control" id="typeOffre" name="typeOffre" required>
+                            <option value="">Sélectionner le type d'offre</option>
+                            {% for toffre in typeOffres %}
+                            <option value="{{toffre.id}}">{{toffre.nom}}</option>
+                            {% endfor %}
+                            <!-- Ajoutez ici d'autres options -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email de contact</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Téléphone de contact</label>
+                        <input type="text" class="form-control" id="telephone" name="telephone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateDebut">Date de début</label>
+                        <input type="date" class="form-control" id="dateDebut" name="dateDebut" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateLimite">Date limite</label>
+                        <input type="date" class="form-control" id="dateLimite" name="dateLimite" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">URL de l'image</label>
+                        <input type="url" class="form-control" id="image" name="image">
+                    </div>
+                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
