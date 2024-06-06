@@ -7,9 +7,10 @@
   {# <div class="d-flex justify-content-end mb-1">
     <button type="button" class="btn btn-success pl-4 pr-4">Ajouter</button>
   </div> #}
-  <table class="table table-bordered">
-    <thead>
-      <tr>
+ <div class="table-responsive">
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr style="text-align: center">
         <th scope="col">N°</th>
         <th scope="col">Matricule</th>
         <th scope="col">Nom et Prénoms</th>
@@ -24,7 +25,7 @@
     </thead>
     <tbody>
     {% for etudiant in etudiants %}
-      <tr>
+      <tr style="text-align: center; color: black">
         <td>{{loop.index}}</td>
         <td>{{etudiant.username}}</td>
         <td>{{etudiant.nom}} {{etudiant.prenom}}</td>
@@ -46,4 +47,5 @@
     {% endfor %}
     </tbody>
 </table>
+</div>
 {% endblock %}

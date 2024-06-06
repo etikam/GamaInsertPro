@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.2;
+        }
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 6px;
+            text-align: center;
+            font-size: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+{% if stat == "employé" or stat == "entrepreneur" %}
+    <h2 class="text-center">Liste des étudiants {{ stat }}s {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+{% elseif stat == "stage" or  stat == "formation" %}
+    <h2 class="text-center">Liste des étudiants en {{ stat }} {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+{% else %}
+    <h2 class="text-center">Liste des étudiants à la recherche d'un emploi {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+{% endif %}
+<table>
+    <thead>
+    <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>Genre</th>
+        <th>Département</th>
+        <th>Date de naissance</th>
+        <th>Adresse</th>
+        <th>Email</th>
+        <th>Pays de résidence</th>
+        <th>Handicape</th>
+        {% if status == 'employé' %}
+            <th>Poste</th>
+        {% elseif status == 'entrepreneur' %}
+            <th>Secteur d'activité</th>
+        {% elseif status == 'formation' %}
+            <th>Intitulé de la formation</th>
+        {% elseif status == 'stage' %}
+            <th>Domaine du stage</th>
+        {% elseif status == 'chômeur' %}
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for etudiant in etudiants %}
+        <tr>
+            <td>{{ etudiant.prenom }}</td>
+            <td>{{ etudiant.nom }}</td>
+            <td>{{ etudiant.genre }}</td>
+            <td>{{ etudiant.departement.nom }}</td>
+            <td>{{ etudiant.dateNaissance|date('d/m/Y') }}</td>
+            <td>{{ etudiant.adresse }}</td>
+            <td>{{ etudiant.email }}</td>
+            <td>{{ etudiant.paysResidence }}</td>
+            <td>{{ etudiant.handicape ? 'Oui' : 'Non' }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

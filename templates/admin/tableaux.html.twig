@@ -4,8 +4,10 @@
 
 {% block content %}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm ml-auto"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Générer le Rapport</a>
+        <a href="{{ path('app_tableau', {search: search, status: status, year: year, departement: departementId, handicape: handicape,
+            genre: genre, age_range: plageAge, en_voyage: etatVoyage, word: true}) }}" class="btn btn-sm btn-primary shadow-sm ml-auto" {#style="background-color: tomato"#}>
+            <i class="fas fa-download fa-sm text-white-50"></i> Générer le Rapport
+        </a>
     </div>
     <div class="row">
         <form method="get" action="{{ path('app_tableau', { 'status': status, 'year': year }) }}">
@@ -68,16 +70,26 @@
             </div>
         </form>
     </div>
+{#<div class="card">#}
     {% if etudiants is empty %}
         <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun résultat trouvé!</p>
     {% else %}
-    <h2 class="text-center">Liste des étudiants {{ stat }}s</h2>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
+        {% if etudiants is empty %}
+            <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun résultat trouvé!</p>
+        {% else %}
+        {% if stat == "employé" or stat == "entrepreneur" %}
+            <h2 class="text-center">Liste des étudiants {{ stat }}s {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% elseif stat == "stage" or  stat == "formation" %}
+            <h2 class="text-center">Liste des étudiants en {{ stat }} {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% else %}
+            <h2 class="text-center">Liste des étudiants à la recherche d'un emploi {% if year %} au cours de l'année {{ year }} {% endif %}</h2>
+        {% endif %}
+<div class="table-responsive table-striped">
+    <table class="table" id="tableToExport">
+        <thead class="table-dark">
+        <tr style="text-align: center">
             {#<th scope="col">Matricule</th>#}
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
+            <th scope="col">Prénom et nom</th>
             <th scope="col">Genre</th>
             <th scope="col">Département</th>
             <th scope="col">Date de naissance</th>
@@ -100,10 +112,9 @@
         </thead>
         <tbody>
         {% for etudiant in etudiants %}
-            <tr>
+            <tr style="text-align: center; color: black;">
                 {#<td>{{ etudiant.matricule }}</td>#}
-                <td>{{ etudiant.prenom }}</td>
-                <td>{{ etudiant.nom }}</td>
+                <td>{{ etudiant.prenom }} {{ etudiant.nom }}</td>
                 <td>{{ etudiant.genre }}</td>
                 <td>{{ etudiant.departement.nom }}</td>
                 <td>{{ etudiant.dateNaissance|date('d/m/Y') }}</td>
@@ -116,5 +127,9 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
     {% endif %}
+    {% endif %}
+{#</div>#}
 {% endblock %}
+

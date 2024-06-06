@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Etudiant;
+/*use Dompdf\Dompdf;
+use Dompdf\Options;*/
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
 
 
 class AdminController extends AbstractController
@@ -166,6 +170,7 @@ class AdminController extends AbstractController
         $genre = $request->query->getString('genre');
         $plageAge = $request->query->getString('age_range');
         $lieu = $request->query->getString('en_voyage');
+        $word = $request->query->getBoolean('word', false);
 
 
         // Si le departementId est 0, le transformer en null pour la recherche
@@ -174,6 +179,29 @@ class AdminController extends AbstractController
         $etudiants = $repo->searchEtudiants($search, $status, $year, $departementId, $handicap, $genre, $plageAge, $lieu);
 
         $departements = $em->getRepository(Departement::class)->findAll();
+
+        if ($word) {
+            // Génération du contenu HTML du document Word
+            $html = $this->renderView('admin/tableau_pdf.html.twig', [
+                'controller_name' => 'AdminController',
+                'etudiants' => $etudiants,
+                'status' => $status,
+                'stat' => strtolower($status),
+                'year' => $year,
+                'search' => $search,
+                'depart' => $departements,
+                'departementId' => $departementId,
+                'handicape' => $handicape,
+                'genre' => $genre,
+                'plageAge' => $plageAge,
+                'etatVoyage' => $lieu
+            ]);
+
+            return new Response($html, 200, [
+                'Content-Type' => 'application/vnd.ms-word',
+                'Content-Disposition' => 'attachment; filename="rapport.doc"'
+            ]);
+        }
 
         return $this->render('admin/tableaux.html.twig', [
             'controller_name' => 'AdminController',
