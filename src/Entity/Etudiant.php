@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Integer;
 
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant
@@ -27,6 +28,20 @@ class Etudiant
 
     #[ORM\Column]
     private ?bool $handicape = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $annee = null;
+
+    public function getAnnee(): ?int
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(int $annee): static
+    {
+        $this->annee = $annee;
+        return $this;
+    }
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateNaissance = null;
@@ -65,6 +80,7 @@ class Etudiant
     public function __construct()
     {
         $this->postulations = new ArrayCollection();
+        $this->annee = 0;
     }
 
 

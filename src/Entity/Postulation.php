@@ -17,11 +17,32 @@ class Postulation
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datePostulation = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     private ?Offre $offre = null;
 
     #[ORM\ManyToOne(inversedBy: 'postulations')]
     private ?Etudiant $etudiant = null;
+    #[ORM\Column]
+    private ?bool $etat = null;
+
+    /**
+     * @param bool|null $etat
+     */
+    public function __construct()
+    {
+        $this->etat = false;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?bool $etat): self
+    {
+        $this->etat = $etat;
+        return $this;
+    }
 
     public function getId(): ?int
     {

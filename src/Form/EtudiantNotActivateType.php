@@ -23,6 +23,7 @@ class EtudiantNotActivateType extends AbstractType
             ->add('adresse')
             ->add('encours')
             ->add('niveau')
+            ->add('annee')
             ->add('matricule')
         ;
     }

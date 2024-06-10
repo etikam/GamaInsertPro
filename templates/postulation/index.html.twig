@@ -14,13 +14,47 @@
 	{% endfor %}
 	<h2 class="text-center">GESTION DES POSTULANTS</h2>
 
+<div class="row">
+	<form method="get" action="{{ path('app_postulation') }}">
+		<div class="d-flex flex-wrap align-items-end">
+		<div class="form-group col-md-2">
+			<label for="offre">Filtrer par type d'offre</label>
+			<select name="offre" class="form-control" id="offre">
+				<option value="">Toutes les offres</option>
+				{% for typeOffre in offre %}
+					<option value="{{ typeOffre.nom }}" {% if typeOffre.id == offre %}selected{% endif %}>{{ typeOffre.nom }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="form-group col-md-2">
+			<label for="entreprise">Filtrer par entreprise</label>
+			<select name="entreprise" class="form-control" id="entreprise">
+				<option value="">Toutes les entreprises</option>
+				{% for entreprise in entreprises %}
+					<option value="{{ entreprise.nomEntreprise }}" {#{% if entreprise.nomEntreprise == entreprise %}selected{% endif %}#}>{{ entreprise.nomEntreprise }}</option>
+				{% endfor %}
+			</select>
+		</div>
+
+		<div class="form-group col-md-1">
+			<button class="btn btn-primary" type="submit">
+				<i class="fas fa-search fa-sm"></i>
+			</button>
+		</div>
+		</div>
+	</form>
+</div>
+
 	{% if postulants is not empty %}
 		<table class="table table-bordered">
 			<thead>
-				<tr>
+				<tr style="text-align: center;">
 					<th scope="col">N°</th>
 					<th scope="col">Matricule</th>
 					<th scope="col">Nom et Prénom</th>
+					<th scope="col">Email</th>
+					<th scope="col">Adress</th>
 					<th scope="col">Type de l'Offre</th>
 					<th scope="col">Nom de l'Entreprise</th>
 					<th scope="col">Actions</th>
@@ -28,22 +62,137 @@
 			</thead>
 			<tbody>
 				{% for postulant in postulants %}
-							<tr>
+							<tr style="text-align: center;">
 								<td>{{ postulant.id }}</td>
 								<td>{{ postulant.etudiant.user.username }}</td>
 								<td>{{ postulant.etudiant.nom }}
 									{{ postulant.etudiant.prenom }}</td>
+								<td>{{ postulant.etudiant.user.email }}</td>
+								<td>{{ postulant.etudiant.adresse }}</td>
 								<td>{{ postulant.offre.nomOffre }}</td>
 								<td>{{ postulant.offre.nomEntreprise }}</td>
 								<td>
-									<a href="#" class="btn btn-primary">Voir</a>
-									<a href="#" class="btn btn-danger">Supprimer</a>
+									<button class="btn btn-info" title="Voir le profil" data-toggle="modal" data-target="#voirProfilModal" data-id="{{ postulant.id }}">
+										<i class="fas fa-eye"></i>
+									</button>
+									<button class="btn btn-success retain-btn" title="Retenir" data-id="{{ postulant.id }}">
+										<i class="fas fa-check"></i>
+									</button>
 								</td>
 							</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+		{% for postulant in postulants %}
+			{% if postulant.etudiant is not null %}
+		<div class="modal" id="voirProfilModal_{{ postulant.id }}" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel">
+			<div class="container rounded bg-white mt-2 mb-5 conteneur">
+				<h2 class="text-center">Profil</h2>
+			<div class="row">
+				<div class="col-md-3 border-right left">
+					<div class="d-flex flex-column align-items-center text-center p-3 py-5">
+						<div class="position-relative">
+							<a href="#">
+								{% if postulant.etudiant.image %}
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('uploads/images/' ~ postulant.etudiant.image)}}">
+								{% else %}
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('img/profile.jpg')}}">
+								{% endif %}
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-9">
+				<div class="p-3 py-5" id="profile-section">
+					<div class="row mt-2">
+						<div class="col-md-12">
+							<label class="labels">Prénom et nom</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.prenom }} {{ postulant.etudiant.nom }}" readonly>
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-md-6">
+							<label class="labels">Département</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.departement.nom }}" readonly>
+						</div>
+						<div class="col-md-6">
+							<label class="labels">Matricule</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.user.username }}" readonly>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col-md-6">
+							<label class="labels">Pays de Résidence</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.paysResidence }}" readonly>
+						</div>
+						<div class="col-md-6">
+							<label class="labels">Adresse</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.adresse }}" readonly>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-6">
+							<label class="labels">Situation Actuelle</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.encours ? 'Encours' : 'Diplômé' }}" readonly>
+						</div>
+
+						<div class="col-md-6">
+							<label class="labels">Statut</label>
+							<input type="text" class="form-control" value="{{ postulant.etudiant.status }}" readonly>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+		</div>
+			{% endif %}
+		{% endfor %}
 	{% else %}
-		<p>Aucune postulation trouvée.</p>
+		<p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucune postulation trouvée.</p>
 	{% endif %}
+{#{% endblock %}#}
+	<script>
+		document.querySelectorAll('.retain-btn').forEach(btn => {
+			btn.addEventListener('click', function() {
+				const postulationId = this.getAttribute('data-id');
+				fetch(`/postulation/retain/${postulationId}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-Requested-With': 'XMLHttpRequest'
+					}
+				})
+						.then(response => {
+							if (!response.ok) {
+								throw new Error('La requête n\'a pas abouti.');
+							}
+							return response.json();
+						})
+						.then(data => {
+							if (data.status === 'success') {
+								// Mettre à jour l'état du bouton ou effectuer d'autres actions nécessaires
+								console.log(data.message);
+								// Par exemple, désactiver le bouton après avoir retenu la postulation
+								btn.disabled = true;
+							} else {
+								console.error('Une erreur est survenue:', data.message);
+							}
+						})
+						.catch(error => {
+							console.error('Erreur:', error.message);
+						});
+			});
+		});
+
+		document.querySelectorAll('.btn-info').forEach(btn => {
+			btn.addEventListener('click', function() {
+				const postulantId = this.getAttribute('data-id');
+				const modalId = `#voirProfilModal_${postulantId}`;
+				$(modalId).modal('show');
+			});
+		});
+	</script>
+
 {% endblock %}

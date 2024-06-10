@@ -1,14 +1,13 @@
 <div class="row">
-    <div class="col d-flex flex-wrap justify-content-lg-around">
+    <div class="col d-flex flex-wrap justify-content-around">
         <!-- La partie qui display le nombre total d'étudiant-->
-        <div class="mb-4">
+        <div class="mb-2">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total </div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ handicapedPersons }}</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ nombreTotalStudent }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-door-open fa-2x text-gray-300"></i>
@@ -19,17 +18,16 @@
         </div>
 
         <!-- La partie qui display le nombre d'étudiants sortants-->
-        <div class="mb-4">
+        <div class="mb-2">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Sortant</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">400</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Sortant</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-door-open fa-2x text-gray-300"></i>
+                            <i class="fas fa-graduation-cap fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -37,13 +35,12 @@
         </div>
 
         <!-- La partie qui display le nombre de personnes handicapées-->
-        <div class="mb-4">
+        <div class="mb-2">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Handicape</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Handicape</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ handicapedPersons }}</div>
                         </div>
                         <div class="col-auto">
@@ -55,22 +52,32 @@
         </div>
 
         <!-- La partie qui display le nombre de femmes-->
-        <div class="mb-4">
+        <div class="mb-2">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Femmes
-                            </div>
-                            <div class="row no-gutters align-items-center">
-                                <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ nombreDeFemmes }}</div>
-                                </div>
-                                <div class="col">
-                                    <div class="progress progress-sm mr-2">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{ nombreDeFemmes }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">En cours</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ enCours }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-book-reader fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- La partie qui display le nombre de femmes-->
+        <div class="mb-2">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Femmes</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ nombreDeFemmes }}</div>
+                            <div class="progress progress-sm mr-2">
+                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="{{ nombreDeFemmes }}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -82,7 +89,7 @@
         </div>
 
         <!-- La partie qui display le nombre d'étudiants en formation-->
-        <div class="mb-4">
+        <div class="mb-2">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">

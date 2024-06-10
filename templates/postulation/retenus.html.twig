@@ -1,0 +1,125 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Liste des postulants retenus{% endblock %}
+
+
+
+{% block content %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ path('postulant_retained', {word: true, selectedEntreprise: selectedEntreprise, offre_min: offre_min, departement: departement}) }}" class="btn btn-sm btn-primary shadow-sm ml-auto" {#style="background-color: tomato"#}>
+            <i class="fas fa-download fa-sm text-white-50"></i> Générer le Rapport
+        </a>
+    </div>
+    <div class="row">
+        <form method="get" action="{{ path('postulant_retained') }}">
+            <div class="d-flex flex-wrap align-items-end">
+                <div class="form-group col-md-2">
+                    <label for="offre">Filtrer par type d'offre</label>
+                    <select name="offre" class="form-control" id="offre">
+                        <option value="">Toutes les offres</option>
+                        {% for typeOffre in offre %}
+                            <option value="{{ typeOffre.nom }}" {% if typeOffre.id == offre %}selected{% endif %}>{{ typeOffre.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="entreprise">Filtrer par entreprise</label>
+                    <select name="entreprise" class="form-control" id="entreprise">
+                        <option value="">Toutes les entreprises</option>
+                        {% for entreprise in entreprises %}
+                            <option value="{{ entreprise.nomEntreprise }}" {#{% if entreprise.nomEntreprise == entreprise %}selected{% endif %}#}>{{ entreprise.nomEntreprise }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="departement">Filtrer par departement</label>
+                    <select name="departement" class="form-control" id="departement">
+                        <option value="">Tous les départements</option>
+                        {% for departement in depart %}
+                            <option value="{{ departement.nom }}" {#{% if entreprise.nomEntreprise == entreprise %}selected{% endif %}#}>{{ departement.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-md-1">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% if retenus is not empty %}
+        {% if offre_min == 'stage' %}
+            <h2 class="text-center">Liste des postulants {% if departement %} du département {{ departement}} {% endif  %} retenus pour le {{ offre_min }} {% if selectedEntreprise %} de l'entreprise {{ selectedEntreprise }} {% endif %}</h2>
+        {% elseif offre_min == 'formation' %}
+            <h2 class="text-center">Liste des postulants {% if departement %} du département {{ departement}} {% endif  %} retenus pour la {{ offre_min }} {% if selectedEntreprise %} de l'entreprise {{ selectedEntreprise }} {% endif %}</h2>
+        {% elseif offre_min == 'emploi' %}
+            <h2 class="text-center">Liste des postulants {% if departement %}  du département {{ departement}} {% endif  %} retenus pour l'{{ offre_min }} {% if selectedEntreprise %} de l'entreprise {{ selectedEntreprise }} {% endif %}</h2>
+        {% else %}
+            <h2 class="text-center">Liste des postulants {% if departement %}  du département {{ departement}} {% endif  %} retenus {% if selectedEntreprise %} pour l'offre de l'entreprise {{ selectedEntreprise }} {% endif %}</h2>
+        {% endif %}
+    <table class="table table-bordered">
+        <thead>
+        <tr style="text-align: center;">
+            <th scope="col">N°</th>
+            <th scope="col">Matricule</th>
+            <th scope="col">Nom et Prénom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Adress</th>
+            <th scope="col">Type de l'Offre</th>
+            <th scope="col">Nom de l'Entreprise</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for postulant in retenus %}
+            <tr style="text-align: center;">
+                <td>{{ postulant.id }}</td>
+                <td>{{ postulant.etudiant.user.username }}</td>
+                <td>{{ postulant.etudiant.nom }}
+                    {{ postulant.etudiant.prenom }}</td>
+                <td>{{ postulant.etudiant.user.email }}</td>
+                <td>{{ postulant.etudiant.adresse }}</td>
+                <td>{{ postulant.offre.nomOffre }}</td>
+                <td>{{ postulant.offre.nomEntreprise }}</td>
+                <td>
+                    <button class="btn btn-secondary send-email" data-student-email="{{ postulant.etudiant.user.email }}" title="Envoyer un message">
+                        <i class="fas fa-envelope"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="text-center" style="font-size: xxx-large; font-weight: bolder">Aucun postulant retenu pour l'instant!</p>
+    {% endif %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.send-email').click(function() {
+                var studentEmail = $(this).data('student-email');
+                console.log('Email to send:', studentEmail); // Log pour vérifier l'email
+
+                $.ajax({
+                    url: '/send-email', // Remplacez cette URL par celle de votre endpoint
+                    method: 'POST',
+                    data: {
+                        email: studentEmail
+                    },
+                    success: function(response) {
+                        // Gestion de la réponse en cas de succès
+                        alert('Email envoyé avec succès à ' + studentEmail);
+                    },
+                    error: function(xhr, status, error) {
+                        // Gestion de la réponse en cas d'erreur
+                        alert('Échec de l\'envoi de l\'email : ' + error);
+                    }
+                });
+            }});
+        });
+    </script>
+{% endblock %}

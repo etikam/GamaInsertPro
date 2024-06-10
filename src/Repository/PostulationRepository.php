@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Postulation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -45,4 +46,34 @@ class PostulationRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function retained(?string $entrepriseNom = null, ?string $tpOffre = null, ?string $depart = null): array
+    {
+        $qb = $this->createQueryBuilder('p') // Utilisation de l'alias 'p' pour Postulation
+        ->leftJoin('p.offre', 'o') // Jointure avec Offre
+        ->leftJoin('p.etudiant', 'et') // Jointure avec Etudiant
+        ->leftJoin('et.departement', 'd') // Jointure avec Departement
+
+        ->where('p.etat = :etat') // Condition sur l'état
+        ->setParameter('etat', true);
+
+        if ($entrepriseNom) {
+            $qb->andWhere('o.nomEntreprise = :entrepriseNom') // Filtre par nom de l'entreprise
+            ->setParameter('entrepriseNom', $entrepriseNom);
+        }
+
+        if ($tpOffre) {
+            $qb->andWhere('o.nomOffre = :tpOffre') // Filtre par nom de l'offre
+            ->setParameter('tpOffre', $tpOffre);
+        }
+
+        if ($depart) {
+            $qb->andWhere('d.nom = :depart') // Filtre par nom du département
+            ->setParameter('depart', $depart);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
 }

@@ -26,6 +26,7 @@ class AdminController extends AbstractController
         $etudiantsEnVoyage = $this->countTravelerStudent($em);
         $compteurDeStatus = $this->countStatus($em);
         $compteurTotalStudent = $this->countStudent($em);
+        $enCours = $this->compteurEtudiantEnCours($em);
         $offre_entreprise = $entrepriseRepository->findAll();
 
         $context = [
@@ -34,7 +35,8 @@ class AdminController extends AbstractController
             'etudiantsEnVoyage' => $etudiantsEnVoyage,
             'statusDesEtudiants' => $compteurDeStatus,
             'nombreTotalStudent' => $compteurTotalStudent,
-            'message_entreprise' => $offre_entreprise
+            'message_entreprise' => $offre_entreprise,
+            'enCours' => $enCours
         ];
 
         return $this->render('admin/index.html.twig', $context);
@@ -47,6 +49,22 @@ class AdminController extends AbstractController
             ->select('COUNT(e.id)')
             ->where('e.genre = :genre')
             ->setParameter('genre', 'Feminin');
+
+        if ($year !== null) {
+            $query->andWhere('e.annee = :year')
+                ->setParameter('year', $year);
+        }
+
+        return (int) $query->getQuery()->getSingleScalarResult();
+    }
+
+    private function compteurEtudiantEnCours(EntityManagerInterface $em, $year = null): int
+    {
+        $repo = $em->getRepository(Etudiant::class);
+        $query = $repo->createQueryBuilder('e')
+            ->select('COUNT(e.id)')
+            ->where('e.encours = :encours')
+            ->setParameter('encours', true);
 
         if ($year !== null) {
             $query->andWhere('e.annee = :year')
@@ -76,7 +94,7 @@ class AdminController extends AbstractController
         $query = $repo->createQueryBuilder('e')
             ->select('COUNT(e.id)')
             ->where('e.handicape = :handicape')
-            ->setParameter('handicape', "Oui");
+            ->setParameter('handicape', true);
 
         if ($year !== null) {
             $query->andWhere('e.annee = :year')
@@ -171,6 +189,15 @@ class AdminController extends AbstractController
             $handicap = null;
         }
 
+        $encours = $request->query->get('situation');
+        if ($encours === '1') {
+            $enCours = true;
+        } elseif ($encours === '0') {
+            $enCours = false;
+        } else {
+            $enCours = null;
+        }
+
         $genre = $request->query->getString('genre');
         $plageAge = $request->query->getString('age_range');
         $lieu = $request->query->getString('en_voyage');
@@ -180,7 +207,7 @@ class AdminController extends AbstractController
         // Si le departementId est 0, le transformer en null pour la recherche
         $departementId = $departementId === 0 ? null : $departementId;
 
-        $etudiants = $repo->searchEtudiants($search, $status, $year, $departementId, $handicap, $genre, $plageAge, $lieu);
+        $etudiants = $repo->searchEtudiants($search, $status, $year, $departementId, $handicap, $genre, $plageAge, $lieu, $enCours);
 
         $departements = $em->getRepository(Departement::class)->findAll();
 
@@ -198,7 +225,8 @@ class AdminController extends AbstractController
                 'handicape' => $handicape,
                 'genre' => $genre,
                 'plageAge' => $plageAge,
-                'etatVoyage' => $lieu
+                'etatVoyage' => $lieu,
+                'encours' => $encours
             ]);
 
             return new Response($html, 200, [
@@ -219,7 +247,8 @@ class AdminController extends AbstractController
             'handicape' => $handicape,
             'genre' => $genre,
             'plageAge' => $plageAge,
-            'etatVoyage' => $lieu
+            'etatVoyage' => $lieu,
+            'encours' => $encours
         ]);
     }
 }

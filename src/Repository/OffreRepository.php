@@ -62,4 +62,17 @@ class OffreRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findCompanyNames(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT DISTINCT o.nomEntreprise
+            FROM App\Entity\Offre o'
+        );
+
+        // Get the result as an array of strings
+        return $query->getResult();
+    }
 }

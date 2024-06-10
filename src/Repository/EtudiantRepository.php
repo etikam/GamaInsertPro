@@ -22,7 +22,7 @@ class EtudiantRepository extends ServiceEntityRepository
         parent::__construct($registry, Etudiant::class);
     }
 
-    public function searchEtudiants(?string $search, ?string $status, ?int $year, ?int $departementId, ?bool $handicap, ?string $genre, ?string $ageRange, ?string $en_voyage)
+    public function searchEtudiants(?string $search, ?string $status, ?int $year, ?int $departementId, ?bool $handicap, ?string $genre, ?string $ageRange, ?string $en_voyage, ?bool $encours)
     {
         $qb = $this->createQueryBuilder('e');
         $qb->leftJoin('e.departement', 'd');
@@ -62,6 +62,11 @@ class EtudiantRepository extends ServiceEntityRepository
         if ($handicap !== null) {
             $qb->andWhere('e.handicape = :handicap')
                 ->setParameter('handicap', $handicap);
+        }
+
+        if ($encours !== null) {
+            $qb->andWhere('e.encours = :encours')
+                ->setParameter('encours', $encours);
         }
 
 

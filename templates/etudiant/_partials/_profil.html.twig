@@ -69,11 +69,11 @@
 						<div class="row mt-3">
 							<div class="col-md-12">
 								<label class="labels">Situation Actuelle</label>
-								<input type="text" class="form-control" value="{{ app.user.etudiant.encours ? 'Encours' : 'Sortant' }}" readonly>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.encours ? 'Encours' : 'Diplômé' }}" readonly>
 							</div>
 							<div class="col-md-12">
 								<label class="labels">Département</label>
-								<input type="text" class="form-control" value="{{ app.user.etudiant.adresse }}" readonly>
+								<input type="text" class="form-control" value="{{ app.user.etudiant.departement.nom }}" readonly>
 							</div>
 							<div class="col-md-12">
 								<label class="labels">Adresse</label>

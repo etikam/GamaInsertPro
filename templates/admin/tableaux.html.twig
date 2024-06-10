@@ -12,7 +12,7 @@
     <div class="row">
         <form method="get" action="{{ path('app_tableau', { 'status': status, 'year': year }) }}">
             <div class="d-flex flex-wrap align-items-end">
-            <div class="form-group col-md-2">
+            <div class="form-group col-md-1">
                 <label for="search">Rechercher</label>
                 <input type="text" name="search" class="form-control" id="search" placeholder="Rechercher..." value="{{ search }}">
             </div>
@@ -58,6 +58,14 @@
                     <option value="">Tous</option>
                     <option value="non" {% if etatVoyage == 'non' %}selected{% endif %}>En Guinée</option>
                     <option value="oui" {% if etatVoyage == 'oui' %}selected{% endif %}>En voyage</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1">
+                <label for="situation">Etudiant/Diplômé</label>
+                <select name="situation" class="form-control" id="situation">
+                    <option value="" {% if encours is null %}selected{% endif %}>Tous</option>
+                    <option value="1" {% if encours == '1' %}selected{% endif %}>En cours</option>
+                    <option value="0" {% if encours == '0' %}selected{% endif %}>Diplômé</option>
                 </select>
             </div>
             <input type="hidden" name="status" value="{{ status }}">

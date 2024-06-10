@@ -169,4 +169,16 @@ class EtudiantNotActivate
 
         return $this;
     }
+    #[ORM\Column]
+    private ?int $annee = null;
+
+    public function getAnnee(): ?int
+    {
+        return $this->annee;
+    }
+
+    public function setAnnee(?int $annee): void
+    {
+        $this->annee = $annee;
+    }
 }

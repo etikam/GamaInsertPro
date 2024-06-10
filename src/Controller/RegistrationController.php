@@ -72,6 +72,7 @@ class RegistrationController extends AbstractController
                         $etudiant->setAdresse($etudiantExiste->getAdresse());
                         $etudiant->setEncours($etudiantExiste->isEncours());
                         $etudiant->setNiveau($etudiantExiste->getNiveau());
+                        $etudiant->setAnnee($etudiantExiste->getAnnee());
                         $etudiant->setStatus("Etudiant");
                         $etudiant->setUser($user);
                         //Mise à jour de la base de données

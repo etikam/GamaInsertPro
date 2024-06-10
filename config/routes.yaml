@@ -15,3 +15,4 @@ app_generate_report_pdf:
     path: /generate-report-pdf
     controller: App\Controller\AdminController::generateReportPdf
     methods: [ GET ]
+

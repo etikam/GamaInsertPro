@@ -27,39 +27,52 @@
     <!-- Nav Item - gestion etudiants -->
     <li class="nav-item">
         <a class="nav-link" href="{{ path('app_gestion_etudiant') }}">
-            <i class="fas fa-fw fa-briefcase"></i>
+            <i class="fas fa-fw fa-user-graduate"></i>
             <span>Gestion des Etudiants</span></a>
     </li>
 
-    <!-- Nav Item - gestion etudiants -->
-    <li class="nav-item">
-        <a class="nav-link" href="{#{{ path('') }}#}">
-            <i class="fas fa-fw fa-briefcase"></i>
-            <span>Gestion des Offres</span></a>
-    </li>
-
-    <!-- Nav Item - Statistique -->
+    <!-- Nav Item - gestion des statistiques -->
     <li class="nav-item">
         <a class="nav-link" href="{{ path('app_statistiques') }}">
-            <i class="fas fa-fw fa-briefcase"></i>
-            <span>Statistique</span></a>
+            <i class="fas fa-fw fa-chart-bar"></i>
+            <span>Statistiques</span></a>
     </li>
-    <!-- Nav Item - gestion etudiants -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{path('app_postulation')}}">
-                    <i class="fas fa-fw fa-briefcase"></i>
-                    <span>Postulants</span></a>
-            </li>
-
-            <!-- Nav Item - Statistique -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{path('app_offreEntreprise')}}">
-                    <i class="fas fa-fw fa-briefcase"></i>
-                    <span>Offre</span></a>
-            </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Nav Item - Statistique -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{path('app_offreEntreprise')}}">
+            <i class="fas fa-fw fa-briefcase"></i>
+            <span>Offres</span></a>
+    </li>
+
+    <!-- Nav Item - gestion etudiants -->
+    {#<li class="nav-item">
+        <a class="nav-link" href="#}{#{{ path('') }}#}{#">
+            <i class="fas fa-fw fa-briefcase"></i>
+            <span>Gestion des Offres</span></a>
+    </li>#}
+
+    <!-- Nav Item - gestion des postulants -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{path('app_postulation')}}">
+            <i class="fas fa-fw fa-user-tag"></i>
+            <span>Postulants</span></a>
+    </li>
+
+    <!-- Nav Item - gestion des postulants -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{path('postulant_retained')}}">
+            <i class="fas fa-fw fa-user-tag"></i>
+            <span>Postulants retenus</span></a>
+    </li>
+
+
+
+
+
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
