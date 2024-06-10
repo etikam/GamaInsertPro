@@ -11,16 +11,16 @@
 </style>
 {% if app.user %}
 	<div class="modal" id="profilModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel">
-		<div class="container rounded bg-white mt-2 mb-5 conteneur">
+		<div class="container rounded bg-white mt-2 conteneur">
 			<div class="row">
 				<div class="col-md-3 border-right left">
-					<div class="d-flex flex-column align-items-center text-center p-3 py-5">
+					<div class="d-flex flex-column align-items-center text-center py-5">
 						<div class="position-relative">
 							<a href="#">
-								{% if app.user.etudiant.image %}
-									<img class="rounded-circle mt-5" width="150px" src="{{asset('uploads/images/' ~ app.user.etudiant.image)}}">
+								{% if app.user.etudiant.imageName %}
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('uploads/images/' ~ app.user.etudiant.imageName)}}">
 								{% else %}
-									<img class="rounded-circle mt-5" width="150px" src="{{asset('img/profile.jpg')}}">
+									<img class="rounded-circle mt-5" width="150px" src="{{asset('img/profil.jpg')}}">
 								{% endif %}
 							</a>
 						</div>
@@ -31,25 +31,55 @@
 						<span class="text-black-50">{{app.user.email}}</span>
 						<span class="text-black-50">{{app.user.etudiant.adresse}}</span>
 						<span class="text-black-50"></span>
+						<div class="d-flex flex-row m-2 justify-content-between">
+							<a href="#" class="m-2">
+								<button class="btn btn-primary profile-button" type="button">Profil</button>
+							</a>
+							<a href="#" class="m-2">
+								<button class="btn btn-primary edit-button" type="button">
+									<i class="bi bi-pencil"></i>
+								</button>
+							</a>
+						</div>
 					</div>
 					<hr>
-					<div class="mt-3 text-center"></div>
-					<a href="#" class="m-2">
-						<button class="btn btn-primary m-2 profile-button" style="width:90%" type="button">Profil</button>
-					</a>
-					<a href="#" class="m-2">
-						<button class="btn btn-primary m-2 edit-button" style="width:90%" type="button">Modifier</button>
-					</a>
-					{# <a href="#" class="m-2"> 
-																<button class="btn btn-primary m-2 experience-button" style="width:90%" type="button">Experience</button>
-															</a>
-															<a href="#" class="m-2">
-																<button class="btn btn-primary m-2 experience-edit-button" style="width:90%" type="button">Modifier Experience</button>
-															</a>
-															<hr>#}
-					<a href="#" class="mt-5">
-						<button class="btn btn-danger m-2" style="width:80%" type="button">Fermer</button>
-					</a>
+					<!-- Experience et Modifier Experience -->
+					<div class="d-flex flex-row m-2 justify-content-between">
+						<a href="#" class="m-2">
+							<button class="btn btn-primary experience-button" type="button">Experience</button>
+						</a>
+						<a href="#" class="m-2">
+							<button class="btn btn-primary experience-edit-button" type="button">
+								<i class="bi bi-pencil"></i>
+							</button>
+						</a>
+					</div>
+					<!-- Experience et Modifier Experience -->
+					<div class="d-flex flex-row m-2 justify-content-between">
+						<a href="#" class="m-2">
+							<button class="btn btn-primary competence-button" type="button">Compétence</button>
+						</a>
+						<a href="#" class="m-2">
+							<button class="btn btn-primary competence-edit-button" type="button">
+								<i class="bi bi-pencil"></i>
+							</button>
+						</a>
+					</div>
+					<!-- Experience et Modifier Experience -->
+					<div class="d-flex flex-row m-2 justify-content-between">
+						<a href="#" class="m-2">
+							<button class="btn btn-primary realisation-button" type="button">Réalisation</button>
+						</a>
+						<a href="#" class="m-2">
+							<button class="btn btn-primary realisation-edit-button" type="button">
+								<i class="bi bi-pencil"></i>
+							</button>
+						</a>
+					</div>
+					<hr>
+					{# <a href="#" class="mt-5">
+																					<button class="btn btn-danger m-2" id="closeModal" style="width:80%" type="button">Fermer</button>
+																				</a> #}
 				</div>
 				<div class="col-md">
 					<div class="p-3 py-5" id="profile-section">
@@ -92,8 +122,8 @@
 						</div>
 					</div>
 
-					<div class="p-3 py-5" id="edit-section">
-						<form method="post" action="{{ path('app_modifyProfil', {id: app.user.etudiant.id}) }}">
+					<div class="p-3 py-5 d-none" id="edit-section">
+						<form method="post" action="{{ path('app_modifyProfil', {id: app.user.etudiant.id}) }}" enctype="multipart/form-data">
 							<div class="d-flex justify-content-between align-items-center mb-3">
 								<h4 class="text-center">Modifier</h4>
 							</div>
@@ -145,38 +175,43 @@
 						</form>
 					</div>
 					<div class="p-3 py-5 d-none" id="experience-show">
-						<div class="d-flex justify-content-between align-items-center experience">
-							<span>Edit Experience</span>
-							<span class="border px-3 p-1 add-experience">
-								<i class="fa fa-plus"></i>&nbsp;Experience
-							</span>
-						</div><br>
-						<div class="col-md-12">
-							<label class="labels">Nom de l'expérience</label>
-							<input type="text" class="form-control" placeholder="experience" value="" readonly>
-						</div>
-						<br>
-						<div class="col-md-12">
-							<label class="labels">Détails de l'éxpérience</label>
-							<input type="text" class="form-control" placeholder="additional details" value="" readonly>
-						</div>
+						
+						{% include 'etudiant/_partials/_show_experience.html.twig' %}
 					</div>
+
 					<div class="p-3 py-5 d-none" id="experience-Edit">
-						<div class="d-flex justify-content-between align-items-center experience">
-							<span>Edit Experience</span>
-							<span class="border px-3 p-1 add-experience">
-								<i class="fa fa-plus"></i>&nbsp;Experience
-							</span>
+						<div class="d-flex justify-content-center align-items-center experience">
+							<span>Ajout d'Experience</span>
+
 						</div><br>
-						<div class="col-md-12">
-							<label class="labels">Nom de l'expérience</label>
-							<input type="text" class="form-control" placeholder="experience" value="">
-						</div>
-						<br>
-						<div class="col-md-12">
-							<label class="labels">Détails de l'éxpérience</label>
-							<input type="text" class="form-control" placeholder="additional details" value="">
-						</div>
+						{% include 'etudiant/_partials/_form_experience.html.twig' %}
+
+					</div>
+					<div class="p-3 py-5 d-none" id="competence-show">
+						
+						{% include 'etudiant/_partials/_show_competence.html.twig' %}
+					</div>
+
+					<div class="p-3 py-5 d-none" id="competence-Edit">
+						<div class="d-flex justify-content-center align-items-center experience">
+							<span>Ajout de Compétence</span>
+
+						</div><br>
+						{% include 'etudiant/_partials/_form_competence.html.twig' %}
+
+					</div>
+					<div class="p-3 py-5 d-none" id="realisation-show">
+						
+						{% include 'etudiant/_partials/_show_realisation.html.twig' %}
+					</div>
+
+					<div class="p-3 py-5 d-none" id="realisation-Edit">
+						<div class="d-flex justify-content-center align-items-center experience">
+							<span>Ajout de Realisation</span>
+
+						</div><br>
+						{% include 'etudiant/_partials/_form_realisation.html.twig' %}
+
 					</div>
 				</div>
 			</div>
@@ -187,43 +222,108 @@
 
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-    const profileButton = document.querySelector('.profile-button');
-    const editButton = document.querySelector('.edit-button');
-    const experienceButton = document.querySelector('.experience-button');
-    const experienceEditButton = document.querySelector('.experience-edit-button');
+const profileButton = document.querySelector('.profile-button');
+const editButton = document.querySelector('.edit-button');
+const experienceButton = document.querySelector('.experience-button');
+const experienceEditButton = document.querySelector('.experience-edit-button');
+const competenceButton = document.querySelector('.competence-button');
+const competenceEditButton = document.querySelector('.competence-edit-button');
+const realisationButton = document.querySelector('.realisation-button');
+const realisationEditButton = document.querySelector('.realisation-edit-button');
 
-    const profileSection = document.getElementById('profile-section');
-    const editSection = document.getElementById('edit-section');
-    const experienceEditSection = document.getElementById('experience-edit');
-    const experienceSection = document.getElementById('experience-show');
+const profileSection = document.getElementById('profile-section');
+const editSection = document.getElementById('edit-section');
+const experienceEditSection = document.getElementById('experience-Edit');
+const experienceSection = document.getElementById('experience-show');;
+const competenceEditSection = document.getElementById('competence-Edit');
+const competenceSection = document.getElementById('competence-show');;
+const realisationEditSection = document.getElementById('realisation-Edit');
+const realisationSection = document.getElementById('realisation-show');;
 
-    profileButton.addEventListener('click', function () {
-        profileSection.classList.remove('d-none');
-        editSection.classList.add('d-none');
-        experienceSection.classList.add('d-none');
-        experienceEditSection.classList.add('d-none');
-    });
-
-    editButton.addEventListener('click', function () {
-        profileSection.classList.add('d-none');
-        editSection.classList.remove('d-none');
-        experienceSection.classList.add('d-none');
-        experienceEditSection.classList.add('d-none');
-    });
-
-    experienceButton.addEventListener('click', function () {
-        profileSection.classList.add('d-none');
-        editSection.classList.add('d-none');
-        experienceSection.classList.remove('d-none');
-        experienceEditSection.classList.add('d-none');
-    });
-
-    experienceEditButton.addEventListener('click', function () {
-        profileSection.classList.add('d-none');
-        editSection.classList.add('d-none');
-        experienceSection.classList.add('d-none');
-        experienceEditSection.classList.remove('d-none');
-    });
+profileButton.addEventListener('click', function () {
+profileSection.classList.remove('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
 });
 
+editButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.remove('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
+});
+
+experienceButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.remove('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
+});
+
+experienceEditButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.remove('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
+});
+competenceButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.remove('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
+});
+
+competenceEditButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.remove('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.add('d-none');
+});
+realisationButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.remove('d-none');
+realisationEditSection.classList.add('d-none');
+});
+
+realisationEditButton.addEventListener('click', function () {
+profileSection.classList.add('d-none');
+editSection.classList.add('d-none');
+experienceSection.classList.add('d-none');
+experienceEditSection.classList.add('d-none');
+competenceSection.classList.add('d-none');
+competenceEditSection.classList.add('d-none');
+realisationSection.classList.add('d-none');
+realisationEditSection.classList.remove('d-none');
+});
+});
 </script>

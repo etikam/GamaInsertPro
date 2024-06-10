@@ -1,0 +1,23 @@
+{# templates/realisation/form.html.twig #}
+
+<form action="{{ path('app_add_realisation') }}" method="POST">
+    <div class="col-md-12">
+        <label class="labels">Nom de la réalisation</label>
+        <input type="text" name="nom_realisation" class="form-control" placeholder="realisation" value="">
+    </div>
+    <br>
+    <div class="col-md-12">
+        <label class="labels">Date de la réalisation</label>
+        <input type="date" name="date_realisation" class="form-control"value="">
+    </div>
+    <div class="col-md-12">
+        <label class="labels">Description de la réalisation</label>
+        <input type="textarea" name="description" class="form-control" placeholder="Description de la realisation" value="">
+    </div>
+    <div class="mt-5 text-center">
+        <button class="btn btn-primary profile-button" type="submit">
+            <i class="fa fa-plus"></i>&nbsp;Ajouter
+        </button>
+    </div>
+    <br>
+</form>

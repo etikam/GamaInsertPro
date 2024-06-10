@@ -1,0 +1,23 @@
+{% for realisation in app.user.etudiant.realisations %}
+
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Nom de la Réalisation</label>
+		<input type="text" class="form-control" value="{{ realisation.nom }}" readonly>
+	</div>
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Description de la Réalisation</label>
+		<input type="description" class="form-control" value="{{ realisation.description }}" readonly>
+	</div>
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Année de la Réalisation</label>
+		<input type="date" class="form-control" value="{{ realisation.annee }}" readonly>
+	</div>
+	<br>
+{% else %}
+	<div class="col-md-12">
+		<p>Vous n'avez pas encore ajouté de Réalisation.</p>
+	</div>
+{% endfor %}

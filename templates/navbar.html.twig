@@ -10,7 +10,7 @@
 			{% if app.user %}
 				GamalInserPro
 			{% else %}
-				<i class="fa fa-user-tie me-2"></i>GamalInserPro
+				<img class="img-profile rounded-circle" src="{{asset('img/uganc.jpeg')}}" style="width: 40px; height: 40px;"></i>GamalInserPro
 			{% endif %}
 		</h1>
 	</a>
@@ -22,9 +22,11 @@
 			<a href="{{path('app_accueil')}}" class="nav-item nav-link active">Accueil</a>
 			{% if app.user %}
 				<a href="{{path('app_notification')}}" class="nav-item nav-link">Offres</a>
-			{% endif %}
+			{% else %}
+
 			<a href="{{path('app_entreprise')}}" class="nav-item nav-link">Entreprise</a>
-			<a href="contact.html" class="nav-item nav-link">Contact</a>
+			{% endif %}
+			<a href="#contact" class="nav-item nav-link">Contact</a>
 		</div>
 		<button type="button" class="btn text-primary ms-3" data-bs-toggle="modal" data-bs-target="#searchModal">
 			<i class="fa fa-search"></i>

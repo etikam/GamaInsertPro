@@ -1,0 +1,18 @@
+<form action="{{path('app_add_experience')}}" method="POST">
+	<div class="col-md-12">
+		<label class="labels">Nom de l'expérience</label>
+		<input type="text" name="nom_experience" class="form-control" placeholder="experience" value="">
+	</div>
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Description de l'expérience</label>
+		<textarea name="description" class="form-control" placeholder="Description de votre Expérience"></textarea>
+	</div>
+
+	<div class="mt-5 text-center">
+		<button class="btn btn-primary profile-button" type="submit">
+			<i class="fa fa-plus"></i>&nbsp;Add
+		</button>
+	</div>
+	<br>
+</form>

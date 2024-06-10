@@ -20,12 +20,17 @@ class SecurityController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+        // dd($this->getUser());
+        
 
         if ($this->getUser()) {
             // Redirection en fonction du rôle de l'utilisateur
             $user = $this->getUser();
             $roles = $user->getRoles();
+            //dd($roles);
+            
             if (in_array('ROLE_ADMIN', $roles)) {
+                //dd($roles);
                 return $this->redirectToRoute('app_admin'); //redirection à l'interface d'administration si l'utilisateur possède un role ROLES_ADMIN
             } else {
                 return $this->redirectToRoute('app_accueil');// Redirection à l'interface Etudiant pour tous utilisateur avec le role ROLES_USER uniquement

@@ -1,0 +1,14 @@
+{# templates/competence/form.html.twig #}
+
+<form action="{{ path('app_add_competence') }}" method="POST">
+    <div class="col-md-12">
+        <label class="labels">Nom de la compétence</label>
+        <input type="text" name="nom_competence" class="form-control" placeholder="competence" value="">
+    </div>
+    <div class="mt-5 text-center">
+        <button class="btn btn-primary profile-button" type="submit">
+            <i class="fa fa-plus"></i>&nbsp;Ajouter
+        </button>
+    </div>
+    <br>
+</form>

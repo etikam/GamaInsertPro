@@ -1,0 +1,13 @@
+{% for competence in app.user.etudiant.competences %}
+
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Nom de la Compétence</label>
+		<input type="text" class="form-control" value="{{ competence.nom }}" readonly>
+	</div>
+	<br>
+{% else %}
+	<div class="col-md-12">
+		<p>Vous n'avez pas encore ajouté de Competence.</p>
+	</div>
+{% endfor %}

@@ -1,0 +1,18 @@
+{% for experience in app.user.etudiant.experiences %}
+
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Nom de l'expérience</label>
+		<input type="text" class="form-control" value="{{ experience.nom }}" readonly>
+	</div>
+	<br>
+	<div class="col-md-12">
+		<label class="labels">Détails de l'expérience</label>
+		<input type="text" class="form-control" value="{{ experience.description }}" readonly>
+	</div>
+	<br>
+{% else %}
+	<div class="col-md-12">
+		<p>Vous n'avez pas encore ajouté d'expériences.</p>
+	</div>
+{% endfor %}

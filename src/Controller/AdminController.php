@@ -36,8 +36,16 @@ class AdminController extends AbstractController
             'nombreTotalStudent' => $compteurTotalStudent,
             'message_entreprise' => $offre_entreprise
         ];
+        $user =  $this->getUser();
+        $rolesUserConnected = $user->getRoles();
+        //dd($rolesUserConnected);
+        if (in_array('ROLE_USER', $rolesUserConnected)) {
+            return $this->redirectToRoute('app_accueil');
+        } else {
+            return $this->render('admin/index.html.twig', $context);
+            
+        }
 
-        return $this->render('admin/index.html.twig', $context);
     }
 
     private function countFemaleStudent(EntityManagerInterface $em, $year = null): int
