@@ -47,6 +47,24 @@ class PostulationRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    public function searchPostulant(?string $tpOffre, ?string $entrepriseNom)
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.offre', 'o');
+
+        if ($tpOffre) {
+            $qb->andWhere('o.nomOffre = :tpOffre')
+                ->setParameter('tpOffre', $tpOffre);
+        }
+
+        if ($entrepriseNom) {
+            $qb->andWhere('o.nomEntreprise = :entrepriseNom')
+                ->setParameter('entrepriseNom', $entrepriseNom);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function retained(?string $entrepriseNom = null, ?string $tpOffre = null, ?string $depart = null): array
     {
         $qb = $this->createQueryBuilder('p') // Utilisation de l'alias 'p' pour Postulation
